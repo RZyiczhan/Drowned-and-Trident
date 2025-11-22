@@ -1,6 +1,7 @@
 {
   "replace" : true,
   "values" : [
-    "drowned_and_trident:thunder_storm"
+    "drowned_and_trident:thunder_storm",
+    "drowned_and_trident:fan_shoot"
   ]
 }
