@@ -1,0 +1,29 @@
+{
+  "anvil_cost": 5,
+  "description": {
+    "translate": "enchantment.drowned_and_trident.thunder_storm"
+  },
+  "effects": {
+    "minecraft:hit_block": [
+      {
+        "effect": {
+          "type": "drowned_and_trident:thunder_storm"
+        }
+      }
+    ]
+  },
+  "max_cost": {
+    "base": 2,
+    "per_level_above_first": 3
+  },
+  "max_level": 2,
+  "min_cost": {
+    "base": 1,
+    "per_level_above_first": 1
+  },
+  "slots": [
+    "mainhand"
+  ],
+  "supported_items": "#minecraft:enchantable/trident",
+  "weight": 5
+}
