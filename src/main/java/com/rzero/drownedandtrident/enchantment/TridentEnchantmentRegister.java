@@ -2,6 +2,7 @@ package com.rzero.drownedandtrident.enchantment;
 
 import com.mojang.serialization.MapCodec;
 import com.rzero.drownedandtrident.DrownedAndTridentMod;
+import com.rzero.drownedandtrident.enchantment.custom.ExplosiveShootEnchantment;
 import com.rzero.drownedandtrident.enchantment.custom.FanShootEnchantment;
 import com.rzero.drownedandtrident.enchantment.custom.ThunderStormEnchantment;
 import net.minecraft.core.registries.Registries;
@@ -23,6 +24,9 @@ public class TridentEnchantmentRegister{
 
     public static final Supplier<MapCodec<? extends EnchantmentEntityEffect>> FAN_SHOOT =
             ENTITY_ENCHANTMENT_EFFECT.register("fan_shoot", () -> FanShootEnchantment.CODEC);
+
+    public static final Supplier<MapCodec<? extends EnchantmentEntityEffect>> EXPLOSIVE_SHOOT =
+            ENTITY_ENCHANTMENT_EFFECT.register("explosive_shoot", () -> ExplosiveShootEnchantment.CODEC);
 
     public static void register(IEventBus eventBus){
         ENTITY_ENCHANTMENT_EFFECT.register(eventBus);

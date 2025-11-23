@@ -45,7 +45,10 @@ public class ThunderStormEnchantment extends BaseCustomEnchantment implements En
     public void apply(ServerLevel level, int enchantmentLevel, EnchantedItemInUse item, Entity entity, Vec3 origin) {
 
         // todo：如何分波次触发
-        // todo：如何保证三叉戟更换位置不二次触发（例子：初次所命中方块被烧毁后，三叉戟再次下落时不能二次触发）
+        
+        if (entity.getPersistentData().getBoolean("ThunderStormTriggered")) return;
+        entity.getPersistentData().putBoolean("ThunderStormTriggered", true);
+
 
         EntityType.LIGHTNING_BOLT.spawn(level, entity.getOnPos(), MobSpawnType.TRIGGERED);
 
@@ -53,6 +56,9 @@ public class ThunderStormEnchantment extends BaseCustomEnchantment implements En
         int intervalTicks = 10;
 
         int delay = wave * intervalTicks;
+
+        ;
+
 
         for (int i = 0; i < 3; i++) {
             BlockPos randomPos = getRandomPosInDiamond(entity.getOnPos(), 5, level);
