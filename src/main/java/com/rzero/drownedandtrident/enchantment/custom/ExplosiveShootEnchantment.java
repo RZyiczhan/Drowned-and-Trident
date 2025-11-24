@@ -19,6 +19,9 @@ import net.minecraft.world.item.enchantment.effects.EnchantmentEntityEffect;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
+/**
+ * 爆炸射击附魔
+ */
 public class ExplosiveShootEnchantment extends BaseCustomEnchantment implements EnchantmentEntityEffect, BaseEnchantmentDefinition {
 
     public static final ResourceKey<Enchantment> EXPLOSIVE_SHOOT = ResourceKey.create(Registries.ENCHANTMENT,
@@ -60,6 +63,7 @@ public class ExplosiveShootEnchantment extends BaseCustomEnchantment implements 
         entity.getPersistentData().putBoolean("ExplosiveTriggered", true);
 
         // todo：实际爆炸范围和动画效果并不一致
+        // todo：需要手写生成爆炸粒子和手动摧毁爆炸范围内的方块
         level.explode(
                 null,
                 origin.x,

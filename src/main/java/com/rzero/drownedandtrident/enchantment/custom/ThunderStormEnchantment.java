@@ -22,6 +22,9 @@ import net.minecraft.world.item.enchantment.EnchantmentEffectComponents;
 import net.minecraft.world.item.enchantment.effects.EnchantmentEntityEffect;
 import net.minecraft.world.phys.Vec3;
 
+/**
+ * 雷暴附魔
+ */
 public class ThunderStormEnchantment extends BaseCustomEnchantment implements EnchantmentEntityEffect, BaseEnchantmentDefinition {
 
     public static final MapCodec<ThunderStormEnchantment> CODEC = MapCodec.unit(ThunderStormEnchantment::new);
@@ -45,24 +48,23 @@ public class ThunderStormEnchantment extends BaseCustomEnchantment implements En
     public void apply(ServerLevel level, int enchantmentLevel, EnchantedItemInUse item, Entity entity, Vec3 origin) {
 
         // todo：如何分波次触发
-        
+
         if (entity.getPersistentData().getBoolean("ThunderStormTriggered")) return;
         entity.getPersistentData().putBoolean("ThunderStormTriggered", true);
 
 
         EntityType.LIGHTNING_BOLT.spawn(level, entity.getOnPos(), MobSpawnType.TRIGGERED);
 
-        int wave = enchantmentLevel;
-        int intervalTicks = 10;
 
-        int delay = wave * intervalTicks;
+        for (int wave = 0; wave < enchantmentLevel; wave++) {
+            int waveIntervalTick = 10;
+            int delay = wave * waveIntervalTick;
 
-        ;
+            for (int i = 0; i < 3; i++) {
+                BlockPos randomPos = getRandomPosInDiamond(entity.getOnPos(), 5, level);
+                EntityType.LIGHTNING_BOLT.spawn(level, randomPos, MobSpawnType.TRIGGERED);
+            }
 
-
-        for (int i = 0; i < 3; i++) {
-            BlockPos randomPos = getRandomPosInDiamond(entity.getOnPos(), 5, level);
-            EntityType.LIGHTNING_BOLT.spawn(level, randomPos, MobSpawnType.TRIGGERED);
         }
 
     }

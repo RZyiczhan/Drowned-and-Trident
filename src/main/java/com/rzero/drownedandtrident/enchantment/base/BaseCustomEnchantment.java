@@ -8,7 +8,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantment;
 
 /**
- * 每个子类覆写bootstrap来自定义
+ * 每个自定义附魔都需要的通用方法的定义和通用变量的声明
  */
 public abstract class BaseCustomEnchantment {
 

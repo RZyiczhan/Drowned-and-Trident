@@ -18,6 +18,9 @@ import net.minecraft.world.item.enchantment.EnchantmentEffectComponents;
 import net.minecraft.world.item.enchantment.effects.EnchantmentEntityEffect;
 import net.minecraft.world.phys.Vec3;
 
+/**
+ * 扇形射击附魔
+ */
 public class FanShootEnchantment extends BaseCustomEnchantment implements EnchantmentEntityEffect, BaseEnchantmentDefinition {
     public static final ResourceKey<Enchantment> FAN_SHOOT = ResourceKey.create(Registries.ENCHANTMENT,
             ResourceLocation.fromNamespaceAndPath(DrownedAndTridentMod.MODID , "fan_shoot"));
