@@ -2,10 +2,7 @@ package com.rzero.drownedandtrident.enchantment;
 
 import com.mojang.serialization.MapCodec;
 import com.rzero.drownedandtrident.DrownedAndTridentMod;
-import com.rzero.drownedandtrident.enchantment.custom.ErosionEnchantment;
-import com.rzero.drownedandtrident.enchantment.custom.ExplosiveShootEnchantment;
-import com.rzero.drownedandtrident.enchantment.custom.FanShootEnchantment;
-import com.rzero.drownedandtrident.enchantment.custom.ThunderStormEnchantment;
+import com.rzero.drownedandtrident.enchantment.custom.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.enchantment.effects.EnchantmentEntityEffect;
 import net.neoforged.bus.api.IEventBus;
@@ -23,8 +20,8 @@ public class TridentEnchantmentRegister{
 
     // 这行本质上是把thunder_storm这个string和其CODEC标识符绑定起来
     // 方便创建ResourceKey
-    public static final Supplier<MapCodec<? extends EnchantmentEntityEffect>> THUNDER_STORM =
-            ENTITY_ENCHANTMENT_EFFECT.register("thunder_storm", () -> ThunderStormEnchantment.CODEC);
+    public static final Supplier<MapCodec<? extends EnchantmentEntityEffect>> THUNDER_FALL =
+            ENTITY_ENCHANTMENT_EFFECT.register("thunder_fall", () -> ThunderFallEnchantment.CODEC);
 
     public static final Supplier<MapCodec<? extends EnchantmentEntityEffect>> FAN_SHOOT =
             ENTITY_ENCHANTMENT_EFFECT.register("fan_shoot", () -> FanShootEnchantment.CODEC);
@@ -34,6 +31,9 @@ public class TridentEnchantmentRegister{
 
     public static final Supplier<MapCodec<? extends EnchantmentEntityEffect>> EROSION =
             ENTITY_ENCHANTMENT_EFFECT.register("erosion", () -> ErosionEnchantment.CODEC);
+
+    public static final Supplier<MapCodec<? extends EnchantmentEntityEffect>> THUNDER_REALM =
+            ENTITY_ENCHANTMENT_EFFECT.register("thunder_realm", () -> ThunderRealmEnchantment.CODEC);
 
     public static void register(IEventBus eventBus){
         ENTITY_ENCHANTMENT_EFFECT.register(eventBus);

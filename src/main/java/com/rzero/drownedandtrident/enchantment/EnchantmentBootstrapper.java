@@ -1,10 +1,7 @@
 package com.rzero.drownedandtrident.enchantment;
 
 import com.rzero.drownedandtrident.enchantment.base.BaseEnchantmentDefinition;
-import com.rzero.drownedandtrident.enchantment.custom.ErosionEnchantment;
-import com.rzero.drownedandtrident.enchantment.custom.ExplosiveShootEnchantment;
-import com.rzero.drownedandtrident.enchantment.custom.FanShootEnchantment;
-import com.rzero.drownedandtrident.enchantment.custom.ThunderStormEnchantment;
+import com.rzero.drownedandtrident.enchantment.custom.*;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.world.item.enchantment.Enchantment;
 
@@ -20,9 +17,10 @@ public class EnchantmentBootstrapper {
 
     static {
         customEnchantmentList.add(new FanShootEnchantment());
-        customEnchantmentList.add(new ThunderStormEnchantment());
+        customEnchantmentList.add(new ThunderFallEnchantment());
         customEnchantmentList.add(new ExplosiveShootEnchantment());
         customEnchantmentList.add(new ErosionEnchantment());
+        customEnchantmentList.add(new ThunderRealmEnchantment());
     }
 
 

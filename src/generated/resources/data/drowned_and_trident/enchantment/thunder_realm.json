@@ -1,16 +1,14 @@
 {
   "anvil_cost": 5,
   "description": {
-    "translate": "enchantment.drowned_and_trident.erosion"
+    "translate": "enchantment.drowned_and_trident.thunder_realm"
   },
   "effects": {
-    "minecraft:post_attack": [
+    "minecraft:hit_block": [
       {
-        "affected": "victim",
         "effect": {
-          "type": "drowned_and_trident:erosion"
-        },
-        "enchanted": "attacker"
+          "type": "drowned_and_trident:thunder_realm"
+        }
       }
     ]
   },

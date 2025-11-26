@@ -32,7 +32,7 @@ public class FanShootEnchantment extends BaseCustomEnchantment implements Enchan
         appliedOnItemType = ItemTags.TRIDENT_ENCHANTABLE;
         weight = 5;
         effectSoltPos = EquipmentSlotGroup.MAINHAND;
-        maxLevel = 4;
+        maxLevel = 5;
         minBaseCost = 1;
         minIncrementCost = 1;
         maxBaseCost = 2;

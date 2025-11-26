@@ -1,13 +1,13 @@
 {
   "anvil_cost": 5,
   "description": {
-    "translate": "enchantment.drowned_and_trident.thunder_storm"
+    "translate": "enchantment.drowned_and_trident.thunder_fall"
   },
   "effects": {
     "minecraft:hit_block": [
       {
         "effect": {
-          "type": "drowned_and_trident:thunder_storm"
+          "type": "drowned_and_trident:thunder_fall"
         }
       }
     ]
@@ -16,7 +16,7 @@
     "base": 2,
     "per_level_above_first": 3
   },
-  "max_level": 4,
+  "max_level": 5,
   "min_cost": {
     "base": 1,
     "per_level_above_first": 1
