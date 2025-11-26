@@ -17,10 +17,9 @@ public class EnchantmentBootstrapper {
 
     static {
         customEnchantmentList.add(new FanShootEnchantment());
-        customEnchantmentList.add(new ThunderFallEnchantment());
         customEnchantmentList.add(new ExplosiveShootEnchantment());
         customEnchantmentList.add(new ErosionEnchantment());
-        customEnchantmentList.add(new ThunderRealmEnchantment());
+        customEnchantmentList.add(new ThunderStormEnchantment());
     }
 
 

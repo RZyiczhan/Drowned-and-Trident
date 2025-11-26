@@ -15,6 +15,7 @@ import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.item.enchantment.EnchantedItemInUse;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentEffectComponents;
+import net.minecraft.world.item.enchantment.EnchantmentTarget;
 import net.minecraft.world.item.enchantment.effects.EnchantmentEntityEffect;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
@@ -41,7 +42,8 @@ public class ExplosiveShootEnchantment extends BaseCustomEnchantment implements 
         maxIncrementCost = 3;
     }
 
-    @
+    // todo: 如何让三叉戟命中生物也生效，且之后不再生效
+
     @Override
     public void bootstrap(BootstrapContext<Enchantment> context) {
         var items = context.lookup(Registries.ITEM);
@@ -54,7 +56,10 @@ public class ExplosiveShootEnchantment extends BaseCustomEnchantment implements 
                 Enchantment.dynamicCost(maxBaseCost, maxIncrementCost),
                 anvilCost,
                 effectSoltPos)
-        ).withEffect(EnchantmentEffectComponents.HIT_BLOCK, new ExplosiveShootEnchantment()));
+                        )
+                .withEffect(EnchantmentEffectComponents.HIT_BLOCK, new ExplosiveShootEnchantment())
+                .withEffect(EnchantmentEffectComponents.POST_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, new ThunderStormEnchantment())
+        );
     }
 
     @Override
@@ -74,8 +79,6 @@ public class ExplosiveShootEnchantment extends BaseCustomEnchantment implements 
                 Level.ExplosionInteraction.TNT
         );
     }
-
-
 
     @Override
     public MapCodec<? extends EnchantmentEntityEffect> codec() {

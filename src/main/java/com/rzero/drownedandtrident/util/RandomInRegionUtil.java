@@ -20,8 +20,8 @@ public class RandomInRegionUtil {
                 break;
             }
         }
-
         return pos;
     }
+
 
 }

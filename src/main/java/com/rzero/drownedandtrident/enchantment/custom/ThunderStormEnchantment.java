@@ -20,17 +20,21 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.item.enchantment.EnchantedItemInUse;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentEffectComponents;
+import net.minecraft.world.item.enchantment.EnchantmentTarget;
 import net.minecraft.world.item.enchantment.effects.EnchantmentEntityEffect;
 import net.minecraft.world.phys.Vec3;
 
-public class ThunderRealmEnchantment extends BaseCustomEnchantment implements EnchantmentEntityEffect, BaseEnchantmentDefinition {
+import java.util.HashSet;
+import java.util.Set;
 
-    public static final MapCodec<ThunderRealmEnchantment> CODEC = MapCodec.unit(ThunderRealmEnchantment::new);
+public class ThunderStormEnchantment extends BaseCustomEnchantment implements EnchantmentEntityEffect, BaseEnchantmentDefinition {
 
-    public static final ResourceKey<Enchantment> THUNDER_REALM = ResourceKey.create(Registries.ENCHANTMENT,
-            ResourceLocation.fromNamespaceAndPath(DrownedAndTridentMod.MODID , "thunder_realm"));
+    public static final MapCodec<ThunderStormEnchantment> CODEC = MapCodec.unit(ThunderStormEnchantment::new);
 
-    public ThunderRealmEnchantment(){
+    public static final ResourceKey<Enchantment> THUNDER_STORM = ResourceKey.create(Registries.ENCHANTMENT,
+            ResourceLocation.fromNamespaceAndPath(DrownedAndTridentMod.MODID , "thunder_storm"));
+
+    public ThunderStormEnchantment(){
         anvilCost = 5;
         appliedOnItemType = ItemTags.TRIDENT_ENCHANTABLE;
         weight = 5;
@@ -42,11 +46,13 @@ public class ThunderRealmEnchantment extends BaseCustomEnchantment implements En
         maxIncrementCost = 3;
     }
 
+    // todo: 如何让三叉戟命中生物也生效，且之后不再生效
+
     @Override
     public void bootstrap(BootstrapContext<Enchantment> context) {
         var items = context.lookup(Registries.ITEM);
 
-        register(context, THUNDER_REALM, Enchantment.enchantment(Enchantment.definition(
+        register(context, THUNDER_STORM, Enchantment.enchantment(Enchantment.definition(
                 items.getOrThrow(appliedOnItemType),
                 weight,
                 maxLevel,
@@ -54,27 +60,39 @@ public class ThunderRealmEnchantment extends BaseCustomEnchantment implements En
                 Enchantment.dynamicCost(maxBaseCost, maxIncrementCost),
                 anvilCost,
                 effectSoltPos)
-        ).withEffect(EnchantmentEffectComponents.HIT_BLOCK, new ThunderRealmEnchantment()));
+                )
+                .withEffect(EnchantmentEffectComponents.HIT_BLOCK, new ThunderStormEnchantment())
+                .withEffect(EnchantmentEffectComponents.POST_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, new ThunderStormEnchantment())
+        );
     }
 
     @Override
     public void apply(ServerLevel level, int enchantmentLevel, EnchantedItemInUse item, Entity entity, Vec3 origin) {
-        // todo：如何分波次触发
 
-        if (entity.getPersistentData().getBoolean("ThunderRealmTriggered")) return;
-        entity.getPersistentData().putBoolean("ThunderRealmTriggered", true);
+        if (entity.getPersistentData().getBoolean("ThunderStormTriggered")) return;
+        entity.getPersistentData().putBoolean("ThunderStormTriggered", true);
 
         EntityType.LIGHTNING_BOLT.spawn(level, entity.getOnPos(), MobSpawnType.TRIGGERED);
 
+        BlockPos targetPos = new BlockPos(entity.getOnPos().getX(), entity.getOnPos().getY(), entity.getOnPos().getZ());
 
-        // 今晚测试时调整间隔和范围，以及单波落下来的数量
-        for (int i = 1; i <= enchantmentLevel; i++) {
-
-            TickScheduler.schedule(level, i*40, new Runnable() {
+        // 落雷范围半径 = 附魔等级的2倍 + 1
+        // 单波落雷数量 = 附魔等级 + 1
+        // 总共落雷波数 = 附魔等级
+        for (int wave = 1; wave <= enchantmentLevel; wave++) {
+            TickScheduler.schedule(level, wave*40, new Runnable() {
                 @Override
                 public void run() {
-                    for (int i = 0; i < 6; i++) {
-                        BlockPos randomPos = RandomInRegionUtil.getRandomPosInDiamond(entity.getOnPos(), 4, level);
+                    Set<BlockPos> uniqueRandomPosSet = new HashSet<>();
+                    for (int spawnCount = 1; spawnCount <= 1+enchantmentLevel; spawnCount++) {
+                        BlockPos randomPos = RandomInRegionUtil.getRandomPosInDiamond(targetPos, 2*enchantmentLevel, level);
+                        if (uniqueRandomPosSet.contains(randomPos)){
+                            spawnCount--;
+                            continue;
+                        }
+                        uniqueRandomPosSet.add(new BlockPos(randomPos.getX(), randomPos.getY(), randomPos.getZ()));
+                    }
+                    for (BlockPos randomPos : uniqueRandomPosSet){
                         EntityType.LIGHTNING_BOLT.spawn(level, randomPos, MobSpawnType.TRIGGERED);
                     }
                 }
