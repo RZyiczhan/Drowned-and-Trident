@@ -7,6 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Tick内的对监听后需执行任务的调度器
+ */
 public class TickScheduler {
     private static final Map<Long, List<Runnable>> tasks = new HashMap<>();
 

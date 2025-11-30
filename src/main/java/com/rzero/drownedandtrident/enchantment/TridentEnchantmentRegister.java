@@ -2,7 +2,10 @@ package com.rzero.drownedandtrident.enchantment;
 
 import com.mojang.serialization.MapCodec;
 import com.rzero.drownedandtrident.DrownedAndTridentMod;
-import com.rzero.drownedandtrident.enchantment.custom.*;
+import com.rzero.drownedandtrident.enchantment.custom.ErosionEnchantment;
+import com.rzero.drownedandtrident.enchantment.custom.ExplosiveShootEnchantment;
+import com.rzero.drownedandtrident.enchantment.custom.FanShootEnchantment;
+import com.rzero.drownedandtrident.enchantment.custom.ThunderStormEnchantment;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.enchantment.effects.EnchantmentEntityEffect;
 import net.neoforged.bus.api.IEventBus;
@@ -29,7 +32,7 @@ public class TridentEnchantmentRegister{
     public static final Supplier<MapCodec<? extends EnchantmentEntityEffect>> EROSION =
             ENTITY_ENCHANTMENT_EFFECT.register("erosion", () -> ErosionEnchantment.CODEC);
 
-    public static final Supplier<MapCodec<? extends EnchantmentEntityEffect>> THUNDER_REALM =
+    public static final Supplier<MapCodec<? extends EnchantmentEntityEffect>> THUNDER_STORM =
             ENTITY_ENCHANTMENT_EFFECT.register("thunder_storm", () -> ThunderStormEnchantment.CODEC);
 
     public static void register(IEventBus eventBus){

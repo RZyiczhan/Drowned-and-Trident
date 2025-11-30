@@ -2,6 +2,8 @@ package com.rzero.drownedandtrident;
 
 import com.mojang.logging.LogUtils;
 import com.rzero.drownedandtrident.enchantment.TridentEnchantmentRegister;
+import com.rzero.drownedandtrident.entity.TridentEntityFunctionRegister;
+import com.rzero.drownedandtrident.entity.TridentEntityRenderRegister;
 import net.minecraft.client.Minecraft;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
@@ -37,7 +39,13 @@ public class DrownedAndTridentMod {
         // Do not add this line if there are no @SubscribeEvent-an notated functions in this class, like onServerStarting() below.
         NeoForge.EVENT_BUS.register(this);
 
+        // 启动mod时，注册附魔
         TridentEnchantmentRegister.register(modEventBus);
+        // 启动mod时，注册实体
+        TridentEntityFunctionRegister.register(modEventBus);
+
+        // 事件总线监听实体渲染器
+        modEventBus.addListener(TridentEntityRenderRegister::onRegisterRenderers);
 
 
         // Register the item to a creative tab

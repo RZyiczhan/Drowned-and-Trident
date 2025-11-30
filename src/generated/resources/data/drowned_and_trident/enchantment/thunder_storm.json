@@ -10,6 +10,15 @@
           "type": "drowned_and_trident:thunder_storm"
         }
       }
+    ],
+    "minecraft:post_attack": [
+      {
+        "affected": "victim",
+        "effect": {
+          "type": "drowned_and_trident:thunder_storm"
+        },
+        "enchanted": "attacker"
+      }
     ]
   },
   "max_cost": {

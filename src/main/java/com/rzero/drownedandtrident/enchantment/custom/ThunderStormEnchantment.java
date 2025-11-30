@@ -4,6 +4,7 @@ import com.mojang.serialization.MapCodec;
 import com.rzero.drownedandtrident.DrownedAndTridentMod;
 import com.rzero.drownedandtrident.enchantment.base.BaseCustomEnchantment;
 import com.rzero.drownedandtrident.enchantment.base.BaseEnchantmentDefinition;
+import com.rzero.drownedandtrident.entity.override.AttackerProtectLightning.AttackerProtectLightning;
 import com.rzero.drownedandtrident.tickSchedular.TickScheduler;
 import com.rzero.drownedandtrident.util.RandomInRegionUtil;
 import net.minecraft.core.BlockPos;
@@ -14,9 +15,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlotGroup;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.item.enchantment.EnchantedItemInUse;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentEffectComponents;
@@ -25,6 +24,7 @@ import net.minecraft.world.item.enchantment.effects.EnchantmentEntityEffect;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class ThunderStormEnchantment extends BaseCustomEnchantment implements EnchantmentEntityEffect, BaseEnchantmentDefinition {
@@ -72,7 +72,11 @@ public class ThunderStormEnchantment extends BaseCustomEnchantment implements En
         if (entity.getPersistentData().getBoolean("ThunderStormTriggered")) return;
         entity.getPersistentData().putBoolean("ThunderStormTriggered", true);
 
-        EntityType.LIGHTNING_BOLT.spawn(level, entity.getOnPos(), MobSpawnType.TRIGGERED);
+        if (Objects.isNull(item.owner())){
+            return;
+        }
+
+        AttackerProtectLightning.spawnAttackProtectLightning(level, entity.getOnPos(), item.owner());
 
         BlockPos targetPos = new BlockPos(entity.getOnPos().getX(), entity.getOnPos().getY(), entity.getOnPos().getZ());
 
@@ -93,7 +97,7 @@ public class ThunderStormEnchantment extends BaseCustomEnchantment implements En
                         uniqueRandomPosSet.add(new BlockPos(randomPos.getX(), randomPos.getY(), randomPos.getZ()));
                     }
                     for (BlockPos randomPos : uniqueRandomPosSet){
-                        EntityType.LIGHTNING_BOLT.spawn(level, randomPos, MobSpawnType.TRIGGERED);
+                        AttackerProtectLightning.spawnAttackProtectLightning(level, randomPos, item.owner());
                     }
                 }
             });

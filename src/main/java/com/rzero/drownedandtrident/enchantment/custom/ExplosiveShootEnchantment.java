@@ -58,7 +58,7 @@ public class ExplosiveShootEnchantment extends BaseCustomEnchantment implements 
                 effectSoltPos)
                         )
                 .withEffect(EnchantmentEffectComponents.HIT_BLOCK, new ExplosiveShootEnchantment())
-                .withEffect(EnchantmentEffectComponents.POST_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, new ThunderStormEnchantment())
+                .withEffect(EnchantmentEffectComponents.POST_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, new ExplosiveShootEnchantment())
         );
     }
 
