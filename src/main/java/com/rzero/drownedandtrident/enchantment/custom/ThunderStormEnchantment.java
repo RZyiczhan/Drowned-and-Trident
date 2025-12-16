@@ -1,7 +1,7 @@
 package com.rzero.drownedandtrident.enchantment.custom;
 
 import com.mojang.serialization.MapCodec;
-import com.rzero.drownedandtrident.DrownedAndTridentMod;
+import com.rzero.drownedandtrident.DrownedandTrident;
 import com.rzero.drownedandtrident.enchantment.base.BaseCustomEnchantment;
 import com.rzero.drownedandtrident.enchantment.base.BaseEnchantmentDefinition;
 import com.rzero.drownedandtrident.entity.override.AttackerProtectLightning.AttackerProtectLightning;
@@ -32,7 +32,8 @@ public class ThunderStormEnchantment extends BaseCustomEnchantment implements En
     public static final MapCodec<ThunderStormEnchantment> CODEC = MapCodec.unit(ThunderStormEnchantment::new);
 
     public static final ResourceKey<Enchantment> THUNDER_STORM = ResourceKey.create(Registries.ENCHANTMENT,
-            ResourceLocation.fromNamespaceAndPath(DrownedAndTridentMod.MODID , "thunder_storm"));
+            ResourceLocation.fromNamespaceAndPath(DrownedandTrident.MODID , "thunder_storm"));
+
 
     public ThunderStormEnchantment(){
         anvilCost = 5;

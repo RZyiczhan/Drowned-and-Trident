@@ -1,7 +1,7 @@
 package com.rzero.drownedandtrident.enchantment.custom;
 
 import com.mojang.serialization.MapCodec;
-import com.rzero.drownedandtrident.DrownedAndTridentMod;
+import com.rzero.drownedandtrident.DrownedandTrident;
 import com.rzero.drownedandtrident.enchantment.base.BaseCustomEnchantment;
 import com.rzero.drownedandtrident.enchantment.base.BaseEnchantmentDefinition;
 import net.minecraft.core.Holder;
@@ -34,7 +34,7 @@ import java.util.Random;
 public class ErosionEnchantment extends BaseCustomEnchantment implements EnchantmentEntityEffect, BaseEnchantmentDefinition {
 
     public static final ResourceKey<Enchantment> EROSION = ResourceKey.create(Registries.ENCHANTMENT,
-            ResourceLocation.fromNamespaceAndPath(DrownedAndTridentMod.MODID , "erosion"));
+            ResourceLocation.fromNamespaceAndPath(DrownedandTrident.MODID , "erosion"));
 
     public static final MapCodec<ErosionEnchantment> CODEC = MapCodec.unit(ErosionEnchantment::new);
 

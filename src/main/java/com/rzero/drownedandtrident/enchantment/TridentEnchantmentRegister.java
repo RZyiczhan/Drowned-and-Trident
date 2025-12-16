@@ -1,7 +1,7 @@
 package com.rzero.drownedandtrident.enchantment;
 
 import com.mojang.serialization.MapCodec;
-import com.rzero.drownedandtrident.DrownedAndTridentMod;
+import com.rzero.drownedandtrident.DrownedandTrident;
 import com.rzero.drownedandtrident.enchantment.custom.ErosionEnchantment;
 import com.rzero.drownedandtrident.enchantment.custom.ExplosiveShootEnchantment;
 import com.rzero.drownedandtrident.enchantment.custom.FanShootEnchantment;
@@ -19,7 +19,7 @@ import java.util.function.Supplier;
 public class TridentEnchantmentRegister{
 
     public static final DeferredRegister<MapCodec<? extends EnchantmentEntityEffect>> ENTITY_ENCHANTMENT_EFFECT =
-            DeferredRegister.create(Registries.ENCHANTMENT_ENTITY_EFFECT_TYPE, DrownedAndTridentMod.MODID);
+            DeferredRegister.create(Registries.ENCHANTMENT_ENTITY_EFFECT_TYPE, DrownedandTrident.MODID);
 
     // 这行本质上是把thunder_storm这个string和其CODEC标识符绑定起来
     // 方便创建ResourceKey

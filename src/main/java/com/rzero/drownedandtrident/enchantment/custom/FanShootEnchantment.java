@@ -1,7 +1,7 @@
 package com.rzero.drownedandtrident.enchantment.custom;
 
 import com.mojang.serialization.MapCodec;
-import com.rzero.drownedandtrident.DrownedAndTridentMod;
+import com.rzero.drownedandtrident.DrownedandTrident;
 import com.rzero.drownedandtrident.enchantment.base.BaseCustomEnchantment;
 import com.rzero.drownedandtrident.enchantment.base.BaseEnchantmentDefinition;
 import net.minecraft.core.registries.Registries;
@@ -23,7 +23,7 @@ import net.minecraft.world.phys.Vec3;
  */
 public class FanShootEnchantment extends BaseCustomEnchantment implements EnchantmentEntityEffect, BaseEnchantmentDefinition {
     public static final ResourceKey<Enchantment> FAN_SHOOT = ResourceKey.create(Registries.ENCHANTMENT,
-            ResourceLocation.fromNamespaceAndPath(DrownedAndTridentMod.MODID , "fan_shoot"));
+            ResourceLocation.fromNamespaceAndPath(DrownedandTrident.MODID , "fan_shoot"));
 
     public static final MapCodec<FanShootEnchantment> CODEC = MapCodec.unit(FanShootEnchantment::new);
 

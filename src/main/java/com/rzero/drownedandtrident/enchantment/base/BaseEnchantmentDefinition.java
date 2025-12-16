@@ -12,6 +12,6 @@ public interface BaseEnchantmentDefinition {
      * 每个自定义附魔必须实现的datagen方法
      * @param context
      */
-    public void bootstrap(BootstrapContext<Enchantment> context);
+    void bootstrap(BootstrapContext<Enchantment> context);
 
 }

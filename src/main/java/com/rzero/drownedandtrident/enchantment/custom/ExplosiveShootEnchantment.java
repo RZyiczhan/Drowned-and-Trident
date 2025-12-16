@@ -1,7 +1,7 @@
 package com.rzero.drownedandtrident.enchantment.custom;
 
 import com.mojang.serialization.MapCodec;
-import com.rzero.drownedandtrident.DrownedAndTridentMod;
+import com.rzero.drownedandtrident.DrownedandTrident;
 import com.rzero.drownedandtrident.enchantment.base.BaseCustomEnchantment;
 import com.rzero.drownedandtrident.enchantment.base.BaseEnchantmentDefinition;
 import net.minecraft.core.registries.Registries;
@@ -26,7 +26,7 @@ import net.minecraft.world.phys.Vec3;
 public class ExplosiveShootEnchantment extends BaseCustomEnchantment implements EnchantmentEntityEffect, BaseEnchantmentDefinition {
 
     public static final ResourceKey<Enchantment> EXPLOSIVE_SHOOT = ResourceKey.create(Registries.ENCHANTMENT,
-            ResourceLocation.fromNamespaceAndPath(DrownedAndTridentMod.MODID , "explosive_shoot"));
+            ResourceLocation.fromNamespaceAndPath(DrownedandTrident.MODID , "explosive_shoot"));
 
     public static final MapCodec<ExplosiveShootEnchantment> CODEC = MapCodec.unit(ExplosiveShootEnchantment::new);
 
@@ -57,7 +57,7 @@ public class ExplosiveShootEnchantment extends BaseCustomEnchantment implements 
                 anvilCost,
                 effectSoltPos)
                         )
-                .withEffect(EnchantmentEffectComponents.HIT_BLOCK, new ExplosiveShootEnchantment())
+//                .withEffect(EnchantmentEffectComponents.HIT_BLOCK, ExplosiveShootEnchantment.EXPLOSIVE_SHOOT)
                 .withEffect(EnchantmentEffectComponents.POST_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, new ExplosiveShootEnchantment())
         );
     }

@@ -1,7 +1,6 @@
 package com.rzero.drownedandtrident.datagen.provider;
 
-import com.rzero.drownedandtrident.DrownedAndTridentMod;
-import com.rzero.drownedandtrident.enchantment.EnchantmentBootstrapper;
+import com.rzero.drownedandtrident.enchantment.ModEnchantmentBootstrapper;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
@@ -13,11 +12,11 @@ import java.util.concurrent.CompletableFuture;
 
 public class ModEnchantmentProvider extends DatapackBuiltinEntriesProvider {
 
-    public static final RegistrySetBuilder BUILDER = new RegistrySetBuilder()
-//            .add(Registries.ENCHANTMENT, ModEnchantments::bootstrap)
-            .add(Registries.ENCHANTMENT, EnchantmentBootstrapper::bootstrap);
+    public static final RegistrySetBuilder registrySetBuilder = new RegistrySetBuilder()
+            .add(Registries.ENCHANTMENT, new ModEnchantmentBootstrapper());
 
-    public ModEnchantmentProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
-        super(output, registries, BUILDER, Set.of(DrownedAndTridentMod.MODID));
+    public ModEnchantmentProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries, String modId) {
+        super(output, registries, registrySetBuilder, Set.of(modId));
     }
+
 }

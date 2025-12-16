@@ -1,13 +1,13 @@
 {
   "anvil_cost": 5,
   "description": {
-    "translate": "enchantment.drowned_and_trident.fan_shoot"
+    "translate": "enchantment.drownedandtrident.fan_shoot"
   },
   "effects": {
     "minecraft:hit_block": [
       {
         "effect": {
-          "type": "drowned_and_trident:fan_shoot"
+          "type": "drownedandtrident:fan_shoot"
         }
       }
     ]

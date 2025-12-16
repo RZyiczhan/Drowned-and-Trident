@@ -1,14 +1,14 @@
 {
   "anvil_cost": 5,
   "description": {
-    "translate": "enchantment.drowned_and_trident.erosion"
+    "translate": "enchantment.drownedandtrident.explosive_shoot"
   },
   "effects": {
     "minecraft:post_attack": [
       {
         "affected": "victim",
         "effect": {
-          "type": "drowned_and_trident:erosion"
+          "type": "drownedandtrident:explosive_shoot"
         },
         "enchanted": "attacker"
       }
