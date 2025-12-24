@@ -4,6 +4,7 @@ import com.mojang.serialization.MapCodec;
 import com.rzero.drownedandtrident.DrownedandTrident;
 import com.rzero.drownedandtrident.enchantment.base.BaseCustomEnchantment;
 import com.rzero.drownedandtrident.enchantment.base.BaseEnchantmentDefinition;
+import com.rzero.drownedandtrident.infrastructure.enchantmentTriggerType.TridentEnchantmentTriggerTypeRegister;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
@@ -51,7 +52,9 @@ public class FanShootEnchantment extends BaseCustomEnchantment implements Enchan
                 Enchantment.dynamicCost(maxBaseCost, maxIncrementCost),
                 anvilCost,
                 effectSoltPos)
-        ).withEffect(EnchantmentEffectComponents.HIT_BLOCK, new FanShootEnchantment()));
+        )
+                .withEffect(EnchantmentEffectComponents.HIT_BLOCK, new FanShootEnchantment())
+                .withEffect(TridentEnchantmentTriggerTypeRegister.HIT_BLOCK_V2.get(), new FanShootEnchantment()));
     }
 
     @Override

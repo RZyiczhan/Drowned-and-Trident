@@ -4,6 +4,13 @@
     "translate": "enchantment.drownedandtrident.fan_shoot"
   },
   "effects": {
+    "drownedandtrident:hit_block_v2": [
+      {
+        "effect": {
+          "type": "drownedandtrident:fan_shoot"
+        }
+      }
+    ],
     "minecraft:hit_block": [
       {
         "effect": {

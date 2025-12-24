@@ -121,6 +121,16 @@ public class DATThrownTrident extends ThrownTrident {
 
             if (this.level() instanceof ServerLevel serverlevel1) {
                 EnchantmentHelper.doPostAttackEffectsWithItemSource(serverlevel1, entity, damagesource, this.getWeaponItem());
+                // 同时应用绑定了Hitblock触发器的附魔，三叉戟原生没有任何绑定了hitblock触发器的附魔，可以只执行自定义的
+                EnchantmentHelper.onHitBlock(
+                        serverlevel1,
+                        this.getWeaponItem(),
+                        this.getOwner() instanceof LivingEntity livingentity ? livingentity : null,
+                        this,
+                        null,
+                        result.getLocation(),
+                        serverlevel1.getBlockState(result.getEntity().getOnPos()),
+                        item -> this.kill());
             }
 
             if (entity instanceof LivingEntity livingentity) {

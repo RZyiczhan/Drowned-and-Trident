@@ -19,7 +19,6 @@ import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.item.enchantment.EnchantedItemInUse;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentEffectComponents;
-import net.minecraft.world.item.enchantment.EnchantmentTarget;
 import net.minecraft.world.item.enchantment.effects.EnchantmentEntityEffect;
 import net.minecraft.world.phys.Vec3;
 
@@ -63,7 +62,6 @@ public class ThunderStormEnchantment extends BaseCustomEnchantment implements En
                 effectSoltPos)
                 )
                 .withEffect(EnchantmentEffectComponents.HIT_BLOCK, new ThunderStormEnchantment())
-                .withEffect(EnchantmentEffectComponents.POST_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, new ThunderStormEnchantment())
         );
     }
 

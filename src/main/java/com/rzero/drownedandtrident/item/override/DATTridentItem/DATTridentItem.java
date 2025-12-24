@@ -1,4 +1,4 @@
-package com.rzero.drownedandtrident.item.override;
+package com.rzero.drownedandtrident.item.override.DATTridentItem;
 
 import com.rzero.drownedandtrident.entity.override.DATThrownTrident.DATThrownTrident;
 import net.minecraft.core.Holder;

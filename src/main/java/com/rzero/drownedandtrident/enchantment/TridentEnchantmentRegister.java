@@ -14,7 +14,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import java.util.function.Supplier;
 
 /**
- * 附魔注册处？
+ * 附魔注册
  */
 public class TridentEnchantmentRegister{
 
