@@ -1,13 +1,13 @@
 {
   "anvil_cost": 5,
   "description": {
-    "translate": "enchantment.drownedandtrident.explosive_shoot"
+    "translate": "enchantment.drownedandtrident.shoot_acceleration"
   },
   "effects": {
-    "minecraft:hit_block": [
+    "drownedandtrident:on_entity_create": [
       {
         "effect": {
-          "type": "drownedandtrident:explosive_shoot"
+          "type": "drownedandtrident:shoot_acceleration"
         }
       }
     ]
@@ -16,7 +16,7 @@
     "base": 2,
     "per_level_above_first": 3
   },
-  "max_level": 5,
+  "max_level": 2,
   "min_cost": {
     "base": 1,
     "per_level_above_first": 1

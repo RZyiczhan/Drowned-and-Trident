@@ -2,6 +2,7 @@ package com.rzero.drownedandtrident.item.override.DATTridentItem;
 
 import com.rzero.drownedandtrident.entity.override.DATThrownTrident.DATThrownTrident;
 import net.minecraft.core.Holder;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -37,12 +38,14 @@ public class DATTridentItem extends TridentItem {
                             stack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(entityLiving.getUsedItemHand()));
                             if (f == 0.0F) {
                                 // 实现的变更：把这里的原版ThrownTrident替换成了自定义的DATThrownTrident
+                                // 发射方法换成了自定义的
                                 DATThrownTrident datThrownTrident = new DATThrownTrident(level, player, stack);
-                                datThrownTrident.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 2.5F, 1.0F);
+                                ServerLevel serverLevel = (ServerLevel) level;
+                                datThrownTrident.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 2.5F, 1.0F,
+                                        serverLevel, new Vec3(player.getX(), player.getY(), player.getZ()));
                                 if (player.hasInfiniteMaterials()) {
                                     datThrownTrident.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
                                 }
-
                                 level.addFreshEntity(datThrownTrident);
                                 level.playSound(null, datThrownTrident, holder.value(), SoundSource.PLAYERS, 1.0F, 1.0F);
                                 if (!player.hasInfiniteMaterials()) {

@@ -86,6 +86,7 @@ public class ErosionEnchantment extends BaseCustomEnchantment implements Enchant
      */
     @Override
     public void apply(ServerLevel level, int enchantmentLevel, EnchantedItemInUse item, Entity entity, Vec3 origin) {
+
         if (entity instanceof LivingEntity living){
             // 药水效果无增幅为1级效果，所以实际增幅是附魔等级-1
             living.addEffect(new MobEffectInstance(

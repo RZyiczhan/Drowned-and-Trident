@@ -4,6 +4,7 @@ import com.mojang.serialization.MapCodec;
 import com.rzero.drownedandtrident.DrownedandTrident;
 import com.rzero.drownedandtrident.enchantment.base.BaseCustomEnchantment;
 import com.rzero.drownedandtrident.enchantment.base.BaseEnchantmentDefinition;
+import com.rzero.drownedandtrident.util.ExplosionUtil;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
@@ -15,9 +16,7 @@ import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.item.enchantment.EnchantedItemInUse;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentEffectComponents;
-import net.minecraft.world.item.enchantment.EnchantmentTarget;
 import net.minecraft.world.item.enchantment.effects.EnchantmentEntityEffect;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
 /**
@@ -57,27 +56,18 @@ public class ExplosiveShootEnchantment extends BaseCustomEnchantment implements 
                 anvilCost,
                 effectSoltPos)
                         )
-//                .withEffect(EnchantmentEffectComponents.HIT_BLOCK, ExplosiveShootEnchantment.EXPLOSIVE_SHOOT)
-                .withEffect(EnchantmentEffectComponents.POST_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, new ExplosiveShootEnchantment())
+                .withEffect(EnchantmentEffectComponents.HIT_BLOCK, new ExplosiveShootEnchantment())
         );
     }
 
     @Override
     public void apply(ServerLevel level, int enchantmentLevel, EnchantedItemInUse item, Entity entity, Vec3 origin) {
 
+
         if (entity.getPersistentData().getBoolean("ExplosiveTriggered")) return;
         entity.getPersistentData().putBoolean("ExplosiveTriggered", true);
 
-        // todo：实际爆炸范围和动画效果并不一致
-        // todo：需要手写生成爆炸粒子和手动摧毁爆炸范围内的方块
-        level.explode(
-                null,
-                origin.x,
-                origin.y,
-                origin.z,
-                4*enchantmentLevel,
-                Level.ExplosionInteraction.TNT
-        );
+        ExplosionUtil.explode(level, entity.position(), enchantmentLevel, item.owner());
     }
 
     @Override

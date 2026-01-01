@@ -1,11 +1,11 @@
 package com.rzero.drownedandtrident.entity.override.DATThrownTrident;
 
+import com.rzero.drownedandtrident.infrastructure.ModEnchantmentHelper;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
@@ -13,7 +13,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.ThrownTrident;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -30,6 +29,8 @@ public class DATThrownTrident extends ThrownTrident {
     private static final EntityDataAccessor<Byte> ID_LOYALTY = SynchedEntityData.defineId(DATThrownTrident.class, EntityDataSerializers.BYTE);
     private boolean dealtDamage;
     public int clientSideReturnTridentTickCount;
+
+    private float velocity;
 
     public DATThrownTrident(EntityType<? extends ThrownTrident> entityType, Level level) {
         super(entityType, level);
@@ -48,47 +49,6 @@ public class DATThrownTrident extends ThrownTrident {
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(ID_LOYALTY, (byte)0);
-    }
-
-    @Override
-    public void tick() {
-        if (this.inGroundTime > 4) {
-            this.dealtDamage = true;
-        }
-
-        Entity entity = this.getOwner();
-        int i = this.entityData.get(ID_LOYALTY);
-        if (i > 0 && (this.dealtDamage || this.isNoPhysics()) && entity != null) {
-            if (!this.isAcceptibleReturnOwner()) {
-                if (!this.level().isClientSide && this.pickup == AbstractArrow.Pickup.ALLOWED) {
-                    this.spawnAtLocation(this.getPickupItem(), 0.1F);
-                }
-
-                this.discard();
-            } else {
-                this.setNoPhysics(true);
-                Vec3 vec3 = entity.getEyePosition().subtract(this.position());
-                this.setPosRaw(this.getX(), this.getY() + vec3.y * 0.015 * (double)i, this.getZ());
-                if (this.level().isClientSide) {
-                    this.yOld = this.getY();
-                }
-
-                double d0 = 0.05 * (double)i;
-                this.setDeltaMovement(this.getDeltaMovement().scale(0.95).add(vec3.normalize().scale(d0)));
-                if (this.clientSideReturnTridentTickCount == 0) {
-                    this.playSound(SoundEvents.TRIDENT_RETURN, 10.0F, 1.0F);
-                }
-
-                this.clientSideReturnTridentTickCount++;
-            }
-        }
-
-        super.tick();
-    }
-
-    private boolean isAcceptibleReturnOwner() {
-        Entity entity = this.getOwner();
-        return entity == null || !entity.isAlive() ? false : !(entity instanceof ServerPlayer) || !entity.isSpectator();
     }
 
     /**
@@ -158,6 +118,28 @@ public class DATThrownTrident extends ThrownTrident {
         );
     }
 
+    /**
+     * apply entity on init enchantment
+     */
+    public void shootFromRotation(Entity shooter, float x, float y, float z, float velocity, float inaccuracy, ServerLevel level, Vec3 shootPos){
+        this.velocity = velocity;
+        ModEnchantmentHelper.doAccelerateEffects(level, this, this.getWeaponItem(), shootPos);
+        shootFromRotation(shooter, x, y, z, this.velocity, inaccuracy);
+    }
+
+
+    @Override
+    public void shootFromRotation(Entity shooter, float x, float y, float z, float velocity, float inaccuracy) {
+        float f = -Mth.sin(y * (float) (Math.PI / 180.0)) * Mth.cos(x * (float) (Math.PI / 180.0));
+        float f1 = -Mth.sin((x + z) * (float) (Math.PI / 180.0));
+        float f2 = Mth.cos(y * (float) (Math.PI / 180.0)) * Mth.cos(x * (float) (Math.PI / 180.0));
+
+
+        this.shoot((double)f, (double)f1, (double)f2, velocity, inaccuracy);
+        Vec3 vec3 = shooter.getKnownMovement();
+        this.setDeltaMovement(this.getDeltaMovement().add(vec3.x, shooter.onGround() ? 0.0 : vec3.y, vec3.z));
+    }
+
     @Override
     public ItemStack getWeaponItem() {
         return this.getPickupItemStackOrigin();
@@ -201,4 +183,11 @@ public class DATThrownTrident extends ThrownTrident {
                     .build("dat_thrown_trident");
 
 
+    public float getVelocity() {
+        return velocity;
+    }
+
+    public void setVelocity(float velocity) {
+        this.velocity = velocity;
+    }
 }
