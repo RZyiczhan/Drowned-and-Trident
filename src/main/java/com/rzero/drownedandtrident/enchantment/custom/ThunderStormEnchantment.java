@@ -6,7 +6,7 @@ import com.rzero.drownedandtrident.enchantment.base.BaseCustomEnchantment;
 import com.rzero.drownedandtrident.enchantment.base.BaseEnchantmentDefinition;
 import com.rzero.drownedandtrident.entity.override.AttackerProtectLightning.AttackerProtectLightning;
 import com.rzero.drownedandtrident.tickSchedular.TickScheduler;
-import com.rzero.drownedandtrident.util.RandomInRegionUtil;
+import com.rzero.drownedandtrident.util.PositionUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
@@ -91,7 +91,7 @@ public class ThunderStormEnchantment extends BaseCustomEnchantment implements En
                 public void run() {
                     Set<BlockPos> uniqueRandomPosSet = new HashSet<>();
                     for (int spawnCount = 1; spawnCount <= 1+enchantmentLevel; spawnCount++) {
-                        BlockPos randomPos = RandomInRegionUtil.getRandomPosInDiamond(targetPos, 2*enchantmentLevel, level);
+                        BlockPos randomPos = PositionUtil.getRandomPosInDiamond(targetPos, 2*enchantmentLevel, level);
                         if (uniqueRandomPosSet.contains(randomPos)){
                             spawnCount--;
                             continue;
@@ -99,7 +99,7 @@ public class ThunderStormEnchantment extends BaseCustomEnchantment implements En
                         uniqueRandomPosSet.add(new BlockPos(randomPos.getX(), randomPos.getY(), randomPos.getZ()));
                     }
                     for (BlockPos randomPos : uniqueRandomPosSet){
-                        AttackerProtectLightning.spawnAttackProtectLightning(level, randomPos, item.owner());
+                        AttackerProtectLightning.spawnAttackProtectLightningAtGround(level, randomPos, item.owner());
                     }
                 }
             });

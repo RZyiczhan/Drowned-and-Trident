@@ -12,9 +12,6 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class DATItemFunctionRegister {
 
-//    public static final DeferredRegister<Item> OVERRIDE_ITEM =
-//            DeferredRegister.create(BuiltInRegistries.ITEM, DrownedAndTridentMod.MODID);
-
     public static final DeferredRegister.Items OVERRIDE_ITEM =
             DeferredRegister.createItems(DrownedandTrident.MODID);
 

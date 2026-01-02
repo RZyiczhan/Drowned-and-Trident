@@ -1,6 +1,7 @@
-// 1.21.1	2026-01-01T18:09:13.885234	Registries
+// 1.21.1	2026-01-01T21:02:51.733199	Registries
 d21d085477a2f23bca54b6c3d1e8fc78e382bbb2 data/drownedandtrident/enchantment/erosion.json
 905d6e0af87c2a9bb8c50dddd621e6f751514799 data/drownedandtrident/enchantment/explosive_shoot.json
 1899af19ba0c41e3e239c2da74c162355a07addc data/drownedandtrident/enchantment/fan_shoot.json
 59895e556e9012a5a942ebb9463fd75e73f96db2 data/drownedandtrident/enchantment/shoot_acceleration.json
 81e6541c29bb0281499683360f5af70e1f9f5bc2 data/drownedandtrident/enchantment/thunder_storm.json
+6d1fa2664122788aa7f02fe42b4819647454ce33 data/drownedandtrident/enchantment/thunder_trajectory.json

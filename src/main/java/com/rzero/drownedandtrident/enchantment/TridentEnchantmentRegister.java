@@ -35,6 +35,9 @@ public class TridentEnchantmentRegister{
     public static final Supplier<MapCodec<? extends EnchantmentEntityEffect>> SHOOT_ACCELERATION =
             ENTITY_ENCHANTMENT_EFFECT.register("shoot_acceleration", () -> ShootAccelerationEnchantment.CODEC);
 
+    public static final Supplier<MapCodec<? extends EnchantmentEntityEffect>> THUNDER_TRAJECTORY =
+            ENTITY_ENCHANTMENT_EFFECT.register("thunder_tarjectory", () -> ThunderTrajectoryEnchantment.CODEC);
+
     public static void register(IEventBus eventBus){
         ENTITY_ENCHANTMENT_EFFECT.register(eventBus);
      }

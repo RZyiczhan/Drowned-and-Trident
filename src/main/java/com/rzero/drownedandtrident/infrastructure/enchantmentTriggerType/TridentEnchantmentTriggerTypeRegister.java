@@ -28,8 +28,14 @@ public class TridentEnchantmentTriggerTypeRegister {
         public DataComponentType.Builder<List<ConditionalEffect<EnchantmentEntityEffect>>> apply(DataComponentType.Builder<List<ConditionalEffect<EnchantmentEntityEffect>>> listBuilder) {
             return listBuilder.persistent(ConditionalEffect.codec(EnchantmentEntityEffect.CODEC, LootContextParamSets.EMPTY).listOf());
         }
+    });
 
-
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ConditionalEffect<EnchantmentEntityEffect>>>>
+            ON_ENTITY_TICK = ENTITY_ENCHANTMENT_COMPONENT_TYPE.registerComponentType("on_entity_tick", new UnaryOperator<DataComponentType.Builder<List<ConditionalEffect<EnchantmentEntityEffect>>>>() {
+        @Override
+        public DataComponentType.Builder<List<ConditionalEffect<EnchantmentEntityEffect>>> apply(DataComponentType.Builder<List<ConditionalEffect<EnchantmentEntityEffect>>> listBuilder) {
+            return listBuilder.persistent(ConditionalEffect.codec(EnchantmentEntityEffect.CODEC, LootContextParamSets.EMPTY).listOf());
+        }
     });
 
     public static void register(IEventBus eventBus){

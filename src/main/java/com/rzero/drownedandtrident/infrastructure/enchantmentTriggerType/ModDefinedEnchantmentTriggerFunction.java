@@ -1,6 +1,5 @@
-package com.rzero.drownedandtrident.infrastructure;
+package com.rzero.drownedandtrident.infrastructure.enchantmentTriggerType;
 
-import com.rzero.drownedandtrident.infrastructure.enchantmentTriggerType.TridentEnchantmentTriggerTypeRegister;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.enchantment.ConditionalEffect;
@@ -41,6 +40,27 @@ public class ModDefinedEnchantmentTriggerFunction {
 //        }
 //    }
 
+
+    public static void onEntityTick(ServerLevel level, Entity projectile, Enchantment enchantment, Vec3 entityCurrentPos){
+        for (ConditionalEffect<EnchantmentEntityEffect> conditionalEffect : enchantment.getEffects(TridentEnchantmentTriggerTypeRegister.ON_ENTITY_TICK.get())){
+            applySingleOnEntityTickEnchantment(conditionalEffect, level, projectile, entityCurrentPos);
+        }
+    }
+
+    public static void applySingleOnEntityTickEnchantment(ConditionalEffect<EnchantmentEntityEffect> conditionalEnchantmentEffect,
+                                                          ServerLevel level,
+                                                          Entity projectile,
+                                                          Vec3 entityCurrentPos
+    ) {
+        conditionalEnchantmentEffect.effect().apply(
+                level,
+                0,
+                null,
+                projectile,
+                entityCurrentPos
+        );
+    }
+
     /**
      * 获取物品上每一个“创建实体时”触发器的附魔并依次apply
      * @param level
@@ -52,8 +72,8 @@ public class ModDefinedEnchantmentTriggerFunction {
         for (ConditionalEffect<EnchantmentEntityEffect> conditionalEffect : enchantment.getEffects(TridentEnchantmentTriggerTypeRegister.ON_ENTITY_CREATE.get())){
             applySingleOnEntityCreateEnchantment(conditionalEffect, level, enchantmentLevel, projectile, createPos);
         }
-
     }
+
 
     /**
      * 应用这个绑定到“创建实体时”触发器的附魔

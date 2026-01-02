@@ -1,4 +1,4 @@
-package com.rzero.drownedandtrident.infrastructure;
+package com.rzero.drownedandtrident.infrastructure.enchantmentTriggerType;
 
 import com.rzero.drownedandtrident.entity.override.DATThrownTrident.DATThrownTrident;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
@@ -34,6 +34,17 @@ public class  ModEnchantmentHelper {
 //        }
 //    }
 
+    public static void onEntityTick(ServerLevel serverLevel, Entity entity, ItemStack entityCreator, Vec3 currPos){
+        runIterationOnItem(
+                entityCreator,
+                new EnchantmentVisitor() {
+                    @Override
+                    public void accept(Holder<Enchantment> enchantment, int level) {
+                        ModDefinedEnchantmentTriggerFunction.onEntityTick(serverLevel, entity, enchantment.value(), currPos);
+                    }
+                }
+        );
+    }
 
     /**
      * 为三叉戟实体加速

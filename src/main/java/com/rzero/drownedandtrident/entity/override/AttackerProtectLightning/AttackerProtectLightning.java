@@ -2,6 +2,7 @@ package com.rzero.drownedandtrident.entity.override.AttackerProtectLightning;
 
 import com.google.common.collect.Sets;
 import com.rzero.drownedandtrident.entity.TridentEntityFunctionRegister;
+import com.rzero.drownedandtrident.util.PositionUtil;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -234,6 +235,11 @@ public class AttackerProtectLightning extends LightningBolt {
         }
 
         return Optional.empty();
+    }
+
+    public static void spawnAttackProtectLightningAtGround(ServerLevel level, BlockPos pos, LivingEntity triggerSource){
+        BlockPos closetOnYAxisGroundPos = PositionUtil.getFirstGroundPosInYAxis(pos, level);
+        spawnAttackProtectLightning(level, closetOnYAxisGroundPos, triggerSource);
     }
 
     public static void spawnAttackProtectLightning(ServerLevel level, BlockPos pos, LivingEntity triggerSource) {

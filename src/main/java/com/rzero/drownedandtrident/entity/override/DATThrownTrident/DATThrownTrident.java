@@ -1,6 +1,7 @@
 package com.rzero.drownedandtrident.entity.override.DATThrownTrident;
 
-import com.rzero.drownedandtrident.infrastructure.ModEnchantmentHelper;
+import com.rzero.drownedandtrident.infrastructure.enchantmentTriggerType.ModEnchantmentHelper;
+import com.rzero.drownedandtrident.item.DATItemFunctionRegister;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -15,21 +16,26 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.projectile.ThrownTrident;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nullable;
 
 public class DATThrownTrident extends ThrownTrident {
 
     private static final EntityDataAccessor<Byte> ID_LOYALTY = SynchedEntityData.defineId(DATThrownTrident.class, EntityDataSerializers.BYTE);
+    private static final Logger log = LoggerFactory.getLogger(DATThrownTrident.class);
     private boolean dealtDamage;
     public int clientSideReturnTridentTickCount;
+    private boolean hadBeenHit = false;
 
+    // 常规（未对tick到秒的转换进行调整）情况下，1秒CD所需的冷却tick数
+//    private int onNormalSecondEnchantmentAppliedCoolDown = 0;
     private float velocity;
 
     public DATThrownTrident(EntityType<? extends ThrownTrident> entityType, Level level) {
@@ -44,6 +50,21 @@ public class DATThrownTrident extends ThrownTrident {
         super(level, x, y, z, pickupItemStack);
     }
 
+    @Override
+    public void tick() {
+        super.tick();
+        if (!(this.level() instanceof ServerLevel serverlevel)) {
+            return;
+        }
+        if (!hadBeenHit) {
+            ModEnchantmentHelper.onEntityTick(
+                    serverlevel,
+                    this,
+                    this.getWeaponItem(),
+                    new Vec3(this.getX(), this.getY(), this.getZ())
+            );
+        }
+    }
 
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
@@ -101,6 +122,9 @@ public class DATThrownTrident extends ThrownTrident {
 
         this.setDeltaMovement(this.getDeltaMovement().multiply(-0.01, -0.1, -0.01));
         this.playSound(SoundEvents.TRIDENT_HIT, 1.0F, 1.0F);
+
+        // stop sign for on_entity_tick
+        this.hadBeenHit = true;
     }
 
     @Override
@@ -116,6 +140,9 @@ public class DATThrownTrident extends ThrownTrident {
                 level.getBlockState(hitResult.getBlockPos()),
                 p_348680_ -> this.kill()
         );
+
+        // stop sign for on_entity_tick
+        this.hadBeenHit = true;
     }
 
     /**
@@ -134,7 +161,6 @@ public class DATThrownTrident extends ThrownTrident {
         float f1 = -Mth.sin((x + z) * (float) (Math.PI / 180.0));
         float f2 = Mth.cos(y * (float) (Math.PI / 180.0)) * Mth.cos(x * (float) (Math.PI / 180.0));
 
-
         this.shoot((double)f, (double)f1, (double)f2, velocity, inaccuracy);
         Vec3 vec3 = shooter.getKnownMovement();
         this.setDeltaMovement(this.getDeltaMovement().add(vec3.x, shooter.onGround() ? 0.0 : vec3.y, vec3.z));
@@ -145,10 +171,9 @@ public class DATThrownTrident extends ThrownTrident {
         return this.getPickupItemStackOrigin();
     }
 
-    // todo : 这个得换成自定义的三叉戟item
     @Override
     protected ItemStack getDefaultPickupItem() {
-        return new ItemStack(Items.TRIDENT);
+        return new ItemStack(DATItemFunctionRegister.DAT_TRIDENT_ITEM.get());
     }
 
     /**
