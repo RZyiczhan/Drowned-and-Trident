@@ -1,4 +1,4 @@
-package com.rzero.drownedandtrident.tickSchedular;
+package com.rzero.drownedandtrident.event.tickSchedular;
 
 import net.minecraft.server.level.ServerLevel;
 
