@@ -21,6 +21,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -31,6 +33,7 @@ import java.util.Set;
  * 闪电，但是保护释放闪电的人（非指令释放）不受伤害
  */
 public class AttackerProtectLightning extends LightningBolt {
+    private static final Logger log = LoggerFactory.getLogger(AttackerProtectLightning.class);
     private int life;
     public long seed;
     private int flashes;
@@ -137,7 +140,6 @@ public class AttackerProtectLightning extends LightningBolt {
                 for (Entity entity : list1) {
                     if (!net.neoforged.neoforge.event.EventHooks.onEntityStruckByLightning(entity, this))
 
-                        // todo： 在这里添加防护逻辑
                         if (entity.is(triggerSource)) continue;
 
                         entity.thunderHit((ServerLevel)this.level(), this);
@@ -238,7 +240,9 @@ public class AttackerProtectLightning extends LightningBolt {
     }
 
     public static void spawnAttackProtectLightningAtGround(ServerLevel level, BlockPos pos, LivingEntity triggerSource){
+
         BlockPos closetOnYAxisGroundPos = PositionUtil.getFirstGroundPosInYAxis(pos, level);
+
         spawnAttackProtectLightning(level, closetOnYAxisGroundPos, triggerSource);
     }
 
@@ -252,6 +256,7 @@ public class AttackerProtectLightning extends LightningBolt {
 
         // 设置位置与角度（参考你原来的 create / moveTo 行为）
         bolt.moveTo(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, level.random.nextFloat() * 360.0F, 0.0F);
+
 
         // 设置触发源
         bolt.setTriggerSource(triggerSource);

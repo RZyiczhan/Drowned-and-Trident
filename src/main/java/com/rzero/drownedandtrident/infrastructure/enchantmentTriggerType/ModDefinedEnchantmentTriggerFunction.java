@@ -2,7 +2,11 @@ package com.rzero.drownedandtrident.infrastructure.enchantmentTriggerType;
 
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.ConditionalEffect;
+import net.minecraft.world.item.enchantment.EnchantedItemInUse;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.effects.EnchantmentEntityEffect;
 import net.minecraft.world.phys.Vec3;
@@ -41,21 +45,23 @@ public class ModDefinedEnchantmentTriggerFunction {
 //    }
 
 
-    public static void onEntityTick(ServerLevel level, Entity projectile, Enchantment enchantment, Vec3 entityCurrentPos){
+    public static void onEntityTick(ServerLevel level, Entity projectile, Enchantment enchantment, Vec3 entityCurrentPos, ItemStack entityCreatorItemSource, LivingEntity entityCreator, int enchantmentLevel){
         for (ConditionalEffect<EnchantmentEntityEffect> conditionalEffect : enchantment.getEffects(TridentEnchantmentTriggerTypeRegister.ON_ENTITY_TICK.get())){
-            applySingleOnEntityTickEnchantment(conditionalEffect, level, projectile, entityCurrentPos);
+            applySingleOnEntityTickEnchantment(conditionalEffect, level, enchantmentLevel, projectile, entityCurrentPos, new EnchantedItemInUse(entityCreatorItemSource, EquipmentSlot.MAINHAND, entityCreator));
         }
     }
 
     public static void applySingleOnEntityTickEnchantment(ConditionalEffect<EnchantmentEntityEffect> conditionalEnchantmentEffect,
                                                           ServerLevel level,
+                                                          int enchantmentLevel,
                                                           Entity projectile,
-                                                          Vec3 entityCurrentPos
+                                                          Vec3 entityCurrentPos,
+                                                          EnchantedItemInUse enchantedEntityCreatorItemSource
     ) {
         conditionalEnchantmentEffect.effect().apply(
                 level,
-                0,
-                null,
+                enchantmentLevel,
+                enchantedEntityCreatorItemSource,
                 projectile,
                 entityCurrentPos
         );

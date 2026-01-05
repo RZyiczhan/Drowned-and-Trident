@@ -6,6 +6,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantedItemInUse;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -34,13 +35,13 @@ public class  ModEnchantmentHelper {
 //        }
 //    }
 
-    public static void onEntityTick(ServerLevel serverLevel, Entity entity, ItemStack entityCreator, Vec3 currPos){
+    public static void onEntityTick(ServerLevel serverLevel, Entity entity, ItemStack entityCreatorItemSource, Vec3 currPos, LivingEntity entityCreator){
         runIterationOnItem(
-                entityCreator,
+                entityCreatorItemSource,
                 new EnchantmentVisitor() {
                     @Override
                     public void accept(Holder<Enchantment> enchantment, int level) {
-                        ModDefinedEnchantmentTriggerFunction.onEntityTick(serverLevel, entity, enchantment.value(), currPos);
+                        ModDefinedEnchantmentTriggerFunction.onEntityTick(serverLevel, entity, enchantment.value(), currPos, entityCreatorItemSource, entityCreator, level);
                     }
                 }
         );

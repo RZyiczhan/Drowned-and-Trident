@@ -19,8 +19,7 @@ public class PositionUtil {
      */
     public static BlockPos getFirstGroundPosInYAxis(BlockPos currentPos, ServerLevel level){
         while (level.isEmptyBlock(currentPos)){
-            currentPos = currentPos.offset(new Vec3i(0, -1, 1));
-            log.debug("testt");
+            currentPos = currentPos.offset(new Vec3i(0, -1, 0));
         }
         return currentPos;
     }

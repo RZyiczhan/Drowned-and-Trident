@@ -39,7 +39,7 @@ public class DATTridentItem extends TridentItem {
                             if (f == 0.0F) {
                                 // 实现的变更：把这里的原版ThrownTrident替换成了自定义的DATThrownTrident
                                 // 发射方法换成了自定义的
-                                DATThrownTrident datThrownTrident = new DATThrownTrident(level, player, stack);
+                                DATThrownTrident datThrownTrident = new DATThrownTrident(level, player, stack, this);
                                 ServerLevel serverLevel = (ServerLevel) level;
                                 datThrownTrident.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 2.5F, 1.0F,
                                         serverLevel, new Vec3(player.getX(), player.getY(), player.getZ()));
