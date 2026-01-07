@@ -4,7 +4,6 @@ import com.mojang.serialization.MapCodec;
 import com.rzero.drownedandtrident.DrownedandTrident;
 import com.rzero.drownedandtrident.enchantment.base.BaseCustomEnchantment;
 import com.rzero.drownedandtrident.enchantment.base.BaseEnchantmentDefinition;
-import com.rzero.drownedandtrident.util.ExplosionUtil;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
@@ -17,6 +16,7 @@ import net.minecraft.world.item.enchantment.EnchantedItemInUse;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentEffectComponents;
 import net.minecraft.world.item.enchantment.effects.EnchantmentEntityEffect;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
 /**
@@ -34,7 +34,7 @@ public class ExplosiveShootEnchantment extends BaseCustomEnchantment implements 
         appliedOnItemType = ItemTags.TRIDENT_ENCHANTABLE;
         weight = 5;
         effectSoltPos = EquipmentSlotGroup.MAINHAND;
-        maxLevel = 5;
+        maxLevel = 2;
         minBaseCost = 1;
         minIncrementCost = 1;
         maxBaseCost = 2;
@@ -60,6 +60,7 @@ public class ExplosiveShootEnchantment extends BaseCustomEnchantment implements 
         );
     }
 
+    // 参考苦力怕的爆炸，普通的radius和强度为3.0F(1级)，高压为6.0F(2级)
     @Override
     public void apply(ServerLevel level, int enchantmentLevel, EnchantedItemInUse item, Entity entity, Vec3 origin) {
 
@@ -67,7 +68,13 @@ public class ExplosiveShootEnchantment extends BaseCustomEnchantment implements 
         if (entity.getPersistentData().getBoolean("ExplosiveTriggered")) return;
         entity.getPersistentData().putBoolean("ExplosiveTriggered", true);
 
-        ExplosionUtil.explode(level, entity.position(), enchantmentLevel, item.owner());
+        level.explode(
+                item.owner(),
+                origin.x, origin.y, origin.z,
+                enchantmentLevel < 2 ? 3.0F : 6.0F,
+                Level.ExplosionInteraction.MOB
+        );
+
     }
 
     @Override

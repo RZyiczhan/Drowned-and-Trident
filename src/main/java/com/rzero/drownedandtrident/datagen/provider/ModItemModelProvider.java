@@ -12,10 +12,21 @@ public class ModItemModelProvider extends ItemModelProvider {
 
     @Override
     protected void registerModels() {
-        withExistingParent(DATItemFunctionRegister.DAT_TRIDENT_ITEM.getId().toString(),
-                // 指向mc资源的时候用mcLoc，指向自己的资源时用modLoc
-                mcLoc("item/handheld"))
-                .texture("layer0", mcLoc("item/trident"));
+//        withExistingParent(DATItemFunctionRegister.DAT_TRIDENT_ITEM.getId().toString(),
+//                // 指向mc资源的时候用mcLoc，指向自己的资源时用modLoc
+//                mcLoc("builtin/entity"))
+//                .texture("layer0", mcLoc("item/trident"));
+//
+
+        existingFileHelper.trackGenerated(
+                mcLoc("builtin/entity"),
+                net.neoforged.neoforge.client.model.generators.ModelProvider.MODEL
+        );
+
+        withExistingParent(
+                DATItemFunctionRegister.DAT_TRIDENT_ITEM.getId().getPath(),
+                mcLoc("builtin/entity")
+        ).texture("layer0", mcLoc("item/trident"));
     }
 
     public ModItemModelProvider(PackOutput output, ExistingFileHelper existingFileHelper, String modId) {
