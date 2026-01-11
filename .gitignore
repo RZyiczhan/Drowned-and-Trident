@@ -26,3 +26,4 @@ run-data
 repo
 *.png
 src/generated/
+.DS_Store

@@ -2,8 +2,10 @@ package com.rzero.drownedandtrident.datagen.provider;
 
 import com.rzero.drownedandtrident.DrownedandTrident;
 import com.rzero.drownedandtrident.item.DATItemFunctionRegister;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
+import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 public class ModItemModelProvider extends ItemModelProvider {
@@ -18,15 +20,21 @@ public class ModItemModelProvider extends ItemModelProvider {
 //                .texture("layer0", mcLoc("item/trident"));
 //
 
-        existingFileHelper.trackGenerated(
-                mcLoc("builtin/entity"),
-                net.neoforged.neoforge.client.model.generators.ModelProvider.MODEL
-        );
+        String name = BuiltInRegistries.ITEM.getKey(DATItemFunctionRegister.DAT_TRIDENT_ITEM.get()).getPath();
 
-        withExistingParent(
-                DATItemFunctionRegister.DAT_TRIDENT_ITEM.getId().getPath(),
-                mcLoc("builtin/entity")
-        ).texture("layer0", mcLoc("item/trident"));
+        getBuilder(name)
+                .parent(new ModelFile.UncheckedModelFile("minecraft:builtin/entity"))
+                .texture("layer0", "minecraft:item/trident");
+
+//        existingFileHelper.trackGenerated(
+//                mcLoc("builtin/entity"),
+//                net.neoforged.neoforge.client.model.generators.ModelProvider.MODEL
+//        );
+//
+//        withExistingParent(
+//                DATItemFunctionRegister.DAT_TRIDENT_ITEM.getId().getPath(),
+//                mcLoc("builtin/entity")
+//        ).texture("layer0", mcLoc("item/trident"));
     }
 
     public ModItemModelProvider(PackOutput output, ExistingFileHelper existingFileHelper, String modId) {
