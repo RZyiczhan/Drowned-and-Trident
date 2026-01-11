@@ -11,9 +11,13 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @EventBusSubscriber(modid = DrownedandTrident.MODID)
 public class RenderEventsHandler {
+
+    private static final Logger log = LoggerFactory.getLogger(RenderEventsHandler.class);
 
     @SubscribeEvent
     public static void registerClientExtensions(RegisterClientExtensionsEvent event) {
@@ -33,12 +37,15 @@ public class RenderEventsHandler {
 
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
+        log.debug("been called");
         event.enqueueWork(() -> {
+            // 注册属性，确保 JSON 里的 "throwing": 1 能被检测到
             ItemProperties.register(
                     DATItemFunctionRegister.DAT_TRIDENT_ITEM.get(),
-                    ResourceLocation.withDefaultNamespace("throwing"),
+                    ResourceLocation.withDefaultNamespace("throwing"), // 对应 minecraft:throwing
                     (stack, level, entity, seed) ->
-                            entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F
+//                            1F
+                            entity != null && entity.isUsingItem() && entity.getUseItem().is(stack.getItem()) ? 1.0F : 0.0F
             );
         });
     }
