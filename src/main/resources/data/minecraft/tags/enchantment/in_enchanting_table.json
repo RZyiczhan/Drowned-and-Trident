@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "drownedandtrident:thunder_storm",
+    "drownedandtrident:erosion",
+    "drownedandtrident:explosive_shoot",
+    "drownedandtrident:fan_shoot",
+    "drownedandtrident:shoot_acceleration",
+    "drownedandtrident:thunder_trajectory"
+  ]
+}

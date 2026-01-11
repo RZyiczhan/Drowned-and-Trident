@@ -1,13 +1,10 @@
 {
-  "itemGroup.drownedandtrident": "Example Mod Tab",
-  "block.drownedandtrident.example_block": "Example Block",
-  "item.drownedandtrident.example_item": "Example Item",
+  "item.drownedandtrident.dat_trident_item": "trident",
 
-  "drownedandtrident.configuration.title": "Drowned and Trident  Configs",
-  "drownedandtrident.configuration.section.drownedandtrident.common.toml": "Drowned and Trident  Configs",
-  "drownedandtrident.configuration.section.drownedandtrident.common.toml.title": "Drowned and Trident  Configs",
-  "drownedandtrident.configuration.items": "Item List",
-  "drownedandtrident.configuration.logDirtBlock": "Log Dirt Block",
-  "drownedandtrident.configuration.magicNumberIntroduction": "Magic Number Text",
-  "drownedandtrident.configuration.magicNumber": "Magic Number"
+  "enchantment.drownedandtrident.thunder_storm": "Thunder Storm",
+  "enchantment.drownedandtrident.erosion": "Erosion",
+  "enchantment.drownedandtrident.explosive_shoot": "Explosive Shoot",
+  "enchantment.drownedandtrident.fan_shoot": "Fan Shoot",
+  "enchantment.drownedandtrident.shoot_acceleration": "Shoot Acceleration",
+  "enchantment.drownedandtrident.thunder_trajectory": "Thunder Trajectory"
 }

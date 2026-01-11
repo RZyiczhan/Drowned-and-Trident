@@ -2,7 +2,6 @@ package com.rzero.drownedandtrident.datagen;
 
 import com.rzero.drownedandtrident.DrownedandTrident;
 import com.rzero.drownedandtrident.datagen.provider.ModEnchantmentProvider;
-import com.rzero.drownedandtrident.datagen.provider.ModItemModelProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
@@ -37,17 +36,6 @@ public class DataGeneratorEventHandler {
                 new ModEnchantmentProvider(output, lookupProvider, DrownedandTrident.MODID)
         );
         // Other data providers here.
-
-        generator.addProvider(
-                // A boolean that determines whether the data should actually be generated.
-                // The event provides methods that determine this:
-                // event.includeClient(), event.includeServer(),
-                // event.includeDev() and event.includeReports().
-                // Since recipes are server data, we only run them in a server datagen.
-                event.includeServer(),
-                // Our provider.
-                new ModItemModelProvider(output, existingFileHelper, DrownedandTrident.MODID)
-        );
 
     }
 
