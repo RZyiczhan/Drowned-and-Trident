@@ -15,26 +15,6 @@ import net.minecraft.world.phys.Vec3;
 
 public class  ModEnchantmentHelper {
 
-//    public static void doPostAttackEffectsWithItemSource(ServerLevel level, Entity entity, DamageSource damageSource, @Nullable ItemStack itemSource) {
-//        if (entity instanceof LivingEntity livingentity) {
-//            EnchantmentHelper.runIterationOnEquipment(
-//                    livingentity,
-//                    (p_344427_, p_344428_, p_344429_) -> p_344427_.value()
-//                            .doPostAttack(level, p_344428_, p_344429_, EnchantmentTarget.VICTIM, entity, damageSource)
-//            );
-//        }
-//
-//        if (itemSource != null && damageSource.getEntity() instanceof LivingEntity livingentity1) {
-//            runIterationOnItem(
-//                    itemSource,
-//                    EquipmentSlot.MAINHAND,
-//                    livingentity1,
-//                    (p_344557_, p_344558_, p_344559_) -> p_344557_()
-//                            .doPostAttack(level, p_344558_, p_344559_, EnchantmentTarget.ATTACKER, entity, damageSource)
-//            );
-//        }
-//    }
-
     public static void onEntityTick(ServerLevel serverLevel, Entity entity, ItemStack entityCreatorItemSource, Vec3 currPos, LivingEntity entityCreator){
         runIterationOnItem(
                 entityCreatorItemSource,

@@ -40,7 +40,7 @@ public class ShootAccelerationEnchantment extends BaseCustomEnchantment implemen
         appliedOnItemType = ItemTags.TRIDENT_ENCHANTABLE;
         weight = 5;
         effectSoltPos = EquipmentSlotGroup.MAINHAND;
-        maxLevel = 2;
+        maxLevel = 1;
         minBaseCost = 1;
         minIncrementCost = 1;
         maxBaseCost = 2;
@@ -73,9 +73,9 @@ public class ShootAccelerationEnchantment extends BaseCustomEnchantment implemen
             return;
         }
 
-        datThrownTrident.setVelocity(datThrownTrident.getVelocity()*(1+enchantmentLevel));
+        // 这个是客户端渲染契约上能接受的最大速度了，在最大就得想办法修改客户端的渲染契约和渲染引擎了
+        datThrownTrident.setVelocity(3.9F);
 
-        log.debug("附魔被触发");
     }
 
     public MapCodec<? extends EnchantmentEntityEffect> codec() {

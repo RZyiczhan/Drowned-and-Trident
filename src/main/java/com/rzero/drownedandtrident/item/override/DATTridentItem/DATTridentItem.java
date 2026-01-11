@@ -41,7 +41,7 @@ public class DATTridentItem extends TridentItem {
                                 // 发射方法换成了自定义的
                                 DATThrownTrident datThrownTrident = new DATThrownTrident(level, player, stack, this);
                                 ServerLevel serverLevel = (ServerLevel) level;
-                                datThrownTrident.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 2.5F, 1.0F,
+                                datThrownTrident.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 2.5F, 1F,
                                         serverLevel, new Vec3(player.getX(), player.getY(), player.getZ()));
                                 if (player.hasInfiniteMaterials()) {
                                     datThrownTrident.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
