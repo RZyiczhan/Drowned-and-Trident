@@ -56,9 +56,9 @@ public class ErosionEnchantment extends BaseCustomEnchantment implements Enchant
         effectSoltPos = EquipmentSlotGroup.MAINHAND;
         maxLevel = 5;
         minBaseCost = 1;
-        minIncrementCost = 1;
-        maxBaseCost = 2;
-        maxIncrementCost = 3;
+        minIncrementCost = 4;
+        maxBaseCost = 12;
+        maxIncrementCost = 5;
     }
 
     @Override

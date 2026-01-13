@@ -36,10 +36,10 @@ public class ThunderTrajectoryEnchantment extends BaseCustomEnchantment implemen
         weight = 5;
         effectSoltPos = EquipmentSlotGroup.MAINHAND;
         maxLevel = 1;
-        minBaseCost = 1;
-        minIncrementCost = 1;
-        maxBaseCost = 2;
-        maxIncrementCost = 3;
+        minBaseCost = 20;
+        minIncrementCost = 7;
+        maxBaseCost = 27;
+        maxIncrementCost = 10;
     }
 
     @Override

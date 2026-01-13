@@ -15,13 +15,13 @@
     ]
   },
   "max_cost": {
-    "base": 2,
-    "per_level_above_first": 3
+    "base": 12,
+    "per_level_above_first": 5
   },
   "max_level": 5,
   "min_cost": {
     "base": 1,
-    "per_level_above_first": 1
+    "per_level_above_first": 4
   },
   "slots": [
     "mainhand"

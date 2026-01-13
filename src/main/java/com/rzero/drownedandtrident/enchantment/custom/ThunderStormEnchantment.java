@@ -43,10 +43,10 @@ public class ThunderStormEnchantment extends BaseCustomEnchantment implements En
         weight = 5;
         effectSoltPos = EquipmentSlotGroup.MAINHAND;
         maxLevel = 5;
-        minBaseCost = 1;
-        minIncrementCost = 1;
-        maxBaseCost = 2;
-        maxIncrementCost = 3;
+        minBaseCost = 6;
+        minIncrementCost = 4;
+        maxBaseCost = 12;
+        maxIncrementCost = 6;
     }
 
     // todo: 如何让三叉戟命中生物也生效，且之后不再生效

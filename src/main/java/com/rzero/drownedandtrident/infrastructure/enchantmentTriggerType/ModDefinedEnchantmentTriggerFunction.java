@@ -74,7 +74,7 @@ public class ModDefinedEnchantmentTriggerFunction {
      * @param projectile
      * @param enchantment
      */
-    public static void doProjectileAccelerate(ServerLevel level, int enchantmentLevel, Entity projectile, Enchantment enchantment, Vec3 createPos){
+    public static void doEntityCreate(ServerLevel level, int enchantmentLevel, Entity projectile, Enchantment enchantment, Vec3 createPos){
         for (ConditionalEffect<EnchantmentEntityEffect> conditionalEffect : enchantment.getEffects(TridentEnchantmentTriggerTypeRegister.ON_ENTITY_CREATE.get())){
             applySingleOnEntityCreateEnchantment(conditionalEffect, level, enchantmentLevel, projectile, createPos);
         }

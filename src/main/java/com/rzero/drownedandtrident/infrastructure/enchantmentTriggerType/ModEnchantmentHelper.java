@@ -32,14 +32,14 @@ public class  ModEnchantmentHelper {
      * @param serverLevel
      * @param entity 这必须是一个Projectile
      */
-    public static void doAccelerateEffects(ServerLevel serverLevel, Entity entity, ItemStack weapon, Vec3 shootPos){
+    public static void doEntityCreate(ServerLevel serverLevel, Entity entity, ItemStack weapon, Vec3 shootPos){
         if (entity instanceof DATThrownTrident) {
             runIterationOnItem(
                     weapon,
                     new EnchantmentVisitor() {
                         @Override
                         public void accept(Holder<Enchantment> enchantment, int level) {
-                            ModDefinedEnchantmentTriggerFunction.doProjectileAccelerate(serverLevel, level, entity, enchantment.value(), shootPos) ;
+                            ModDefinedEnchantmentTriggerFunction.doEntityCreate(serverLevel, level, entity, enchantment.value(), shootPos) ;
                         }
                     }
             );

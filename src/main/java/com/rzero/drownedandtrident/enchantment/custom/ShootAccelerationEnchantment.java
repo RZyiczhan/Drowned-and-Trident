@@ -41,9 +41,9 @@ public class ShootAccelerationEnchantment extends BaseCustomEnchantment implemen
         weight = 5;
         effectSoltPos = EquipmentSlotGroup.MAINHAND;
         maxLevel = 1;
-        minBaseCost = 1;
+        minBaseCost = 20;
         minIncrementCost = 1;
-        maxBaseCost = 2;
+        maxBaseCost = 25;
         maxIncrementCost = 3;
     }
 

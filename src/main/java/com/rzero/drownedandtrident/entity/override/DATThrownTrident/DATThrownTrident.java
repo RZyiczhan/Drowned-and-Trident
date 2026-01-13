@@ -155,7 +155,7 @@ public class DATThrownTrident extends ThrownTrident {
      */
     public void shootFromRotation(Entity shooter, float x, float y, float z, float velocity, float inaccuracy, ServerLevel level, Vec3 shootPos){
         this.velocity = velocity;
-        ModEnchantmentHelper.doAccelerateEffects(level, this, this.getWeaponItem(), shootPos);
+        ModEnchantmentHelper.doEntityCreate(level, this, this.getWeaponItem(), shootPos);
         shootFromRotation(shooter, x, y, z, this.velocity, inaccuracy);
     }
 

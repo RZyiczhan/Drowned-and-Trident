@@ -35,10 +35,10 @@ public class ExplosiveShootEnchantment extends BaseCustomEnchantment implements 
         weight = 5;
         effectSoltPos = EquipmentSlotGroup.MAINHAND;
         maxLevel = 2;
-        minBaseCost = 1;
-        minIncrementCost = 1;
-        maxBaseCost = 2;
-        maxIncrementCost = 3;
+        minBaseCost = 15;
+        minIncrementCost = 10;
+        maxBaseCost = 27;
+        maxIncrementCost = 10;
     }
 
     // todo: 如何让三叉戟命中生物也生效，且之后不再生效

@@ -1,7 +1,9 @@
 package com.rzero.drownedandtrident.item.override.DATTridentItem;
 
+import com.rzero.drownedandtrident.enchantment.custom.FanShootEnchantment;
 import com.rzero.drownedandtrident.entity.override.DATThrownTrident.DATThrownTrident;
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -14,10 +16,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TridentItem;
-import net.minecraft.world.item.enchantment.EnchantmentEffectComponents;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+
+import java.util.function.Predicate;
 
 public class DATTridentItem extends TridentItem {
     public DATTridentItem(Properties properties) {
@@ -37,8 +40,10 @@ public class DATTridentItem extends TridentItem {
                         if (!level.isClientSide) {
                             stack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(entityLiving.getUsedItemHand()));
                             if (f == 0.0F) {
-                                // 实现的变更：把这里的原版ThrownTrident替换成了自定义的DATThrownTrident
-                                // 发射方法换成了自定义的
+                                // 实现的变更：
+                                // 1）把这里的原版ThrownTrident替换成了自定义的DATThrownTrident
+                                // 2）发射方法换成了自定义的
+                                // 3) 构建一个临时的作为附魔载体不包含忠诚和分裂等附魔的stack
                                 DATThrownTrident datThrownTrident = new DATThrownTrident(level, player, stack, this);
                                 ServerLevel serverLevel = (ServerLevel) level;
                                 datThrownTrident.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 2.5F, 1F,
@@ -83,6 +88,7 @@ public class DATTridentItem extends TridentItem {
     private static boolean isTooDamagedToUse(ItemStack stack) {
         return stack.getDamageValue() >= stack.getMaxDamage() - 1;
     }
+
 
 
 }
