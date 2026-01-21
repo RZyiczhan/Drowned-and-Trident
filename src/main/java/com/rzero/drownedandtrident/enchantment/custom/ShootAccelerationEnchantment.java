@@ -62,7 +62,7 @@ public class ShootAccelerationEnchantment extends BaseCustomEnchantment implemen
                                 effectSoltPos)
                         )
                 // 注意：withEffect绑定的参数是effect类型
-                        .withEffect(TridentEnchantmentTriggerTypeRegister.ON_ENTITY_CREATE.get(), new ShootAccelerationEnchantment())
+                        .withEffect(TridentEnchantmentTriggerTypeRegister.ON_ENTITY_INIT.get(), new ShootAccelerationEnchantment())
         );
     }
 

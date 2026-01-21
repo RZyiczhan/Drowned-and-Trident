@@ -2,7 +2,6 @@ package com.rzero.drownedandtrident.entity.override.DATThrownTrident;
 
 import com.rzero.drownedandtrident.infrastructure.enchantmentTriggerType.ModEnchantmentHelper;
 import com.rzero.drownedandtrident.item.DATItemFunctionRegister;
-import com.rzero.drownedandtrident.item.override.DATTridentItem.DATTridentItem;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -16,7 +15,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.projectile.ThrownTrident;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
@@ -35,7 +33,6 @@ public class DATThrownTrident extends ThrownTrident {
     private boolean dealtDamage;
     public int clientSideReturnTridentTickCount;
     private boolean hadBeenHit = false;
-    private Item shooterItem;
 
     // 常规（未对tick到秒的转换进行调整）情况下，1秒CD所需的冷却tick数
 //    private int onNormalSecondEnchantmentAppliedCoolDown = 0;
@@ -45,9 +42,8 @@ public class DATThrownTrident extends ThrownTrident {
         super(entityType, level);
     }
 
-    public DATThrownTrident(Level level, LivingEntity shooter, ItemStack pickupItemStack, DATTridentItem tridentItem) {
+    public DATThrownTrident(Level level, LivingEntity shooter, ItemStack pickupItemStack) {
         super(level, shooter, pickupItemStack);
-        this.shooterItem = tridentItem;
     }
 
     public DATThrownTrident(Level level, double x, double y, double z, ItemStack pickupItemStack) {
@@ -153,10 +149,19 @@ public class DATThrownTrident extends ThrownTrident {
     /**
      * apply entity on init enchantment
      */
-    public void shootFromRotation(Entity shooter, float x, float y, float z, float velocity, float inaccuracy, ServerLevel level, Vec3 shootPos){
+    public void shootFromRotation(Entity shooter, float x, float y, float z, float velocity,
+                                  float inaccuracy, ServerLevel level, Vec3 shootPos, ItemStack tridentStack){
         this.velocity = velocity;
-        ModEnchantmentHelper.doEntityCreate(level, this, this.getWeaponItem(), shootPos);
+
+        ModEnchantmentHelper.doOnEntityInit(level, this, this.getWeaponItem(), shootPos,
+                this.getOwner() instanceof LivingEntity owner ? owner : null
+        );
+
         shootFromRotation(shooter, x, y, z, this.velocity, inaccuracy);
+
+        ModEnchantmentHelper.doAfterEntityInit(level, this, this.getWeaponItem(), shootPos,
+                this.getOwner() instanceof LivingEntity owner ? owner : null
+        );
     }
 
 

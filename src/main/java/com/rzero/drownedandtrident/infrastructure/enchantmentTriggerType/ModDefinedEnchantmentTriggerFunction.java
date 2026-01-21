@@ -68,32 +68,33 @@ public class ModDefinedEnchantmentTriggerFunction {
     }
 
     /**
-     * 获取物品上每一个“创建实体时”触发器的附魔并依次apply
+     * 获取物品上每一个“实体初始化时”触发器的附魔并依次apply
      * @param level
      * @param enchantmentLevel
      * @param projectile
      * @param enchantment
      */
-    public static void doEntityCreate(ServerLevel level, int enchantmentLevel, Entity projectile, Enchantment enchantment, Vec3 createPos){
-        for (ConditionalEffect<EnchantmentEntityEffect> conditionalEffect : enchantment.getEffects(TridentEnchantmentTriggerTypeRegister.ON_ENTITY_CREATE.get())){
-            applySingleOnEntityCreateEnchantment(conditionalEffect, level, enchantmentLevel, projectile, createPos);
+    public static void doOnEntityInit(ServerLevel level, int enchantmentLevel, Entity projectile, Enchantment enchantment, Vec3 createPos, ItemStack creatorStack, LivingEntity entityCreator){
+        for (ConditionalEffect<EnchantmentEntityEffect> conditionalEffect : enchantment.getEffects(TridentEnchantmentTriggerTypeRegister.ON_ENTITY_INIT.get())){
+            applySingleOnEntityInitEnchantment(conditionalEffect, level, enchantmentLevel, projectile, createPos, new EnchantedItemInUse(creatorStack, EquipmentSlot.MAINHAND, entityCreator));
         }
     }
 
 
     /**
-     * 应用这个绑定到“创建实体时”触发器的附魔
+     * 应用这个绑定到“实体初始化时”触发器的附魔
      * @param conditionalEnchantmentEffect
      * @param level
      * @param enchantmentLevel
      * @param projectile
      */
-    private static void applySingleOnEntityCreateEnchantment(
+    private static void applySingleOnEntityInitEnchantment(
             ConditionalEffect<EnchantmentEntityEffect> conditionalEnchantmentEffect,
             ServerLevel level,
             int enchantmentLevel,
             Entity projectile,
-            Vec3 createPos
+            Vec3 createPos,
+            EnchantedItemInUse entityCreateItem
     ) {
 
         // 这里本质上是利用lootContextParamSet构建LootContext
@@ -102,7 +103,49 @@ public class ModDefinedEnchantmentTriggerFunction {
 //
 //        }
         conditionalEnchantmentEffect.effect().apply(
-                level, enchantmentLevel, null, projectile, createPos);
+                level, enchantmentLevel, entityCreateItem, projectile, createPos);
     }
+
+
+    /**
+     * 获取物品上每一个“实体初始化后”触发器的附魔并依次apply
+     * @param level
+     * @param enchantmentLevel
+     * @param projectile
+     * @param enchantment
+     */
+    public static void doAfterEntityInit(ServerLevel level, int enchantmentLevel, Entity projectile, Enchantment enchantment, Vec3 createPos, ItemStack creatorStack, LivingEntity entityCreator){
+        for (ConditionalEffect<EnchantmentEntityEffect> conditionalEffect : enchantment.getEffects(TridentEnchantmentTriggerTypeRegister.AFTER_ENTITY_INIT.get())){
+            applySingleAfterEntityInitEnchantment(conditionalEffect, level, enchantmentLevel, projectile, createPos, new EnchantedItemInUse(creatorStack, EquipmentSlot.MAINHAND, entityCreator));
+        }
+    }
+
+
+
+    /**
+     * 应用这个绑定到“实体初始化后”触发器的附魔
+     * @param conditionalEnchantmentEffect
+     * @param level
+     * @param enchantmentLevel
+     * @param projectile
+     */
+    private static void applySingleAfterEntityInitEnchantment(
+            ConditionalEffect<EnchantmentEntityEffect> conditionalEnchantmentEffect,
+            ServerLevel level,
+            int enchantmentLevel,
+            Entity projectile,
+            Vec3 createPos,
+            EnchantedItemInUse entityCreateItem
+    ) {
+
+        // 这里本质上是利用lootContextParamSet构建LootContext
+        // 对比筛掉不需要的context情况不触发附魔
+//        if (!conditionalEnchantmentEffect.matches(new LootContext())){
+//
+//        }
+        conditionalEnchantmentEffect.effect().apply(
+                level, enchantmentLevel, entityCreateItem, projectile, createPos);
+    }
+
 
 }

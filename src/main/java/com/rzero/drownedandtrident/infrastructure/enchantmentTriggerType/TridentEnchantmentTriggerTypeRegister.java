@@ -23,7 +23,15 @@ public class TridentEnchantmentTriggerTypeRegister {
             DeferredRegister.createDataComponents(Registries.ENCHANTMENT_EFFECT_COMPONENT_TYPE, DrownedandTrident.MODID);
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ConditionalEffect<EnchantmentEntityEffect>>>>
-            ON_ENTITY_CREATE = ENTITY_ENCHANTMENT_COMPONENT_TYPE.registerComponentType("on_entity_create", new UnaryOperator<DataComponentType.Builder<List<ConditionalEffect<EnchantmentEntityEffect>>>>() {
+            ON_ENTITY_INIT = ENTITY_ENCHANTMENT_COMPONENT_TYPE.registerComponentType("on_entity_init", new UnaryOperator<DataComponentType.Builder<List<ConditionalEffect<EnchantmentEntityEffect>>>>() {
+        @Override
+        public DataComponentType.Builder<List<ConditionalEffect<EnchantmentEntityEffect>>> apply(DataComponentType.Builder<List<ConditionalEffect<EnchantmentEntityEffect>>> listBuilder) {
+            return listBuilder.persistent(ConditionalEffect.codec(EnchantmentEntityEffect.CODEC, LootContextParamSets.EMPTY).listOf());
+        }
+    });
+
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ConditionalEffect<EnchantmentEntityEffect>>>>
+            AFTER_ENTITY_INIT = ENTITY_ENCHANTMENT_COMPONENT_TYPE.registerComponentType("after_entity_init", new UnaryOperator<DataComponentType.Builder<List<ConditionalEffect<EnchantmentEntityEffect>>>>() {
         @Override
         public DataComponentType.Builder<List<ConditionalEffect<EnchantmentEntityEffect>>> apply(DataComponentType.Builder<List<ConditionalEffect<EnchantmentEntityEffect>>> listBuilder) {
             return listBuilder.persistent(ConditionalEffect.codec(EnchantmentEntityEffect.CODEC, LootContextParamSets.EMPTY).listOf());

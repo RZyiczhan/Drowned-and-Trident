@@ -20,8 +20,8 @@ public class TridentEnchantmentRegister{
 
     // 这行本质上是把thunder_storm这个string和其CODEC标识符绑定起来
     // 方便创建ResourceKey
-    public static final Supplier<MapCodec<? extends EnchantmentEntityEffect>> FAN_SHOOT =
-            ENTITY_ENCHANTMENT_EFFECT.register("fan_shoot", () -> FanShootEnchantment.CODEC);
+    public static final Supplier<MapCodec<? extends EnchantmentEntityEffect>> FAN_SPLIT =
+            ENTITY_ENCHANTMENT_EFFECT.register("fan_split", () -> FanSplitEnchantment.CODEC);
 
     public static final Supplier<MapCodec<? extends EnchantmentEntityEffect>> EXPLOSIVE_SHOOT =
             ENTITY_ENCHANTMENT_EFFECT.register("explosive_shoot", () -> ExplosiveShootEnchantment.CODEC);

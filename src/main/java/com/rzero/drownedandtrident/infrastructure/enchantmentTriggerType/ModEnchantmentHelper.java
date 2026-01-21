@@ -32,18 +32,31 @@ public class  ModEnchantmentHelper {
      * @param serverLevel
      * @param entity 这必须是一个Projectile
      */
-    public static void doEntityCreate(ServerLevel serverLevel, Entity entity, ItemStack weapon, Vec3 shootPos){
+    public static void doOnEntityInit(ServerLevel serverLevel, Entity entity, ItemStack creatorStack, Vec3 shootPos, LivingEntity entityCreator){
         if (entity instanceof DATThrownTrident) {
             runIterationOnItem(
-                    weapon,
+                    creatorStack,
                     new EnchantmentVisitor() {
                         @Override
                         public void accept(Holder<Enchantment> enchantment, int level) {
-                            ModDefinedEnchantmentTriggerFunction.doEntityCreate(serverLevel, level, entity, enchantment.value(), shootPos) ;
+                            ModDefinedEnchantmentTriggerFunction.doOnEntityInit(serverLevel, level, entity, enchantment.value(), shootPos, creatorStack, entityCreator) ;
                         }
                     }
             );
         }
+    }
+
+
+    public static void doAfterEntityInit(ServerLevel serverLevel, Entity entity, ItemStack creatorStack, Vec3 shootPos, LivingEntity entityCreator){
+        runIterationOnItem(
+                creatorStack,
+                new EnchantmentVisitor() {
+                    @Override
+                    public void accept(Holder<Enchantment> enchantment, int level) {
+                        ModDefinedEnchantmentTriggerFunction.doAfterEntityInit(serverLevel, level, entity, enchantment.value(), shootPos, creatorStack, entityCreator) ;
+                    }
+                }
+        );
     }
 
     /**
