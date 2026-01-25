@@ -91,7 +91,7 @@ public class ErosionEnchantment extends BaseCustomEnchantment implements Enchant
             // 药水效果无增幅为1级效果，所以实际增幅是附魔等级-1
             living.addEffect(new MobEffectInstance(
                     ErosionEnchantment.appliedEffectsList.get(ErosionEnchantment.random.nextInt(ErosionEnchantment.appliedEffectsList.size())),
-                    100, enchantmentLevel-1));
+                    160, enchantmentLevel-1));
         }
     }
 
