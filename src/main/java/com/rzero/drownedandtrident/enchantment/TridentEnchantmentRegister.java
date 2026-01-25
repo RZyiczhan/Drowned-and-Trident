@@ -23,6 +23,9 @@ public class TridentEnchantmentRegister{
     public static final Supplier<MapCodec<? extends EnchantmentEntityEffect>> FAN_SPLIT =
             ENTITY_ENCHANTMENT_EFFECT.register("fan_split", () -> FanSplitEnchantment.CODEC);
 
+    public static final Supplier<MapCodec<? extends EnchantmentEntityEffect>> SCATTER_SPLIT =
+            ENTITY_ENCHANTMENT_EFFECT.register("scatter_split", () -> ScatterSplitEnchantment.CODEC);
+
     public static final Supplier<MapCodec<? extends EnchantmentEntityEffect>> EXPLOSIVE_SHOOT =
             ENTITY_ENCHANTMENT_EFFECT.register("explosive_shoot", () -> ExplosiveShootEnchantment.CODEC);
 

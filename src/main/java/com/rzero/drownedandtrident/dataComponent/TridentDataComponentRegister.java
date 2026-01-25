@@ -26,6 +26,18 @@ public class TridentDataComponentRegister {
                     .networkSynchronized(ByteBufCodecs.INT) // 允许同步给客户端
                     .build());
 
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> SCATTER_SPLIT_TICK =
+            TRIDENT_DATA_COMPONENT.register("scatter_split_tick", () -> DataComponentType.<Integer>builder()
+                    .persistent(Codec.INT) // 允许保存到磁盘
+                    .networkSynchronized(ByteBufCodecs.INT) // 允许同步给客户端
+                    .build());
+
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> SCATTER_SPREAD_LEVEL =
+            TRIDENT_DATA_COMPONENT.register("scatter_spread_level", () -> DataComponentType.<Integer>builder()
+                    .persistent(Codec.INT) // 允许保存到磁盘
+                    .networkSynchronized(ByteBufCodecs.INT) // 允许同步给客户端
+                    .build());
+
     public static void register(IEventBus eventBus){
         TRIDENT_DATA_COMPONENT.register(eventBus);
     }

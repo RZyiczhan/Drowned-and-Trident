@@ -20,6 +20,7 @@ public class ModEnchantmentBootstrapper implements RegistrySetBuilder.RegistryBo
         customEnchantmentList.add(new ExplosiveShootEnchantment());
         customEnchantmentList.add(new ShootAccelerationEnchantment());
         customEnchantmentList.add(new ThunderTrajectoryEnchantment());
+        customEnchantmentList.add(new ScatterSplitEnchantment());
     }
 
     @Override

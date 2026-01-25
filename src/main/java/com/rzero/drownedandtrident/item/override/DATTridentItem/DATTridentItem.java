@@ -45,7 +45,9 @@ public class DATTridentItem extends TridentItem {
                                 DATThrownTrident datThrownTrident = new DATThrownTrident(
                                         level, player, stack, new TridentSplitParamModel(
                                                 stack.getOrDefault(TridentDataComponentRegister.FAN_SPLIT_ANGLE, DefaultTridentSplitParamConstant.DEFAULT_FAN_SPLIT_ANGLE),
-                                                stack.getOrDefault(TridentDataComponentRegister.FAN_SPLIT_TICK, DefaultTridentSplitParamConstant.DEFAULT_FAN_SPLIT_TICK)
+                                                stack.getOrDefault(TridentDataComponentRegister.FAN_SPLIT_TICK, DefaultTridentSplitParamConstant.DEFAULT_FAN_SPLIT_TICK),
+                                                stack.getOrDefault(TridentDataComponentRegister.SCATTER_SPREAD_LEVEL, DefaultTridentSplitParamConstant.DEFAULT_SCATTER_SPREAD_LEVEL),
+                                                stack.getOrDefault(TridentDataComponentRegister.SCATTER_SPLIT_TICK, DefaultTridentSplitParamConstant.DEFAULT_SCATTER_SPLIT_TICK)
                                 ));
                                 ServerLevel serverLevel = (ServerLevel) level;
                                 datThrownTrident.shootFromRotation(player, player.getXRot(), player.getYRot(),

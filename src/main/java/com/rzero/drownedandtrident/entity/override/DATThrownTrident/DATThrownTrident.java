@@ -193,6 +193,11 @@ public class DATThrownTrident extends ThrownTrident {
     }
 
     @Override
+    public void onAddedToLevel() {
+        super.onAddedToLevel();
+    }
+
+    @Override
     public ItemStack getWeaponItem() {
         return this.getPickupItemStackOrigin();
     }

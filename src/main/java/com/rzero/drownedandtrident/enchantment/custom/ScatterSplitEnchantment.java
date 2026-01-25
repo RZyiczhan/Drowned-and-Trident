@@ -24,28 +24,26 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.item.enchantment.effects.EnchantmentEntityEffect;
 import net.minecraft.world.phys.Vec3;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.HashSet;
 import java.util.Set;
 
 /**
- * 扇形分裂附魔
+ * 散射裂解附魔
  */
-public class FanSplitEnchantment extends BaseCustomEnchantment implements EnchantmentEntityEffect, BaseEnchantmentDefinition {
-    public static final ResourceKey<Enchantment> FAN_SPLIT = ResourceKey.create(Registries.ENCHANTMENT,
-            ResourceLocation.fromNamespaceAndPath(DrownedandTrident.MODID , "fan_split"));
+public class ScatterSplitEnchantment extends BaseCustomEnchantment implements EnchantmentEntityEffect, BaseEnchantmentDefinition {
 
-    public static final MapCodec<FanSplitEnchantment> CODEC = MapCodec.unit(FanSplitEnchantment::new);
-    private static final Logger log = LoggerFactory.getLogger(FanSplitEnchantment.class);
+    public static final ResourceKey<Enchantment> SCATTER_SPLIT = ResourceKey.create(Registries.ENCHANTMENT,
+            ResourceLocation.fromNamespaceAndPath(DrownedandTrident.MODID , "scatter_split"));
 
-    public FanSplitEnchantment(){
+    public static final MapCodec<ScatterSplitEnchantment> CODEC = MapCodec.unit(ScatterSplitEnchantment::new);
+
+    public ScatterSplitEnchantment(){
         anvilCost = 5;
         appliedOnItemType = ItemTags.TRIDENT_ENCHANTABLE;
         weight = 5;
         effectSoltPos = EquipmentSlotGroup.MAINHAND;
-        maxLevel = 5;
+        maxLevel = 3;
         minBaseCost = 1;
         minIncrementCost = 1;
         maxBaseCost = 2;
@@ -56,16 +54,16 @@ public class FanSplitEnchantment extends BaseCustomEnchantment implements Enchan
     public void bootstrap(BootstrapContext<Enchantment> context) {
         var items = context.lookup(Registries.ITEM);
 
-        register(context, FAN_SPLIT, Enchantment.enchantment(Enchantment.definition(
-                items.getOrThrow(appliedOnItemType),
-                weight,
-                maxLevel,
-                Enchantment.dynamicCost(minBaseCost, minIncrementCost),
-                Enchantment.dynamicCost(maxBaseCost, maxIncrementCost),
-                anvilCost,
-                effectSoltPos)
-        )
-                .withEffect(TridentEnchantmentTriggerTypeRegister.AFTER_ENTITY_INIT.get(), new FanSplitEnchantment()));
+        register(context,SCATTER_SPLIT, Enchantment.enchantment(Enchantment.definition(
+                        items.getOrThrow(appliedOnItemType),
+                        weight,
+                        maxLevel,
+                        Enchantment.dynamicCost(minBaseCost, minIncrementCost),
+                        Enchantment.dynamicCost(maxBaseCost, maxIncrementCost),
+                        anvilCost,
+                        effectSoltPos)
+                )
+                .withEffect(TridentEnchantmentTriggerTypeRegister.AFTER_ENTITY_INIT.get(), new ScatterSplitEnchantment()));
     }
 
     @Override
@@ -75,44 +73,40 @@ public class FanSplitEnchantment extends BaseCustomEnchantment implements Enchan
 
             Set<ResourceKey<Enchantment>> undesiredEnchantment = new HashSet<>();
             undesiredEnchantment.add(Enchantments.LOYALTY);
-            undesiredEnchantment.add(FAN_SPLIT);
+            undesiredEnchantment.add(SCATTER_SPLIT);
 
-            int fanSplitTickTemp = DefaultTridentSplitParamConstant.DEFAULT_FAN_SPLIT_TICK;
-            int fanSplitAngleTemp = DefaultTridentSplitParamConstant.DEFAULT_FAN_SPLIT_ANGLE;
-            int scatterSplitTick = DefaultTridentSplitParamConstant.DEFAULT_SCATTER_SPLIT_TICK;
+            int fanSplitTick = DefaultTridentSplitParamConstant.DEFAULT_FAN_SPLIT_TICK;
+            int scatterSplitTickTemp = DefaultTridentSplitParamConstant.DEFAULT_SCATTER_SPLIT_TICK;
+            int scatterSpreadLevelTemp = DefaultTridentSplitParamConstant.DEFAULT_SCATTER_SPREAD_LEVEL;
 
             if (datThrownTrident.getSplitParam() != null){
-                fanSplitTickTemp = datThrownTrident.getSplitParam().fanSplitTick;
-                fanSplitAngleTemp = datThrownTrident.getSplitParam().fanSplitAngle;
-                scatterSplitTick = datThrownTrident.getSplitParam().scatterSplitTick;
+                fanSplitTick = datThrownTrident.getSplitParam().fanSplitTick;
+                scatterSplitTickTemp = datThrownTrident.getSplitParam().scatterSplitTick;
+                scatterSpreadLevelTemp = datThrownTrident.getSplitParam().scatterSpreadLevel;
             }
 
-            final int fanSplitAngle = fanSplitAngleTemp;
-            final int fanSplitTick = fanSplitTickTemp;
+            final int scatterSpreadLevel = scatterSpreadLevelTemp;
+            final int scatterSplitTick = scatterSplitTickTemp;
 
-            if (scatterSplitTick == fanSplitTick) {
-                undesiredEnchantment.add(ScatterSplitEnchantment.SCATTER_SPLIT);
+            if (scatterSplitTick == fanSplitTick){
+                undesiredEnchantment.add(FanSplitEnchantment.FAN_SPLIT);
             }
 
             ItemStack stackWithoutNonMigratingEnchantment =
                     ItemStackUtil.buildCopiedSourceTridentWithFilteredEnchantments(item.itemStack(), undesiredEnchantment);
 
-
             // delay 支持 0～15 Tick的自由可选 (并推荐1～10，默认0)
             // 角度支持5～15的自由可选（并推荐5～10，默认10）
             TickScheduler.schedule(
                     level,
-                    fanSplitTick,
+                    scatterSplitTick,
                     new Runnable() {
                         @Override
                         public void run() {
                             if (datThrownTrident.isHadBeenHit()){
                                 return;
                             }
-                            for (int round = 1; round <= enchantmentLevel; round++){
-                                double degree = round * fanSplitAngle;
-                                ProjectileSplitUtil.generateFanSplitPairTrident(level, item.owner(), fanSplitTick, datThrownTrident, stackWithoutNonMigratingEnchantment, degree);
-                            }
+                            ProjectileSplitUtil.generateScatterSplitTrident(level, item.owner(), scatterSplitTick, datThrownTrident, stackWithoutNonMigratingEnchantment, scatterSpreadLevel, enchantmentLevel  * 3);
                         }
                     }
             );
@@ -126,4 +120,5 @@ public class FanSplitEnchantment extends BaseCustomEnchantment implements Enchan
     public MapCodec<? extends EnchantmentEntityEffect> codec() {
         return CODEC;
     }
+
 }
