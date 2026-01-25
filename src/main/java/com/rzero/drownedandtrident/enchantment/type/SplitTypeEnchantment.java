@@ -8,6 +8,6 @@ import java.util.Set;
 
 public class SplitTypeEnchantment extends BaseCustomEnchantment {
 
-    public Set<ResourceKey<Enchantment>> undesiredEnchantment;
+    public static Set<ResourceKey<Enchantment>> undesiredEnchantment;
 
 }

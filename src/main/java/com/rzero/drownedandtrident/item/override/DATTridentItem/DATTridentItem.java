@@ -1,6 +1,9 @@
 package com.rzero.drownedandtrident.item.override.DATTridentItem;
 
+import com.rzero.drownedandtrident.dataComponent.TridentDataComponentRegister;
 import com.rzero.drownedandtrident.entity.override.DATThrownTrident.DATThrownTrident;
+import com.rzero.drownedandtrident.programmingConstant.DefaultTridentSplitParamConstant;
+import com.rzero.drownedandtrident.programmingModel.TridentSplitParamModel;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
@@ -39,7 +42,11 @@ public class DATTridentItem extends TridentItem {
                                 // 实现的变更：
                                 // 1）把这里的原版ThrownTrident替换成了自定义的DATThrownTrident
                                 // 2）发射方法换成了自定义的
-                                DATThrownTrident datThrownTrident = new DATThrownTrident(level, player, stack);
+                                DATThrownTrident datThrownTrident = new DATThrownTrident(
+                                        level, player, stack, new TridentSplitParamModel(
+                                                stack.getOrDefault(TridentDataComponentRegister.FAN_SPLIT_ANGLE, DefaultTridentSplitParamConstant.DEFAULT_FAN_SPLIT_ANGLE),
+                                                stack.getOrDefault(TridentDataComponentRegister.FAN_SPLIT_TICK, DefaultTridentSplitParamConstant.DEFAULT_FAN_SPLIT_TICK)
+                                ));
                                 ServerLevel serverLevel = (ServerLevel) level;
                                 datThrownTrident.shootFromRotation(player, player.getXRot(), player.getYRot(),
                                         0.0F, 2.5F, 1F,

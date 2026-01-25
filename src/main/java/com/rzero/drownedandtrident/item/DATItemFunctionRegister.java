@@ -1,6 +1,7 @@
 package com.rzero.drownedandtrident.item;
 
 import com.rzero.drownedandtrident.DrownedandTrident;
+import com.rzero.drownedandtrident.dataComponent.TridentDataComponentRegister;
 import com.rzero.drownedandtrident.item.override.DATTridentItem.DATTridentItem;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.Item;
@@ -22,6 +23,8 @@ public class DATItemFunctionRegister {
                             .durability(250)
                             .attributes(TridentItem.createAttributes())
                             .component(DataComponents.TOOL, TridentItem.createToolProperties())
+                            .component(TridentDataComponentRegister.FAN_SPLIT_ANGLE, 10)
+                            .component(TridentDataComponentRegister.FAN_SPLIT_TICK, 0)
             ));
 
     public static void register(IEventBus eventBus){

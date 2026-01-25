@@ -7,7 +7,9 @@ import com.rzero.drownedandtrident.enchantment.base.BaseEnchantmentDefinition;
 import com.rzero.drownedandtrident.entity.override.DATThrownTrident.DATThrownTrident;
 import com.rzero.drownedandtrident.event.tickSchedular.TickScheduler;
 import com.rzero.drownedandtrident.infrastructure.enchantmentTriggerType.TridentEnchantmentTriggerTypeRegister;
+import com.rzero.drownedandtrident.programmingConstant.DefaultTridentSplitParamConstant;
 import com.rzero.drownedandtrident.util.ItemStackUtil;
+import com.rzero.drownedandtrident.util.ProjectileSplitUtil;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
@@ -16,8 +18,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlotGroup;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantedItemInUse;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -71,7 +71,6 @@ public class FanSplitEnchantment extends BaseCustomEnchantment implements Enchan
     @Override
     public void apply(ServerLevel level, int enchantmentLevel, EnchantedItemInUse item, Entity entity, Vec3 origin) {
 
-
         if (entity instanceof DATThrownTrident datThrownTrident){
 
             Set<ResourceKey<Enchantment>> undesiredEnchantment = new HashSet<>();
@@ -81,59 +80,38 @@ public class FanSplitEnchantment extends BaseCustomEnchantment implements Enchan
             ItemStack stackWithoutNonMigratingEnchantment =
                     ItemStackUtil.buildCopiedSourceTridentWithFilteredEnchantments(item.itemStack(), undesiredEnchantment);
 
-            // todo：问题1，如何空中获得分裂三叉戟所在的pos
-            // todo：问题2，投射时就分裂的情况，三叉戟的生成位置在脚下，而不是靠近头顶的实际抛射位置（还是因为传入的origin是玩家所在的XYZ，而不是三叉戟的）
+            int fanSplitTick = DefaultTridentSplitParamConstant.DEFAULT_FAN_SPLIT_TICK;
+            int fanSplitAngleTemp = DefaultTridentSplitParamConstant.DEFAULT_FAN_SPLIT_ANGLE;
 
+            if (datThrownTrident.getSplitParam() != null){
+                fanSplitTick = datThrownTrident.getSplitParam().fanSplitTick;
+                fanSplitAngleTemp = datThrownTrident.getSplitParam().fanSplitAngle;
+            }
 
-            // delay 支持 1～10 Tick的自由可选
+            final int fanSplitAngle = fanSplitAngleTemp;
+
+            // delay 支持 0～15 Tick的自由可选 (并推荐1～10，默认0)
+            // 角度支持5～15的自由可选（并推荐5～10，默认10）
             TickScheduler.schedule(
                     level,
-                    0,
+                    fanSplitTick,
                     new Runnable() {
                         @Override
                         public void run() {
-                            generateSplitTrident(level, item.owner(), datThrownTrident, stackWithoutNonMigratingEnchantment);
+                            if (datThrownTrident.isHadBeenHit()){
+                                return;
+                            }
+                            for (int round = 1; round <= enchantmentLevel; round++){
+                                double degree = round * fanSplitAngle;
+                                ProjectileSplitUtil.generateSplitPairTrident(level, item.owner(), datThrownTrident, stackWithoutNonMigratingEnchantment, degree);
+                            }
                         }
                     }
             );
-            // todo : 拿着stackWithoutNonMigratingEnchantment和currentVectorWithVelocity生成新角度下的三叉戟
-
         }
-
     }
 
-    // todo：貌似生成的三叉戟的投掷朝向比原三叉戟高一点
 
-    private void generateSplitTrident(ServerLevel level, LivingEntity tridentOwner, DATThrownTrident originDATThrownTrident, ItemStack stackWithoutNonMigratingEnchantment){
-        float angleRadians = (float) Math.toRadians(15);
-
-        Vec3 currentVectorWithVelocity = originDATThrownTrident.getDeltaMovement();
-//        Vec3 splitPos = originDATThrownTrident.getPosition(1);
-        Vec3 splitPos = originDATThrownTrident.getEyePosition();
-
-
-        Vec3 leftDelta = currentVectorWithVelocity.yRot(angleRadians);  // 向左偏（假设）
-        Vec3 rightDelta = currentVectorWithVelocity.yRot(-angleRadians);
-
-        DATThrownTrident cloneThrownTrident = new DATThrownTrident(level, tridentOwner, stackWithoutNonMigratingEnchantment);
-        cloneThrownTrident.setDeltaMovement(leftDelta);
-
-        // 投射就分裂时，初始发射位置有问题，从脚底下，而不是头上
-
-        cloneThrownTrident.setPos(splitPos);
-        cloneThrownTrident.pickup = AbstractArrow.Pickup.DISALLOWED;
-
-        // G. (可选) 强制同步一下实体的朝向，让模型看起来也是歪着飞的
-        // 虽然 Projectile.tick() 会自动更新，但手动设置一下更丝滑
-        double d0 = leftDelta.horizontalDistance();
-        cloneThrownTrident.setYRot((float)(Math.atan2(leftDelta.x, leftDelta.z) * (double)(180F / (float)Math.PI)));
-        cloneThrownTrident.setXRot((float)(Math.atan2(leftDelta.y, d0) * (double)(180F / (float)Math.PI)));
-        cloneThrownTrident.yRotO = cloneThrownTrident.getYRot();
-        cloneThrownTrident.xRotO = cloneThrownTrident.getXRot();
-
-        // H. 加入世界
-        level.addFreshEntity(cloneThrownTrident);
-    }
 
 
     @Override

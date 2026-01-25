@@ -2,6 +2,7 @@ package com.rzero.drownedandtrident.entity.override.DATThrownTrident;
 
 import com.rzero.drownedandtrident.infrastructure.enchantmentTriggerType.ModEnchantmentHelper;
 import com.rzero.drownedandtrident.item.DATItemFunctionRegister;
+import com.rzero.drownedandtrident.programmingModel.TridentSplitParamModel;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -32,6 +33,16 @@ public class DATThrownTrident extends ThrownTrident {
     private static final Logger log = LoggerFactory.getLogger(DATThrownTrident.class);
     private boolean dealtDamage;
     public int clientSideReturnTridentTickCount;
+    private TridentSplitParamModel splitParam;
+
+    public boolean isHadBeenHit() {
+        return hadBeenHit;
+    }
+
+    public void setHadBeenHit(boolean hadBeenHit) {
+        this.hadBeenHit = hadBeenHit;
+    }
+
     private boolean hadBeenHit = false;
 
     // 常规（未对tick到秒的转换进行调整）情况下，1秒CD所需的冷却tick数
@@ -40,6 +51,11 @@ public class DATThrownTrident extends ThrownTrident {
 
     public DATThrownTrident(EntityType<? extends ThrownTrident> entityType, Level level) {
         super(entityType, level);
+    }
+
+    public DATThrownTrident(Level level, LivingEntity shooter, ItemStack pickupItemStack, TridentSplitParamModel splitParam) {
+        super(level, shooter, pickupItemStack);
+        this.splitParam = splitParam;
     }
 
     public DATThrownTrident(Level level, LivingEntity shooter, ItemStack pickupItemStack) {
@@ -224,5 +240,13 @@ public class DATThrownTrident extends ThrownTrident {
 
     public void setVelocity(float velocity) {
         this.velocity = velocity;
+    }
+
+    public TridentSplitParamModel getSplitParam() {
+        return splitParam;
+    }
+
+    public void setSplitParam(TridentSplitParamModel splitParam) {
+        this.splitParam = splitParam;
     }
 }
