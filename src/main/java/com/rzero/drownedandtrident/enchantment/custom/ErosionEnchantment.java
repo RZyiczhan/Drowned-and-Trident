@@ -42,9 +42,10 @@ public class ErosionEnchantment extends BaseCustomEnchantment implements Enchant
             MobEffects.POISON,
             MobEffects.CONFUSION,
             MobEffects.BLINDNESS,
+            MobEffects.DARKNESS,
             MobEffects.HUNGER,
-            MobEffects.WEAKNESS,
-            MobEffects.MOVEMENT_SLOWDOWN
+            MobEffects.MOVEMENT_SLOWDOWN,
+            MobEffects.DIG_SLOWDOWN
     );
 
     private static final Random random = new Random();

@@ -87,6 +87,11 @@ public class FanSplitEnchantment extends BaseCustomEnchantment implements Enchan
                 scatterSplitTick = datThrownTrident.getSplitParam().scatterSplitTick;
             }
 
+            // 根据强化状态修正真实Tick，这两个附魔未强化的三叉戟，玩家就算通过任何手段获得到了参数被修改的三叉戟也不能应用相关参数
+            fanSplitTickTemp = datThrownTrident.getEnchantmentsUpgradeSummary().getFanSplitUpgradeStatus() == 0 ? DefaultTridentSplitParamConstant.DEFAULT_FAN_SPLIT_TICK : fanSplitTickTemp;
+            scatterSplitTick = datThrownTrident.getEnchantmentsUpgradeSummary().getScatterSplitUpgradeStatus() == 0 ? DefaultTridentSplitParamConstant.DEFAULT_SCATTER_SPLIT_TICK : scatterSplitTick;
+            fanSplitAngleTemp = datThrownTrident.getEnchantmentsUpgradeSummary().getFanSplitUpgradeStatus() == 0 ? DefaultTridentSplitParamConstant.DEFAULT_FAN_SPLIT_ANGLE : fanSplitAngleTemp;
+
             final int fanSplitAngle = fanSplitAngleTemp;
             final int fanSplitTick = fanSplitTickTemp;
 

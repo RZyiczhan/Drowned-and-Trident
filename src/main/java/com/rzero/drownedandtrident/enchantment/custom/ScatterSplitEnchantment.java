@@ -85,6 +85,11 @@ public class ScatterSplitEnchantment extends BaseCustomEnchantment implements En
                 scatterSpreadLevelTemp = datThrownTrident.getSplitParam().scatterSpreadLevel;
             }
 
+            // 根据强化状态修正真实Tick，这两个附魔未强化的三叉戟，玩家就算通过任何手段获得到了参数被修改的三叉戟也不能应用相关参数
+            fanSplitTick = datThrownTrident.getEnchantmentsUpgradeSummary().getFanSplitUpgradeStatus() == 0 ? DefaultTridentSplitParamConstant.DEFAULT_FAN_SPLIT_TICK : fanSplitTick;
+            scatterSplitTickTemp = datThrownTrident.getEnchantmentsUpgradeSummary().getScatterSplitUpgradeStatus() == 0 ? DefaultTridentSplitParamConstant.DEFAULT_SCATTER_SPLIT_TICK : scatterSplitTickTemp;
+            scatterSpreadLevelTemp = datThrownTrident.getEnchantmentsUpgradeSummary().getScatterSplitUpgradeStatus() == 0 ? DefaultTridentSplitParamConstant.DEFAULT_SCATTER_SPREAD_LEVEL : scatterSpreadLevelTemp;
+
             final int scatterSpreadLevel = scatterSpreadLevelTemp;
             final int scatterSplitTick = scatterSplitTickTemp;
 

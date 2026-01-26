@@ -2,6 +2,7 @@ package com.rzero.drownedandtrident.entity.override.DATThrownTrident;
 
 import com.rzero.drownedandtrident.infrastructure.enchantmentTriggerType.ModEnchantmentHelper;
 import com.rzero.drownedandtrident.item.DATItemFunctionRegister;
+import com.rzero.drownedandtrident.programmingModel.EnchantmentsUpgradeSummary;
 import com.rzero.drownedandtrident.programmingModel.TridentSplitParamModel;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -34,6 +35,7 @@ public class DATThrownTrident extends ThrownTrident {
     private boolean dealtDamage;
     public int clientSideReturnTridentTickCount;
     private TridentSplitParamModel splitParam;
+    private EnchantmentsUpgradeSummary enchantmentsUpgradeSummary;
 
     public boolean isHadBeenHit() {
         return hadBeenHit;
@@ -45,17 +47,16 @@ public class DATThrownTrident extends ThrownTrident {
 
     private boolean hadBeenHit = false;
 
-    // 常规（未对tick到秒的转换进行调整）情况下，1秒CD所需的冷却tick数
-//    private int onNormalSecondEnchantmentAppliedCoolDown = 0;
     private float velocity;
 
     public DATThrownTrident(EntityType<? extends ThrownTrident> entityType, Level level) {
         super(entityType, level);
     }
 
-    public DATThrownTrident(Level level, LivingEntity shooter, ItemStack pickupItemStack, TridentSplitParamModel splitParam) {
+    public DATThrownTrident(Level level, LivingEntity shooter, ItemStack pickupItemStack, TridentSplitParamModel splitParam, EnchantmentsUpgradeSummary enchantmentsUpgradeSummary) {
         super(level, shooter, pickupItemStack);
         this.splitParam = splitParam;
+        this.enchantmentsUpgradeSummary = enchantmentsUpgradeSummary;
     }
 
     public DATThrownTrident(Level level, LivingEntity shooter, ItemStack pickupItemStack) {
@@ -167,13 +168,12 @@ public class DATThrownTrident extends ThrownTrident {
      */
     public void shootFromRotation(Entity shooter, float x, float y, float z, float velocity,
                                   float inaccuracy, ServerLevel level, Vec3 shootPos, ItemStack tridentStack){
-        this.velocity = velocity;
 
         ModEnchantmentHelper.doOnEntityInit(level, this, this.getWeaponItem(), shootPos,
                 this.getOwner() instanceof LivingEntity owner ? owner : null
         );
 
-        shootFromRotation(shooter, x, y, z, this.velocity, inaccuracy);
+        shootFromRotation(shooter, x, y, z, velocity, inaccuracy);
 
         ModEnchantmentHelper.doAfterEntityInit(level, this, this.getWeaponItem(), shootPos,
                 this.getOwner() instanceof LivingEntity owner ? owner : null
@@ -251,7 +251,7 @@ public class DATThrownTrident extends ThrownTrident {
         return splitParam;
     }
 
-    public void setSplitParam(TridentSplitParamModel splitParam) {
-        this.splitParam = splitParam;
+    public EnchantmentsUpgradeSummary getEnchantmentsUpgradeSummary() {
+        return enchantmentsUpgradeSummary;
     }
 }

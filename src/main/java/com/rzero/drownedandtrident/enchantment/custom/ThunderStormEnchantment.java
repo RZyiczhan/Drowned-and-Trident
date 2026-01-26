@@ -5,6 +5,7 @@ import com.rzero.drownedandtrident.DrownedandTrident;
 import com.rzero.drownedandtrident.enchantment.base.BaseCustomEnchantment;
 import com.rzero.drownedandtrident.enchantment.base.BaseEnchantmentDefinition;
 import com.rzero.drownedandtrident.entity.override.AttackerProtectLightning.AttackerProtectLightning;
+import com.rzero.drownedandtrident.entity.override.DATThrownTrident.DATThrownTrident;
 import com.rzero.drownedandtrident.event.tickSchedular.TickScheduler;
 import com.rzero.drownedandtrident.util.PositionUtil;
 import net.minecraft.core.BlockPos;
@@ -78,27 +79,51 @@ public class ThunderStormEnchantment extends BaseCustomEnchantment implements En
             return;
         }
 
+        if (!(entity instanceof DATThrownTrident datThrownTrident)) return;
+
+        byte upgradeStatus = datThrownTrident.getEnchantmentsUpgradeSummary().getThunderStormUpgradeStatus();
+
         AttackerProtectLightning.spawnAttackProtectLightning(level, entity.getOnPos(), item.owner());
 
         BlockPos targetPos = new BlockPos(entity.getOnPos().getX(), entity.getOnPos().getY(), entity.getOnPos().getZ());
 
-        // 落雷范围半径 = 附魔等级的2倍 + 1
+        // todo: 非强化模式的落雷半径需要缩小
+        // todo: 强化模式的落雷半径可以适量增大（2.5？），落雷数量（覆盖面积）需增加
+
+        // 非强化模式
+        if (upgradeStatus == 0) {
+            for (int wave = 1; wave <= enchantmentLevel*10/2; wave++) {
+                TickScheduler.schedule(level, wave * 2, new Runnable() {
+                    @Override
+                    public void run() {
+                        BlockPos randomPos = PositionUtil.getRandomPosInDiamond(targetPos, 2 * enchantmentLevel, level);
+                        AttackerProtectLightning.spawnAttackProtectLightningAtGround(level, randomPos, item.owner());
+                    }
+                });
+            }
+            return;
+        }
+
+        // 强化模式
+
+        // 落雷范围半径 = (附魔等级+1)的2倍
         // 单波落雷数量 = 附魔等级 + 1
-        // 总共落雷波数 = 附魔等级
-        for (int wave = 1; wave <= enchantmentLevel; wave++) {
-            TickScheduler.schedule(level, wave*40, new Runnable() {
+        // 总共落雷波数 = 附魔等级 * 2
+        for (int wave = 1; wave <= enchantmentLevel*2; wave++) {
+            // 10 Tick是生物受伤间隔，保险一点11Tick，保证每次落雷范围的生物都能受到伤害
+            TickScheduler.schedule(level, wave*11, new Runnable() {
                 @Override
                 public void run() {
                     Set<BlockPos> uniqueRandomPosSet = new HashSet<>();
-                    for (int spawnCount = 1; spawnCount <= 1+enchantmentLevel; spawnCount++) {
-                        BlockPos randomPos = PositionUtil.getRandomPosInDiamond(targetPos, 2*enchantmentLevel, level);
-                        if (uniqueRandomPosSet.contains(randomPos)){
+                    for (int spawnCount = 1; spawnCount <= 1 + enchantmentLevel; spawnCount++) {
+                        BlockPos randomPos = PositionUtil.getRandomPosInDiamond(targetPos, 2 * enchantmentLevel, level);
+                        if (uniqueRandomPosSet.contains(randomPos)) {
                             spawnCount--;
                             continue;
                         }
                         uniqueRandomPosSet.add(new BlockPos(randomPos.getX(), randomPos.getY(), randomPos.getZ()));
                     }
-                    for (BlockPos randomPos : uniqueRandomPosSet){
+                    for (BlockPos randomPos : uniqueRandomPosSet) {
                         AttackerProtectLightning.spawnAttackProtectLightningAtGround(level, randomPos, item.owner());
                     }
                 }

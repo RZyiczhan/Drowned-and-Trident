@@ -4,6 +4,7 @@ import com.mojang.serialization.MapCodec;
 import com.rzero.drownedandtrident.DrownedandTrident;
 import com.rzero.drownedandtrident.enchantment.base.BaseCustomEnchantment;
 import com.rzero.drownedandtrident.enchantment.base.BaseEnchantmentDefinition;
+import com.rzero.drownedandtrident.entity.override.DATThrownTrident.DATThrownTrident;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
@@ -34,7 +35,7 @@ public class ExplosiveShootEnchantment extends BaseCustomEnchantment implements 
         appliedOnItemType = ItemTags.TRIDENT_ENCHANTABLE;
         weight = 5;
         effectSoltPos = EquipmentSlotGroup.MAINHAND;
-        maxLevel = 2;
+        maxLevel = 1;
         minBaseCost = 15;
         minIncrementCost = 10;
         maxBaseCost = 27;
@@ -68,10 +69,16 @@ public class ExplosiveShootEnchantment extends BaseCustomEnchantment implements 
         if (entity.getPersistentData().getBoolean("ExplosiveTriggered")) return;
         entity.getPersistentData().putBoolean("ExplosiveTriggered", true);
 
+        if (!(entity instanceof DATThrownTrident datThrownTrident)) return;
+
+        byte upgradeStatus = datThrownTrident.getEnchantmentsUpgradeSummary().getExplosiveShootUpgradeStatus();
+
+        // 常规：普通苦力怕爆炸
+        // 强化：高压苦力怕爆炸
         level.explode(
                 item.owner(),
                 origin.x, origin.y, origin.z,
-                enchantmentLevel < 2 ? 3.0F : 6.0F,
+                upgradeStatus == 0 ? 3.0F : 6.0F,
                 Level.ExplosionInteraction.MOB
         );
 
