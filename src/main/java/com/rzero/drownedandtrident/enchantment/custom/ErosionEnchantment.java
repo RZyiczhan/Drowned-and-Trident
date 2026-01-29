@@ -39,13 +39,23 @@ public class ErosionEnchantment extends BaseCustomEnchantment implements Enchant
     public static final MapCodec<ErosionEnchantment> CODEC = MapCodec.unit(ErosionEnchantment::new);
 
     private static final List<Holder<MobEffect>> appliedEffectsList = List.of(
+            MobEffects.DARKNESS,
+            MobEffects.HUNGER,
+            MobEffects.MOVEMENT_SLOWDOWN,
+            MobEffects.DIG_SLOWDOWN,
+            MobEffects.WEAKNESS
+            );
+
+    private static final List<Holder<MobEffect>> appliedEffectsListForUpgrade = List.of(
             MobEffects.POISON,
             MobEffects.CONFUSION,
             MobEffects.BLINDNESS,
             MobEffects.DARKNESS,
             MobEffects.HUNGER,
             MobEffects.MOVEMENT_SLOWDOWN,
-            MobEffects.DIG_SLOWDOWN
+            MobEffects.DIG_SLOWDOWN,
+            MobEffects.WEAKNESS,
+            MobEffects.WITHER
     );
 
     private static final Random random = new Random();
