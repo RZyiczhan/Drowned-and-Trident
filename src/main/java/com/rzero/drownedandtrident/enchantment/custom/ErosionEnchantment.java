@@ -2,8 +2,10 @@ package com.rzero.drownedandtrident.enchantment.custom;
 
 import com.mojang.serialization.MapCodec;
 import com.rzero.drownedandtrident.DrownedandTrident;
+import com.rzero.drownedandtrident.dataComponent.TridentDataComponentRegister;
 import com.rzero.drownedandtrident.enchantment.base.BaseCustomEnchantment;
 import com.rzero.drownedandtrident.enchantment.base.BaseEnchantmentDefinition;
+import com.rzero.drownedandtrident.programmingConstant.DefaultEnchantmentUpgradeStatus;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
@@ -17,6 +19,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantedItemInUse;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentEffectComponents;
@@ -98,11 +101,24 @@ public class ErosionEnchantment extends BaseCustomEnchantment implements Enchant
     @Override
     public void apply(ServerLevel level, int enchantmentLevel, EnchantedItemInUse item, Entity entity, Vec3 origin) {
 
-        if (entity instanceof LivingEntity living){
+        if (!(entity instanceof LivingEntity living)) return;
+
+        ItemStack datTridentItem = item.itemStack();
+        byte upgradeStatus = datTridentItem.getOrDefault(TridentDataComponentRegister.EROSION_UPGRADE_STATUS, DefaultEnchantmentUpgradeStatus.DEFAULT_EROSION_UPGRADE_STATUS);
+
+        if (upgradeStatus == 0){
             // 药水效果无增幅为1级效果，所以实际增幅是附魔等级-1
             living.addEffect(new MobEffectInstance(
                     ErosionEnchantment.appliedEffectsList.get(ErosionEnchantment.random.nextInt(ErosionEnchantment.appliedEffectsList.size())),
-                    160, enchantmentLevel-1));
+                    100, enchantmentLevel-1));
+        } else {
+            Holder<MobEffect> firstEffect = ErosionEnchantment.appliedEffectsListForUpgrade.get(ErosionEnchantment.random.nextInt(ErosionEnchantment.appliedEffectsList.size()));
+            Holder<MobEffect> secondEffect = firstEffect;
+            while (secondEffect == firstEffect){
+                secondEffect = ErosionEnchantment.appliedEffectsListForUpgrade.get(ErosionEnchantment.random.nextInt(ErosionEnchantment.appliedEffectsList.size()));
+            }
+            living.addEffect(new MobEffectInstance(firstEffect,160, enchantmentLevel-1));
+            living.addEffect(new MobEffectInstance(secondEffect,160, enchantmentLevel-1));
         }
     }
 
