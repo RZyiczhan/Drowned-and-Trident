@@ -1,9 +1,9 @@
 package com.rzero.drownedandtrident.util;
 
+import com.rzero.drownedandtrident.dataComponent.TridentDataComponentRegister;
 import com.rzero.drownedandtrident.entity.override.DATThrownTrident.DATThrownTrident;
 import com.rzero.drownedandtrident.infrastructure.enchantmentTriggerType.ModEnchantmentHelper;
-import com.rzero.drownedandtrident.programmingModel.EnchantmentsUpgradeSummary;
-import com.rzero.drownedandtrident.programmingModel.TridentSplitParamModel;
+import com.rzero.drownedandtrident.programmingConstant.DefaultTridentSplitParamConstant;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
@@ -28,7 +28,7 @@ public class ProjectileSplitUtil {
         // 修改投射角度
         Vec3 copiedTridentVelocity = currentVectorWithVelocity.yRot(angleRadians);
 
-        generateSingleTrident(level, tridentOwner, delayedTick, stackWithoutNonMigratingEnchantment, copiedTridentVelocity, splitPos, originDATThrownTrident.getSplitParam(), originDATThrownTrident.getEnchantmentsUpgradeSummary());
+        generateSingleTrident(level, tridentOwner, delayedTick, stackWithoutNonMigratingEnchantment, copiedTridentVelocity, splitPos);
     }
 
 
@@ -50,20 +50,26 @@ public class ProjectileSplitUtil {
             double offsetZ = random.nextGaussian() * spread;
 
             Vec3 copiedTridentVelocity = currentVectorWithVelocity.add(offsetX, offsetY, offsetZ);
-            generateSingleTrident(level, tridentOwner, delayedTick, stackWithoutNonMigratingEnchantment, copiedTridentVelocity, splitPos, originDATThrownTrident.getSplitParam(), originDATThrownTrident.getEnchantmentsUpgradeSummary());
+            generateSingleTrident(level, tridentOwner, delayedTick, stackWithoutNonMigratingEnchantment, copiedTridentVelocity, splitPos);
         }
 
     }
 
     private static void generateSingleTrident(ServerLevel level, LivingEntity tridentOwner, int delayedTick,
                                               ItemStack stackWithoutNonMigratingEnchantment,
-                                              Vec3 copiedTridentVelocity, Vec3 splitPos, TridentSplitParamModel splitParam,
-                                              EnchantmentsUpgradeSummary enchantmentsUpgradeSummary){
+                                              Vec3 copiedTridentVelocity, Vec3 splitPos){
 
         // 修改分裂出的三叉戟的分裂Tick延时
-        TridentSplitParamModel newSplitParam =  new TridentSplitParamModel(splitParam, delayedTick);
+        int originalFanSplitTick = stackWithoutNonMigratingEnchantment.getOrDefault(TridentDataComponentRegister.FAN_SPLIT_TICK, DefaultTridentSplitParamConstant.DEFAULT_FAN_SPLIT_TICK);
+        originalFanSplitTick -= delayedTick;
+        int originalScatterSplitTick = stackWithoutNonMigratingEnchantment.getOrDefault(TridentDataComponentRegister.SCATTER_SPLIT_TICK, DefaultTridentSplitParamConstant.DEFAULT_SCATTER_SPLIT_TICK);
+        originalScatterSplitTick -= delayedTick;
 
-        DATThrownTrident cloneThrownTrident = new DATThrownTrident(level, tridentOwner, stackWithoutNonMigratingEnchantment, newSplitParam, enchantmentsUpgradeSummary);
+        stackWithoutNonMigratingEnchantment.set(TridentDataComponentRegister.FAN_SPLIT_TICK, originalFanSplitTick);
+        stackWithoutNonMigratingEnchantment.set(TridentDataComponentRegister.SCATTER_SPLIT_TICK, originalScatterSplitTick);
+
+        // 设置克隆出来的三叉戟的初始速度和位置
+        DATThrownTrident cloneThrownTrident = new DATThrownTrident(level, tridentOwner, stackWithoutNonMigratingEnchantment);
         cloneThrownTrident.setDeltaMovement(copiedTridentVelocity);
 
         cloneThrownTrident.setPos(splitPos);

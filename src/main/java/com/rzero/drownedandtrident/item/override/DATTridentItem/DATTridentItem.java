@@ -1,11 +1,6 @@
 package com.rzero.drownedandtrident.item.override.DATTridentItem;
 
-import com.rzero.drownedandtrident.dataComponent.TridentDataComponentRegister;
 import com.rzero.drownedandtrident.entity.override.DATThrownTrident.DATThrownTrident;
-import com.rzero.drownedandtrident.programmingConstant.DefaultEnchantmentUpgradeStatus;
-import com.rzero.drownedandtrident.programmingConstant.DefaultTridentSplitParamConstant;
-import com.rzero.drownedandtrident.programmingModel.EnchantmentsUpgradeSummary;
-import com.rzero.drownedandtrident.programmingModel.TridentSplitParamModel;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
@@ -19,7 +14,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TridentItem;
-import net.minecraft.world.item.enchantment.*;
+import net.minecraft.world.item.enchantment.EnchantmentEffectComponents;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
@@ -42,21 +38,7 @@ public class DATTridentItem extends TridentItem {
                             stack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(entityLiving.getUsedItemHand()));
                             if (f == 0.0F) {
                                 // 实现的变更在这里：
-                                DATThrownTrident datThrownTrident = new DATThrownTrident(
-                                        level, player, stack,
-                                        new TridentSplitParamModel(
-                                                stack.getOrDefault(TridentDataComponentRegister.FAN_SPLIT_ANGLE, DefaultTridentSplitParamConstant.DEFAULT_FAN_SPLIT_ANGLE),
-                                                stack.getOrDefault(TridentDataComponentRegister.FAN_SPLIT_TICK, DefaultTridentSplitParamConstant.DEFAULT_FAN_SPLIT_TICK),
-                                                stack.getOrDefault(TridentDataComponentRegister.SCATTER_SPREAD_LEVEL, DefaultTridentSplitParamConstant.DEFAULT_SCATTER_SPREAD_LEVEL),
-                                                stack.getOrDefault(TridentDataComponentRegister.SCATTER_SPLIT_TICK, DefaultTridentSplitParamConstant.DEFAULT_SCATTER_SPLIT_TICK)),
-                                        new EnchantmentsUpgradeSummary(
-                                                stack.getOrDefault(TridentDataComponentRegister.FAN_SPLIT_UPGRADE_STATUS, DefaultEnchantmentUpgradeStatus.DEFAULT_FAN_SPLIT_UPGRADE_STATUS),
-                                                stack.getOrDefault(TridentDataComponentRegister.SCATTER_SPLIT_UPGRADE_STATUS, DefaultEnchantmentUpgradeStatus.DEFAULT_SCATTER_SPLIT_UPGRADE_STATUS),
-                                                stack.getOrDefault(TridentDataComponentRegister.EXPLOSIVE_SHOOT_UPGRADE_STATUS, DefaultEnchantmentUpgradeStatus.DEFAULT_EXPLOSIVE_SHOOT_UPGRADE_STATUS),
-                                                stack.getOrDefault(TridentDataComponentRegister.EROSION_UPGRADE_STATUS, DefaultEnchantmentUpgradeStatus.DEFAULT_EROSION_UPGRADE_STATUS),
-                                                stack.getOrDefault(TridentDataComponentRegister.THUNDER_STORM_UPGRADE_STATUS, DefaultEnchantmentUpgradeStatus.DEFAULT_THUNDER_STORM_UPGRADE_STATUS),
-                                                stack.getOrDefault(TridentDataComponentRegister.THUNDER_TRAJECTORY_UPGRADE_STATUS, DefaultEnchantmentUpgradeStatus.DEFAULT_THUNDER_TRAJECTORY_UPGRADE_STATUS)
-                                        ));
+                                DATThrownTrident datThrownTrident = new DATThrownTrident(level, player, stack);
                                 ServerLevel serverLevel = (ServerLevel) level;
                                 datThrownTrident.shootFromRotation(player, player.getXRot(), player.getYRot(),
                                         0.0F, 2.5F, 1F,

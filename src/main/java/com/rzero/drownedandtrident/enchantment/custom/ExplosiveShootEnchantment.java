@@ -2,9 +2,11 @@ package com.rzero.drownedandtrident.enchantment.custom;
 
 import com.mojang.serialization.MapCodec;
 import com.rzero.drownedandtrident.DrownedandTrident;
+import com.rzero.drownedandtrident.dataComponent.TridentDataComponentRegister;
 import com.rzero.drownedandtrident.enchantment.base.BaseCustomEnchantment;
 import com.rzero.drownedandtrident.enchantment.base.BaseEnchantmentDefinition;
 import com.rzero.drownedandtrident.entity.override.DATThrownTrident.DATThrownTrident;
+import com.rzero.drownedandtrident.programmingConstant.DefaultEnchantmentUpgradeStatus;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
@@ -13,6 +15,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlotGroup;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantedItemInUse;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentEffectComponents;
@@ -69,9 +72,11 @@ public class ExplosiveShootEnchantment extends BaseCustomEnchantment implements 
         if (entity.getPersistentData().getBoolean("ExplosiveTriggered")) return;
         entity.getPersistentData().putBoolean("ExplosiveTriggered", true);
 
-        if (!(entity instanceof DATThrownTrident datThrownTrident)) return;
+        if (!(entity instanceof DATThrownTrident)) return;
 
-        byte upgradeStatus = datThrownTrident.getEnchantmentsUpgradeSummary().getExplosiveShootUpgradeStatus();
+        ItemStack datTridentItem = item.itemStack();
+
+        byte upgradeStatus = datTridentItem.getOrDefault(TridentDataComponentRegister.EXPLOSIVE_SHOOT_UPGRADE_STATUS, DefaultEnchantmentUpgradeStatus.DEFAULT_EROSION_UPGRADE_STATUS);
 
         // 常规：普通苦力怕爆炸
         // 强化：高压苦力怕爆炸

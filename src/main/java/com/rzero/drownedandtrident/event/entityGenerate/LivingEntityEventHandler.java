@@ -2,6 +2,7 @@ package com.rzero.drownedandtrident.event.entityGenerate;
 
 import com.rzero.drownedandtrident.DrownedandTrident;
 import com.rzero.drownedandtrident.enchantment.custom.*;
+import com.rzero.drownedandtrident.entity.goal.DrownedDATTridentAttackGoal;
 import com.rzero.drownedandtrident.item.DATItemFunctionRegister;
 import com.rzero.drownedandtrident.programmingModel.DrownedTridentEnchantmentModel;
 import net.minecraft.core.Holder;
@@ -9,6 +10,8 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.ai.goal.RangedAttackGoal;
+import net.minecraft.world.entity.ai.goal.WrappedGoal;
 import net.minecraft.world.entity.monster.Drowned;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -19,6 +22,7 @@ import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Predicate;
 
 /**
  * 处理生物实体生成时的钩子事件
@@ -56,9 +60,25 @@ public class LivingEntityEventHandler {
             // todo : 这个概率应跟随附魔稀有度等级的变化而变化
             drowned.setDropChance(EquipmentSlot.MAINHAND,0.45F);
 
+            // 6. 移除溺尸现有的投掷AI Goal
+            drowned.goalSelector.getAvailableGoals().removeIf(new Predicate<WrappedGoal>() {
+                @Override
+                public boolean test(WrappedGoal wrappedGoal) {
+                    return wrappedGoal.getGoal() instanceof RangedAttackGoal && wrappedGoal.getPriority() == 2;
+                }
+            });
+
+            // 7. 新增自定义的能让溺尸投射自定义三叉戟的AI Goal
+            // todo：
+            // 1）模型持握方向不对
+            //注意：因为mc原设定上小溺尸/小僵尸永远不会长大，所以小溺尸永远不会获得远程投射能力）
+            if (!drowned.isBaby()) {
+                drowned.goalSelector.addGoal(2,
+                        new DrownedDATTridentAttackGoal(drowned, 1.0, 40, 10.0F));
+            }
             // (可选) 强制赋予它远程攻击的 AI 倾向
             // 原版溺尸会自动检测手持物品切换 AI，所以通常不需要手动改，但可以强制设置一下
-//            drowned.setAggressive(true);
+            // drowned.setAggressive(true);
 
         }
     }

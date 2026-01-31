@@ -2,11 +2,13 @@ package com.rzero.drownedandtrident.enchantment.custom;
 
 import com.mojang.serialization.MapCodec;
 import com.rzero.drownedandtrident.DrownedandTrident;
+import com.rzero.drownedandtrident.dataComponent.TridentDataComponentRegister;
 import com.rzero.drownedandtrident.enchantment.base.BaseCustomEnchantment;
 import com.rzero.drownedandtrident.enchantment.base.BaseEnchantmentDefinition;
 import com.rzero.drownedandtrident.entity.override.DATThrownTrident.DATThrownTrident;
 import com.rzero.drownedandtrident.event.tickSchedular.TickScheduler;
 import com.rzero.drownedandtrident.infrastructure.enchantmentTriggerType.TridentEnchantmentTriggerTypeRegister;
+import com.rzero.drownedandtrident.programmingConstant.DefaultEnchantmentUpgradeStatus;
 import com.rzero.drownedandtrident.programmingConstant.DefaultTridentSplitParamConstant;
 import com.rzero.drownedandtrident.util.ItemStackUtil;
 import com.rzero.drownedandtrident.util.ProjectileSplitUtil;
@@ -75,20 +77,23 @@ public class ScatterSplitEnchantment extends BaseCustomEnchantment implements En
             undesiredEnchantment.add(Enchantments.LOYALTY);
             undesiredEnchantment.add(SCATTER_SPLIT);
 
-            int fanSplitTick = DefaultTridentSplitParamConstant.DEFAULT_FAN_SPLIT_TICK;
-            int scatterSplitTickTemp = DefaultTridentSplitParamConstant.DEFAULT_SCATTER_SPLIT_TICK;
-            int scatterSpreadLevelTemp = DefaultTridentSplitParamConstant.DEFAULT_SCATTER_SPREAD_LEVEL;
+            ItemStack datTridentItem = item.itemStack();
 
-            if (datThrownTrident.getSplitParam() != null){
-                fanSplitTick = datThrownTrident.getSplitParam().fanSplitTick;
-                scatterSplitTickTemp = datThrownTrident.getSplitParam().scatterSplitTick;
-                scatterSpreadLevelTemp = datThrownTrident.getSplitParam().scatterSpreadLevel;
-            }
+            int fanSplitTick = datTridentItem.getOrDefault(TridentDataComponentRegister.FAN_SPLIT_TICK, DefaultTridentSplitParamConstant.DEFAULT_FAN_SPLIT_TICK);
+            int scatterSplitTickTemp = datTridentItem.getOrDefault(TridentDataComponentRegister.SCATTER_SPLIT_TICK, DefaultTridentSplitParamConstant.DEFAULT_SCATTER_SPLIT_TICK);
+            int scatterSpreadLevelTemp = datTridentItem.getOrDefault(TridentDataComponentRegister.SCATTER_SPREAD_LEVEL, DefaultTridentSplitParamConstant.DEFAULT_SCATTER_SPREAD_LEVEL);
+
+            byte fanSplitUpgradeStatus = datTridentItem.getOrDefault(TridentDataComponentRegister.FAN_SPLIT_UPGRADE_STATUS, DefaultEnchantmentUpgradeStatus.DEFAULT_FAN_SPLIT_UPGRADE_STATUS);
+            byte scatterSplitUpgradeStatus = datTridentItem.getOrDefault(TridentDataComponentRegister.SCATTER_SPLIT_UPGRADE_STATUS, DefaultEnchantmentUpgradeStatus.DEFAULT_SCATTER_SPLIT_UPGRADE_STATUS);
 
             // 根据强化状态修正真实Tick，这两个附魔未强化的三叉戟，玩家就算通过任何手段获得到了参数被修改的三叉戟也不能应用相关参数
-            fanSplitTick = datThrownTrident.getEnchantmentsUpgradeSummary().getFanSplitUpgradeStatus() == 0 ? DefaultTridentSplitParamConstant.DEFAULT_FAN_SPLIT_TICK : fanSplitTick;
-            scatterSplitTickTemp = datThrownTrident.getEnchantmentsUpgradeSummary().getScatterSplitUpgradeStatus() == 0 ? DefaultTridentSplitParamConstant.DEFAULT_SCATTER_SPLIT_TICK : scatterSplitTickTemp;
-            scatterSpreadLevelTemp = datThrownTrident.getEnchantmentsUpgradeSummary().getScatterSplitUpgradeStatus() == 0 ? DefaultTridentSplitParamConstant.DEFAULT_SCATTER_SPREAD_LEVEL : scatterSpreadLevelTemp;
+            if (fanSplitUpgradeStatus == 0){
+                fanSplitTick = DefaultTridentSplitParamConstant.DEFAULT_FAN_SPLIT_TICK;
+            }
+            if (scatterSplitUpgradeStatus == 0){
+                scatterSplitTickTemp = DefaultTridentSplitParamConstant.DEFAULT_SCATTER_SPLIT_TICK;
+                scatterSpreadLevelTemp = DefaultTridentSplitParamConstant.DEFAULT_SCATTER_SPREAD_LEVEL;
+            }
 
             final int scatterSpreadLevel = scatterSpreadLevelTemp;
             final int scatterSplitTick = scatterSplitTickTemp;

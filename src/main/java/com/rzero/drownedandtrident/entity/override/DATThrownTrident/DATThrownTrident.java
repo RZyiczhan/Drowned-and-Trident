@@ -2,8 +2,6 @@ package com.rzero.drownedandtrident.entity.override.DATThrownTrident;
 
 import com.rzero.drownedandtrident.infrastructure.enchantmentTriggerType.ModEnchantmentHelper;
 import com.rzero.drownedandtrident.item.DATItemFunctionRegister;
-import com.rzero.drownedandtrident.programmingModel.EnchantmentsUpgradeSummary;
-import com.rzero.drownedandtrident.programmingModel.TridentSplitParamModel;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -34,8 +32,6 @@ public class DATThrownTrident extends ThrownTrident {
     private static final Logger log = LoggerFactory.getLogger(DATThrownTrident.class);
     private boolean dealtDamage;
     public int clientSideReturnTridentTickCount;
-    private TridentSplitParamModel splitParam;
-    private EnchantmentsUpgradeSummary enchantmentsUpgradeSummary;
 
     public boolean isHadBeenHit() {
         return hadBeenHit;
@@ -51,12 +47,6 @@ public class DATThrownTrident extends ThrownTrident {
 
     public DATThrownTrident(EntityType<? extends ThrownTrident> entityType, Level level) {
         super(entityType, level);
-    }
-
-    public DATThrownTrident(Level level, LivingEntity shooter, ItemStack pickupItemStack, TridentSplitParamModel splitParam, EnchantmentsUpgradeSummary enchantmentsUpgradeSummary) {
-        super(level, shooter, pickupItemStack);
-        this.splitParam = splitParam;
-        this.enchantmentsUpgradeSummary = enchantmentsUpgradeSummary;
     }
 
     public DATThrownTrident(Level level, LivingEntity shooter, ItemStack pickupItemStack) {
@@ -247,11 +237,4 @@ public class DATThrownTrident extends ThrownTrident {
         this.velocity = velocity;
     }
 
-    public TridentSplitParamModel getSplitParam() {
-        return splitParam;
-    }
-
-    public EnchantmentsUpgradeSummary getEnchantmentsUpgradeSummary() {
-        return enchantmentsUpgradeSummary;
-    }
 }
