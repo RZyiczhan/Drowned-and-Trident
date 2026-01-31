@@ -31,6 +31,12 @@ public class DATThrownTrident extends ThrownTrident {
     private static final EntityDataAccessor<Byte> ID_LOYALTY = SynchedEntityData.defineId(DATThrownTrident.class, EntityDataSerializers.BYTE);
     private static final Logger log = LoggerFactory.getLogger(DATThrownTrident.class);
     private boolean dealtDamage;
+
+//  1）射出后经过1个Tick后落第一发雷，正式开始循环周期（早点落下第一道雷，给用户附魔已生效的快速反馈）
+//  2）平均2.5Tick落一道雷，由于第2.5Tick这种概念技术上不存在，所以是 2Tick后劈第一次，
+//  然后3Tick后劈第二次视为一个标准循环周期，这样平均下来就是5Tick里劈了两次雷，平均2.5Tick一次
+    private int thunderTrajectoryTriggerCoolDownTick = 4;
+    // 附魔强化后每个Tick都要在路径上劈一道，但为了不劈到自己身上（虽然无伤害但也很难看），需要射出后经过1个Tick后再落雷
     public int clientSideReturnTridentTickCount;
 
     public boolean isHadBeenHit() {
@@ -60,6 +66,11 @@ public class DATThrownTrident extends ThrownTrident {
     @Override
     public void tick() {
         super.tick();
+        if (thunderTrajectoryTriggerCoolDownTick < 5){
+            thunderTrajectoryTriggerCoolDownTick++;
+        } else {
+            thunderTrajectoryTriggerCoolDownTick = 0;
+        }
         if (!(this.level() instanceof ServerLevel serverlevel)) {
             return;
         }
@@ -237,4 +248,8 @@ public class DATThrownTrident extends ThrownTrident {
         this.velocity = velocity;
     }
 
+    public int getThunderTrajectoryTriggerCoolDownTick() {
+        return thunderTrajectoryTriggerCoolDownTick;
+    }
 }
+
