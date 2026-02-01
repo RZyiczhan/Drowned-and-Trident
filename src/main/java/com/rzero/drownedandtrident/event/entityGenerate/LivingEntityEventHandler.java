@@ -2,6 +2,7 @@ package com.rzero.drownedandtrident.event.entityGenerate;
 
 import com.rzero.drownedandtrident.DrownedandTrident;
 import com.rzero.drownedandtrident.enchantment.custom.*;
+import com.rzero.drownedandtrident.entity.goal.DATBabyDrownedMeleeAttackGoal;
 import com.rzero.drownedandtrident.entity.goal.DrownedDATTridentAttackGoal;
 import com.rzero.drownedandtrident.item.DATItemFunctionRegister;
 import com.rzero.drownedandtrident.programmingModel.DrownedTridentEnchantmentModel;
@@ -10,9 +11,13 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.RangedAttackGoal;
 import net.minecraft.world.entity.ai.goal.WrappedGoal;
+import net.minecraft.world.entity.ai.goal.ZombieAttackGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Drowned;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -60,7 +65,7 @@ public class LivingEntityEventHandler {
             // todo : 这个概率应跟随附魔稀有度等级的变化而变化
             drowned.setDropChance(EquipmentSlot.MAINHAND,0.45F);
 
-            // 6. 移除溺尸现有的投掷AI Goal
+            // 6. 移除溺尸现有的投掷选择Goal
             drowned.goalSelector.getAvailableGoals().removeIf(new Predicate<WrappedGoal>() {
                 @Override
                 public boolean test(WrappedGoal wrappedGoal) {
@@ -68,7 +73,7 @@ public class LivingEntityEventHandler {
                 }
             });
 
-            // 7. 新增自定义的能让溺尸投射自定义三叉戟的AI Goal
+            // 7. 新增自定义的能让溺尸投射自定义三叉戟的选择Goal
             // todo：
             // 1）模型持握方向不对
             //注意：因为mc原设定上小溺尸/小僵尸永远不会长大，所以小溺尸永远不会获得远程投射能力）
@@ -76,6 +81,34 @@ public class LivingEntityEventHandler {
                 drowned.goalSelector.addGoal(2,
                         new DrownedDATTridentAttackGoal(drowned, 1.0, 40, 10.0F));
             }
+
+            // 8. 移除溺尸白天非水中不攻击玩家的Goal
+            drowned.targetSelector.getAvailableGoals().removeIf(new Predicate<WrappedGoal>() {
+                @Override
+                public boolean test(WrappedGoal wrappedGoal) {
+                    return wrappedGoal.getPriority() == 2;
+                }
+            });
+
+            // 9. 添加溺尸(包括小溺尸)白天也会无条件攻击玩家的Goal，删除了对是否白天||是否自己在水中的判断
+            drowned.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(drowned, Player.class, 10, true, false, new Predicate<LivingEntity>() {
+                @Override
+                public boolean test(LivingEntity living) {
+                    return living != null;
+                }
+            }));
+
+            // 10. 移除溺尸现有的白天非玩家在水中否则不近战攻击玩家的近战选择Goal
+            drowned.goalSelector.getAvailableGoals().removeIf(new Predicate<WrappedGoal>() {
+                @Override
+                public boolean test(WrappedGoal wrappedGoal) {
+                    return wrappedGoal.getGoal() instanceof ZombieAttackGoal && wrappedGoal.getPriority() == 2;
+                }
+            });
+
+            // 11. 添加溺尸白天也会无条件攻击玩家的近战选择Goal（现在溺尸出生100%自带三叉戟，主要是给被移除了投射选择Goal的小溺尸用的）
+            drowned.goalSelector.addGoal(2, new DATBabyDrownedMeleeAttackGoal(drowned, 1.0, false));
+
             // (可选) 强制赋予它远程攻击的 AI 倾向
             // 原版溺尸会自动检测手持物品切换 AI，所以通常不需要手动改，但可以强制设置一下
             // drowned.setAggressive(true);

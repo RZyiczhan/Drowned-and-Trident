@@ -10,7 +10,7 @@ import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.item.Items;
 
 /**
- * 可以让溺尸远程使用自定义三叉戟的AI Goal，覆盖掉DrownedTridentAttackGoal
+ * 可以让溺尸远程使用自定义三叉戟的选择Goal，覆盖掉DrownedTridentAttackGoal
  */
 public class DrownedDATTridentAttackGoal extends DATRangeAttackGoal {
 
