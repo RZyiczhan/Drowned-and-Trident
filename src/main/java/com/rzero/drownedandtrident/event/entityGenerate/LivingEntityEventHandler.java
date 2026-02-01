@@ -40,7 +40,6 @@ public class LivingEntityEventHandler {
 
     static {
         customEnchantments.add(new DrownedTridentEnchantmentModel(FanSplitEnchantment.FAN_SPLIT, 2, 1));
-        customEnchantments.add(new DrownedTridentEnchantmentModel(ExplosiveShootEnchantment.EXPLOSIVE_SHOOT, 1, 1));
         customEnchantments.add(new DrownedTridentEnchantmentModel(ScatterSplitEnchantment.SCATTER_SPLIT, 2, 1));
         customEnchantments.add(new DrownedTridentEnchantmentModel(ThunderStormEnchantment.THUNDER_STORM, 3, 1));
         customEnchantments.add(new DrownedTridentEnchantmentModel(ThunderTrajectoryEnchantment.THUNDER_TRAJECTORY, 1, 1));
