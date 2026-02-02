@@ -84,9 +84,9 @@ public class ThunderStormEnchantment extends BaseCustomEnchantment implements En
 
         if (!(entity instanceof ThrownTrident)) return;
 
-        ItemStack datTridentItem = item.itemStack();
+        ItemStack tridentItem = item.itemStack();
 
-        byte upgradeStatus = datTridentItem.getOrDefault(TridentDataComponentRegister.THUNDER_STORM_UPGRADE_STATUS, DefaultEnchantmentUpgradeStatus.DEFAULT_THUNDER_STORM_UPGRADE_STATUS);
+        byte upgradeStatus = tridentItem.getOrDefault(TridentDataComponentRegister.THUNDER_STORM_UPGRADE_STATUS, DefaultEnchantmentUpgradeStatus.DEFAULT_THUNDER_STORM_UPGRADE_STATUS);
 
         AttackerProtectLightning.spawnAttackProtectLightning(level, entity.getOnPos(), item.owner());
 

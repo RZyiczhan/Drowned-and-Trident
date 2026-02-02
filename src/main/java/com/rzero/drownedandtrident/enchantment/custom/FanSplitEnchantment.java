@@ -5,7 +5,6 @@ import com.rzero.drownedandtrident.DrownedandTrident;
 import com.rzero.drownedandtrident.dataComponent.TridentDataComponentRegister;
 import com.rzero.drownedandtrident.enchantment.base.BaseCustomEnchantment;
 import com.rzero.drownedandtrident.enchantment.base.BaseEnchantmentDefinition;
-import com.rzero.drownedandtrident.entity.override.DATThrownTrident.DATThrownTrident;
 import com.rzero.drownedandtrident.event.tickSchedular.TickScheduler;
 import com.rzero.drownedandtrident.infrastructure.enchantmentTriggerType.TridentEnchantmentTriggerTypeRegister;
 import com.rzero.drownedandtrident.programmingConstant.DefaultEnchantmentUpgradeStatus;

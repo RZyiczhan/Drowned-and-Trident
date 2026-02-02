@@ -74,9 +74,9 @@ public class ExplosiveShootEnchantment extends BaseCustomEnchantment implements 
 
         if (!(entity instanceof ThrownTrident)) return;
 
-        ItemStack datTridentItem = item.itemStack();
+        ItemStack tridentItem = item.itemStack();
 
-        byte upgradeStatus = datTridentItem.getOrDefault(TridentDataComponentRegister.EXPLOSIVE_SHOOT_UPGRADE_STATUS, DefaultEnchantmentUpgradeStatus.DEFAULT_EROSION_UPGRADE_STATUS);
+        byte upgradeStatus = tridentItem.getOrDefault(TridentDataComponentRegister.EXPLOSIVE_SHOOT_UPGRADE_STATUS, DefaultEnchantmentUpgradeStatus.DEFAULT_EROSION_UPGRADE_STATUS);
 
         // 常规：普通苦力怕爆炸
         // 强化：高压苦力怕爆炸
