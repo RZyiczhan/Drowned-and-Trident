@@ -20,6 +20,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlotGroup;
+import net.minecraft.world.entity.projectile.ThrownTrident;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantedItemInUse;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -73,20 +74,20 @@ public class FanSplitEnchantment extends BaseCustomEnchantment implements Enchan
     @Override
     public void apply(ServerLevel level, int enchantmentLevel, EnchantedItemInUse item, Entity entity, Vec3 origin) {
 
-        if (entity instanceof DATThrownTrident datThrownTrident){
+        if (entity instanceof ThrownTrident thrownTrident){
 
             Set<ResourceKey<Enchantment>> undesiredEnchantment = new HashSet<>();
             undesiredEnchantment.add(Enchantments.LOYALTY);
             undesiredEnchantment.add(FAN_SPLIT);
 
-            ItemStack datTridentItem = item.itemStack();
+            ItemStack tridentItem = item.itemStack();
 
-            int fanSplitTickTemp = datTridentItem.getOrDefault(TridentDataComponentRegister.FAN_SPLIT_TICK, DefaultTridentSplitParamConstant.DEFAULT_FAN_SPLIT_TICK);
-            int fanSplitAngleTemp = datTridentItem.getOrDefault(TridentDataComponentRegister.FAN_SPLIT_ANGLE, DefaultTridentSplitParamConstant.DEFAULT_FAN_SPLIT_ANGLE);
-            int scatterSplitTick = datTridentItem.getOrDefault(TridentDataComponentRegister.SCATTER_SPLIT_TICK, DefaultTridentSplitParamConstant.DEFAULT_SCATTER_SPLIT_TICK);
+            int fanSplitTickTemp = tridentItem.getOrDefault(TridentDataComponentRegister.FAN_SPLIT_TICK, DefaultTridentSplitParamConstant.DEFAULT_FAN_SPLIT_TICK);
+            int fanSplitAngleTemp = tridentItem.getOrDefault(TridentDataComponentRegister.FAN_SPLIT_ANGLE, DefaultTridentSplitParamConstant.DEFAULT_FAN_SPLIT_ANGLE);
+            int scatterSplitTick = tridentItem.getOrDefault(TridentDataComponentRegister.SCATTER_SPLIT_TICK, DefaultTridentSplitParamConstant.DEFAULT_SCATTER_SPLIT_TICK);
 
-            byte fanSplitUpgradeStatus = datTridentItem.getOrDefault(TridentDataComponentRegister.FAN_SPLIT_UPGRADE_STATUS, DefaultEnchantmentUpgradeStatus.DEFAULT_FAN_SPLIT_UPGRADE_STATUS);
-            byte scatterSplitUpgradeStatus = datTridentItem.getOrDefault(TridentDataComponentRegister.SCATTER_SPLIT_UPGRADE_STATUS, DefaultEnchantmentUpgradeStatus.DEFAULT_SCATTER_SPLIT_UPGRADE_STATUS);
+            byte fanSplitUpgradeStatus = tridentItem.getOrDefault(TridentDataComponentRegister.FAN_SPLIT_UPGRADE_STATUS, DefaultEnchantmentUpgradeStatus.DEFAULT_FAN_SPLIT_UPGRADE_STATUS);
+            byte scatterSplitUpgradeStatus = tridentItem.getOrDefault(TridentDataComponentRegister.SCATTER_SPLIT_UPGRADE_STATUS, DefaultEnchantmentUpgradeStatus.DEFAULT_SCATTER_SPLIT_UPGRADE_STATUS);
 
             // 根据强化状态修正真实Tick，这两个附魔未强化的三叉戟，玩家就算通过任何手段获得到了参数被修改的三叉戟也不能应用相关参数
             if (fanSplitUpgradeStatus == 0){
@@ -116,12 +117,12 @@ public class FanSplitEnchantment extends BaseCustomEnchantment implements Enchan
                     new Runnable() {
                         @Override
                         public void run() {
-                            if (datThrownTrident.isHadBeenHit()){
-                                return;
-                            }
+//                            if (datThrownTrident.isHadBeenHit()){
+//                                return;
+//                            }
                             for (int round = 1; round <= enchantmentLevel; round++){
                                 double degree = round * fanSplitAngle;
-                                ProjectileSplitUtil.generateFanSplitPairTrident(level, item.owner(), fanSplitTick, datThrownTrident, stackWithoutNonMigratingEnchantment, degree);
+                                ProjectileSplitUtil.generateFanSplitPairTrident(level, item.owner(), fanSplitTick, thrownTrident, stackWithoutNonMigratingEnchantment, degree);
                             }
                         }
                     }

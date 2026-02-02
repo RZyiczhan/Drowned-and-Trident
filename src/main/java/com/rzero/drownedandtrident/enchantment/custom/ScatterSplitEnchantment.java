@@ -5,7 +5,6 @@ import com.rzero.drownedandtrident.DrownedandTrident;
 import com.rzero.drownedandtrident.dataComponent.TridentDataComponentRegister;
 import com.rzero.drownedandtrident.enchantment.base.BaseCustomEnchantment;
 import com.rzero.drownedandtrident.enchantment.base.BaseEnchantmentDefinition;
-import com.rzero.drownedandtrident.entity.override.DATThrownTrident.DATThrownTrident;
 import com.rzero.drownedandtrident.event.tickSchedular.TickScheduler;
 import com.rzero.drownedandtrident.infrastructure.enchantmentTriggerType.TridentEnchantmentTriggerTypeRegister;
 import com.rzero.drownedandtrident.programmingConstant.DefaultEnchantmentUpgradeStatus;
@@ -20,6 +19,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlotGroup;
+import net.minecraft.world.entity.projectile.ThrownTrident;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantedItemInUse;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -71,20 +71,20 @@ public class ScatterSplitEnchantment extends BaseCustomEnchantment implements En
     @Override
     public void apply(ServerLevel level, int enchantmentLevel, EnchantedItemInUse item, Entity entity, Vec3 origin) {
 
-        if (entity instanceof DATThrownTrident datThrownTrident){
+        if (entity instanceof ThrownTrident thrownTrident){
 
             Set<ResourceKey<Enchantment>> undesiredEnchantment = new HashSet<>();
             undesiredEnchantment.add(Enchantments.LOYALTY);
             undesiredEnchantment.add(SCATTER_SPLIT);
 
-            ItemStack datTridentItem = item.itemStack();
+            ItemStack tridentItem = item.itemStack();
 
-            int fanSplitTick = datTridentItem.getOrDefault(TridentDataComponentRegister.FAN_SPLIT_TICK, DefaultTridentSplitParamConstant.DEFAULT_FAN_SPLIT_TICK);
-            int scatterSplitTickTemp = datTridentItem.getOrDefault(TridentDataComponentRegister.SCATTER_SPLIT_TICK, DefaultTridentSplitParamConstant.DEFAULT_SCATTER_SPLIT_TICK);
-            int scatterSpreadLevelTemp = datTridentItem.getOrDefault(TridentDataComponentRegister.SCATTER_SPREAD_LEVEL, DefaultTridentSplitParamConstant.DEFAULT_SCATTER_SPREAD_LEVEL);
+            int fanSplitTick = tridentItem.getOrDefault(TridentDataComponentRegister.FAN_SPLIT_TICK, DefaultTridentSplitParamConstant.DEFAULT_FAN_SPLIT_TICK);
+            int scatterSplitTickTemp = tridentItem.getOrDefault(TridentDataComponentRegister.SCATTER_SPLIT_TICK, DefaultTridentSplitParamConstant.DEFAULT_SCATTER_SPLIT_TICK);
+            int scatterSpreadLevelTemp = tridentItem.getOrDefault(TridentDataComponentRegister.SCATTER_SPREAD_LEVEL, DefaultTridentSplitParamConstant.DEFAULT_SCATTER_SPREAD_LEVEL);
 
-            byte fanSplitUpgradeStatus = datTridentItem.getOrDefault(TridentDataComponentRegister.FAN_SPLIT_UPGRADE_STATUS, DefaultEnchantmentUpgradeStatus.DEFAULT_FAN_SPLIT_UPGRADE_STATUS);
-            byte scatterSplitUpgradeStatus = datTridentItem.getOrDefault(TridentDataComponentRegister.SCATTER_SPLIT_UPGRADE_STATUS, DefaultEnchantmentUpgradeStatus.DEFAULT_SCATTER_SPLIT_UPGRADE_STATUS);
+            byte fanSplitUpgradeStatus = tridentItem.getOrDefault(TridentDataComponentRegister.FAN_SPLIT_UPGRADE_STATUS, DefaultEnchantmentUpgradeStatus.DEFAULT_FAN_SPLIT_UPGRADE_STATUS);
+            byte scatterSplitUpgradeStatus = tridentItem.getOrDefault(TridentDataComponentRegister.SCATTER_SPLIT_UPGRADE_STATUS, DefaultEnchantmentUpgradeStatus.DEFAULT_SCATTER_SPLIT_UPGRADE_STATUS);
 
             // 根据强化状态修正真实Tick，这两个附魔未强化的三叉戟，玩家就算通过任何手段获得到了参数被修改的三叉戟也不能应用相关参数
             if (fanSplitUpgradeStatus == 0){
@@ -113,10 +113,10 @@ public class ScatterSplitEnchantment extends BaseCustomEnchantment implements En
                     new Runnable() {
                         @Override
                         public void run() {
-                            if (datThrownTrident.isHadBeenHit()){
-                                return;
-                            }
-                            ProjectileSplitUtil.generateScatterSplitTrident(level, item.owner(), scatterSplitTick, datThrownTrident, stackWithoutNonMigratingEnchantment, scatterSpreadLevel, enchantmentLevel  * 3);
+//                            if (thrownTrident.isHadBeenHit()){
+//                                return;
+//                            }
+                            ProjectileSplitUtil.generateScatterSplitTrident(level, item.owner(), scatterSplitTick, thrownTrident, stackWithoutNonMigratingEnchantment, scatterSpreadLevel, enchantmentLevel  * 3);
                         }
                     }
             );

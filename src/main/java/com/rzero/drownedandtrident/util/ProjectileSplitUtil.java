@@ -7,6 +7,7 @@ import com.rzero.drownedandtrident.programmingConstant.DefaultTridentSplitParamC
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.ThrownTrident;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 
@@ -15,16 +16,16 @@ import java.util.Random;
 public class ProjectileSplitUtil {
 
     // todo：貌似生成的三叉戟的投掷朝向比原三叉戟高一点
-    public static void generateFanSplitPairTrident(ServerLevel level, LivingEntity tridentOwner, int delayedTick, DATThrownTrident originDATThrownTrident, ItemStack stackWithoutNonMigratingEnchantment, double degree){
+    public static void generateFanSplitPairTrident(ServerLevel level, LivingEntity tridentOwner, int delayedTick, ThrownTrident thrownTrident, ItemStack stackWithoutNonMigratingEnchantment, double degree){
         float angleRadians = (float) Math.toRadians(degree);
-        generateSingleFanSplitTrident(level, tridentOwner, delayedTick, originDATThrownTrident, stackWithoutNonMigratingEnchantment, angleRadians);
-        generateSingleFanSplitTrident(level, tridentOwner, delayedTick, originDATThrownTrident, stackWithoutNonMigratingEnchantment, -angleRadians);
+        generateSingleFanSplitTrident(level, tridentOwner, delayedTick, thrownTrident, stackWithoutNonMigratingEnchantment, angleRadians);
+        generateSingleFanSplitTrident(level, tridentOwner, delayedTick, thrownTrident, stackWithoutNonMigratingEnchantment, -angleRadians);
     }
 
-    private static void generateSingleFanSplitTrident(ServerLevel level, LivingEntity tridentOwner, int delayedTick, DATThrownTrident originDATThrownTrident, ItemStack stackWithoutNonMigratingEnchantment, float angleRadians){
+    private static void generateSingleFanSplitTrident(ServerLevel level, LivingEntity tridentOwner, int delayedTick, ThrownTrident thrownTrident, ItemStack stackWithoutNonMigratingEnchantment, float angleRadians){
 
-        Vec3 currentVectorWithVelocity = originDATThrownTrident.getDeltaMovement();
-        Vec3 splitPos = originDATThrownTrident.getEyePosition();
+        Vec3 currentVectorWithVelocity = thrownTrident.getDeltaMovement();
+        Vec3 splitPos = thrownTrident.getEyePosition();
         // 修改投射角度
         Vec3 copiedTridentVelocity = currentVectorWithVelocity.yRot(angleRadians);
 
@@ -33,11 +34,11 @@ public class ProjectileSplitUtil {
 
 
     public static void generateScatterSplitTrident(ServerLevel level, LivingEntity tridentOwner, int delayedTick,
-                                                   DATThrownTrident originDATThrownTrident, ItemStack stackWithoutNonMigratingEnchantment,
+                                                   ThrownTrident thrownTrident, ItemStack stackWithoutNonMigratingEnchantment,
                                                    int spreadLevel, int generateCnt){
 
-        Vec3 currentVectorWithVelocity = originDATThrownTrident.getDeltaMovement();
-        Vec3 splitPos = originDATThrownTrident.getEyePosition();
+        Vec3 currentVectorWithVelocity = thrownTrident.getDeltaMovement();
+        Vec3 splitPos = thrownTrident.getEyePosition();
 
         Random random = new Random();
 
