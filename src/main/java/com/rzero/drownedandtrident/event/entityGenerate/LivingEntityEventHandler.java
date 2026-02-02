@@ -4,7 +4,6 @@ import com.rzero.drownedandtrident.DrownedandTrident;
 import com.rzero.drownedandtrident.enchantment.custom.*;
 import com.rzero.drownedandtrident.entity.goal.DATBabyDrownedMeleeAttackGoal;
 import com.rzero.drownedandtrident.entity.goal.DrownedDATTridentAttackGoal;
-import com.rzero.drownedandtrident.item.DATItemFunctionRegister;
 import com.rzero.drownedandtrident.programmingModel.DrownedTridentEnchantmentModel;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
@@ -19,6 +18,7 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Drowned;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -122,7 +122,7 @@ public class LivingEntityEventHandler {
      */
     private static ItemStack createDrownedUseTrident(Drowned drowned){
 
-        ItemStack datTrident = new ItemStack(DATItemFunctionRegister.DAT_TRIDENT_ITEM.get()); // 或者 Items.TRIDENT
+        ItemStack tridentItemStack = new ItemStack(Items.TRIDENT); // 或者 Items.TRIDENT
 
         RegistryAccess registryAccess = drowned.level().registryAccess();
         HolderLookup.RegistryLookup<Enchantment> enchantRegistry = registryAccess.lookupOrThrow(Registries.ENCHANTMENT);
@@ -140,9 +140,9 @@ public class LivingEntityEventHandler {
             level = randomInstance.nextInt(drownedTridentEnchantmentModel.getMinLevel(), drownedTridentEnchantmentModel.getMaxLevel() + 1);
         }
 
-        datTrident.enchant(enchantment, level);
+        tridentItemStack.enchant(enchantment, level);
 
-        return datTrident;
+        return tridentItemStack;
     }
 
 }

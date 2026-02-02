@@ -17,6 +17,9 @@ public class ProjectileMixin {
 
     private static final Logger log = LoggerFactory.getLogger(ProjectileMixin.class);
 
+    /**
+     * 发射三叉戟后，触发关联了AfterEntityInit触发时机的附魔
+     * */
     @Inject(method = "shootFromRotation", at = @At("TAIL"))
     private void onShootFromRotationForThrownTrident(CallbackInfo ci){
 
