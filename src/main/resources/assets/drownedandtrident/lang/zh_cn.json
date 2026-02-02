@@ -4,7 +4,7 @@
   "enchantment.drownedandtrident.thunder_storm": "雷暴",
   "enchantment.drownedandtrident.erosion": "侵蚀",
   "enchantment.drownedandtrident.explosive_shoot": "爆炸射击",
-  "enchantment.drownedandtrident.fan_shoot": "扇状射击",
-  "enchantment.drownedandtrident.shoot_acceleration": "加速射击",
+  "enchantment.drownedandtrident.fan_split": "扇状分裂",
+  "enchantment.drownedandtrident.scatter_split": "霰弹裂解",
   "enchantment.drownedandtrident.thunder_trajectory": "闪电轨迹"
 }

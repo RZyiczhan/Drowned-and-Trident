@@ -17,6 +17,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlotGroup;
+import net.minecraft.world.entity.projectile.ThrownTrident;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantedItemInUse;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -65,10 +66,11 @@ public class ThunderTrajectoryEnchantment extends BaseCustomEnchantment implemen
     @Override
     public void apply(ServerLevel level, int enchantmentLevel, EnchantedItemInUse item, Entity entity, Vec3 origin) {
 
+        if (!(entity instanceof ThrownTrident)) return;
+
         ItemStack tridentItem = item.itemStack();
 
         byte upgradeStatus = tridentItem.getOrDefault(TridentDataComponentRegister.THUNDER_TRAJECTORY_UPGRADE_STATUS, DefaultEnchantmentUpgradeStatus.DEFAULT_THUNDER_TRAJECTORY_UPGRADE_STATUS);
-
 
         if (upgradeStatus == 0) {
             //  1）射出后经过1个Tick后落第一发雷，正式开始循环周期（早点落下第一道雷，给用户附魔已生效的快速反馈）

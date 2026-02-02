@@ -5,7 +5,6 @@ import com.rzero.drownedandtrident.DrownedandTrident;
 import com.rzero.drownedandtrident.dataComponent.TridentDataComponentRegister;
 import com.rzero.drownedandtrident.enchantment.base.BaseCustomEnchantment;
 import com.rzero.drownedandtrident.enchantment.base.BaseEnchantmentDefinition;
-import com.rzero.drownedandtrident.entity.override.DATThrownTrident.DATThrownTrident;
 import com.rzero.drownedandtrident.programmingConstant.DefaultEnchantmentUpgradeStatus;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
@@ -15,6 +14,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlotGroup;
+import net.minecraft.world.entity.projectile.ThrownTrident;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantedItemInUse;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -72,7 +72,7 @@ public class ExplosiveShootEnchantment extends BaseCustomEnchantment implements 
         if (entity.getPersistentData().getBoolean("ExplosiveTriggered")) return;
         entity.getPersistentData().putBoolean("ExplosiveTriggered", true);
 
-        if (!(entity instanceof DATThrownTrident)) return;
+        if (!(entity instanceof ThrownTrident)) return;
 
         ItemStack datTridentItem = item.itemStack();
 

@@ -6,7 +6,6 @@ import com.rzero.drownedandtrident.dataComponent.TridentDataComponentRegister;
 import com.rzero.drownedandtrident.enchantment.base.BaseCustomEnchantment;
 import com.rzero.drownedandtrident.enchantment.base.BaseEnchantmentDefinition;
 import com.rzero.drownedandtrident.entity.override.AttackerProtectLightning.AttackerProtectLightning;
-import com.rzero.drownedandtrident.entity.override.DATThrownTrident.DATThrownTrident;
 import com.rzero.drownedandtrident.event.tickSchedular.TickScheduler;
 import com.rzero.drownedandtrident.programmingConstant.DefaultEnchantmentUpgradeStatus;
 import com.rzero.drownedandtrident.util.PositionUtil;
@@ -19,6 +18,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlotGroup;
+import net.minecraft.world.entity.projectile.ThrownTrident;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantedItemInUse;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -82,7 +82,7 @@ public class ThunderStormEnchantment extends BaseCustomEnchantment implements En
             return;
         }
 
-        if (!(entity instanceof DATThrownTrident datThrownTrident)) return;
+        if (!(entity instanceof ThrownTrident)) return;
 
         ItemStack datTridentItem = item.itemStack();
 
