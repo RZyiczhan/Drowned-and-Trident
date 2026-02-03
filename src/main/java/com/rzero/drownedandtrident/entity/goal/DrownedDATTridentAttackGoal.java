@@ -2,7 +2,6 @@ package com.rzero.drownedandtrident.entity.goal;
 
 import com.rzero.drownedandtrident.entity.addition.DrownedAddition;
 import com.rzero.drownedandtrident.entity.goal.base.DATRangeAttackGoal;
-import com.rzero.drownedandtrident.item.DATItemFunctionRegister;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Drowned;
@@ -30,7 +29,7 @@ public class DrownedDATTridentAttackGoal extends DATRangeAttackGoal {
     }
     @Override
     public boolean canUse() {
-        return super.canUse() && (this.drowned.getMainHandItem().is(Items.TRIDENT) || this.drowned.getMainHandItem().is(DATItemFunctionRegister.DAT_TRIDENT_ITEM.get()));
+        return super.canUse() && this.drowned.getMainHandItem().is(Items.TRIDENT);
     }
 
     @Override

@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "com.rzero.drownedandtrident.mixin",
+  "package": "com.rzero.drownedandtrident.mixin.mixinImpl",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "entity.ThrownTridentMixin",

@@ -1,4 +1,4 @@
-package com.rzero.drownedandtrident.mixin.entity;
+package com.rzero.drownedandtrident.mixin.mixinImpl.entity;
 
 import com.rzero.drownedandtrident.infrastructure.enchantmentTriggerType.ModEnchantmentHelper;
 import net.minecraft.server.level.ServerLevel;

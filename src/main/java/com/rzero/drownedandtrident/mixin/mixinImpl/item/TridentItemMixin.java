@@ -1,4 +1,4 @@
-package com.rzero.drownedandtrident.mixin.item;
+package com.rzero.drownedandtrident.mixin.mixinImpl.item;
 
 
 import net.minecraft.world.item.TridentItem;

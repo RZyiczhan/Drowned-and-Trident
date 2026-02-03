@@ -1,7 +1,6 @@
 package com.rzero.drownedandtrident.entity.override.DATThrownTrident;
 
 import com.rzero.drownedandtrident.infrastructure.enchantmentTriggerType.ModEnchantmentHelper;
-import com.rzero.drownedandtrident.item.DATItemFunctionRegister;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -203,10 +202,10 @@ public class DATThrownTrident extends ThrownTrident {
         return this.getPickupItemStackOrigin();
     }
 
-    @Override
-    protected ItemStack getDefaultPickupItem() {
-        return new ItemStack(DATItemFunctionRegister.DAT_TRIDENT_ITEM.get());
-    }
+//    @Override
+//    protected ItemStack getDefaultPickupItem() {
+//        return new ItemStack(DATItemFunctionRegister.DAT_TRIDENT_ITEM.get());
+//    }
 
     /**
      * (abstract) Protected helper method to read subclass entity data from NBT.
