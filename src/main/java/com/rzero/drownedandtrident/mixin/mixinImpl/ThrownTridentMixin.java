@@ -17,7 +17,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ThrownTrident.class)
-public abstract class ThrownTridentMixin implements IThrownTridentExt {
+// 这里的 implements 告诉 Mixin 处理器：
+// "在融合的时候，把 'implements IThrownTridentExt' 这行字也写到 ThrownTrident 类的头上去！"
+public class ThrownTridentMixin implements IThrownTridentExt {
 
     private static final Logger log = LoggerFactory.getLogger(ThrownTridentMixin.class);
 
@@ -29,6 +31,14 @@ public abstract class ThrownTridentMixin implements IThrownTridentExt {
      */
     @Unique
     private boolean drownedandtrident$hadBeenHit = false;
+
+    /**
+     * 1）射出后经过1个Tick后落第一发雷，正式开始循环周期（早点落下第一道雷和第二道雷（3Tick内两道），给用户附魔已生效的快速反馈）
+     * 2）平均2.5Tick落一道雷，由于第2.5Tick这种概念技术上不存在，所以是 2Tick后劈第一次，
+     * 然后3Tick后劈第二次视为一个标准循环周期，这样平均下来就是5Tick里劈了两次雷，平均2.5Tick一次
+     */
+    @Unique
+    private short drownedandtrident$thunderTrajectoryTriggerCountTick = 4;
 
     /**
      * 每个Tick结算时，触发关联onEntityTick触发时机的附魔
@@ -44,6 +54,12 @@ public abstract class ThrownTridentMixin implements IThrownTridentExt {
             return;
         }
 
+        if (drownedandtrident$thunderTrajectoryTriggerCountTick < 5){
+            drownedandtrident$thunderTrajectoryTriggerCountTick++;
+        } else {
+            drownedandtrident$thunderTrajectoryTriggerCountTick = 0;
+        }
+
         if (!drownedandtrident$hadBeenHit) {
             ModEnchantmentHelper.onEntityTick(
                     serverlevel,
@@ -53,6 +69,8 @@ public abstract class ThrownTridentMixin implements IThrownTridentExt {
                     thrownTrident.getOwner() instanceof LivingEntity owner ? owner : null
             );
         }
+
+
     }
 
 
@@ -113,5 +131,15 @@ public abstract class ThrownTridentMixin implements IThrownTridentExt {
     @Override
     public void drownedandtrident$setHadBeenHit(boolean value) {
         this.drownedandtrident$hadBeenHit = value;
+    }
+
+    @Override
+    public short drownedandtrident$getThunderTrajectoryTriggerCountTick() {
+        return drownedandtrident$thunderTrajectoryTriggerCountTick;
+    }
+
+    @Override
+    public void drownedandtrident$setThunderTrajectoryTriggerCountTick(short value) {
+        drownedandtrident$thunderTrajectoryTriggerCountTick = value;
     }
 }

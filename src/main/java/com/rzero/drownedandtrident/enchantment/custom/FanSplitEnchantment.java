@@ -7,6 +7,7 @@ import com.rzero.drownedandtrident.enchantment.base.BaseCustomEnchantment;
 import com.rzero.drownedandtrident.enchantment.base.BaseEnchantmentDefinition;
 import com.rzero.drownedandtrident.event.tickSchedular.TickScheduler;
 import com.rzero.drownedandtrident.infrastructure.enchantmentTriggerType.TridentEnchantmentTriggerTypeRegister;
+import com.rzero.drownedandtrident.mixin.mixinInterface.IThrownTridentExt;
 import com.rzero.drownedandtrident.programmingConstant.DefaultEnchantmentUpgradeStatus;
 import com.rzero.drownedandtrident.programmingConstant.DefaultTridentSplitParamConstant;
 import com.rzero.drownedandtrident.util.ItemStackUtil;
@@ -75,6 +76,8 @@ public class FanSplitEnchantment extends BaseCustomEnchantment implements Enchan
 
         if (entity instanceof ThrownTrident thrownTrident){
 
+            if (!(thrownTrident instanceof IThrownTridentExt thrownTridentMixinExt)) return;
+
             Set<ResourceKey<Enchantment>> undesiredEnchantment = new HashSet<>();
             undesiredEnchantment.add(Enchantments.LOYALTY);
             undesiredEnchantment.add(FAN_SPLIT);
@@ -116,9 +119,9 @@ public class FanSplitEnchantment extends BaseCustomEnchantment implements Enchan
                     new Runnable() {
                         @Override
                         public void run() {
-//                            if (datThrownTrident.isHadBeenHit()){
-//                                return;
-//                            }
+                            if (thrownTridentMixinExt.drownedandtrident$isHadBeenHit()){
+                                return;
+                            }
                             for (int round = 1; round <= enchantmentLevel; round++){
                                 double degree = round * fanSplitAngle;
                                 ProjectileSplitUtil.generateFanSplitPairTrident(level, item.owner(), fanSplitTick, thrownTrident, stackWithoutNonMigratingEnchantment, degree);
