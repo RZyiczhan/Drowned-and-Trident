@@ -2,7 +2,6 @@ package com.rzero.drownedandtrident.entity;
 
 import com.rzero.drownedandtrident.DrownedandTrident;
 import com.rzero.drownedandtrident.entity.override.AttackerProtectLightning.AttackerProtectLightning;
-import com.rzero.drownedandtrident.entity.override.DATThrownTrident.DATThrownTrident;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.EntityType;
 import net.neoforged.bus.api.IEventBus;
@@ -29,10 +28,6 @@ public class TridentEntityFunctionRegister {
 
     public static final Supplier<EntityType<AttackerProtectLightning>> ATTACK_PROTECT_LIGHTNING =
             OVERRIDE_ENTITY_TYPE.register("attack_protect_lightning", () -> AttackerProtectLightning.ATTACK_PROTECT_LIGHTNING);
-
-    public static final Supplier<EntityType<DATThrownTrident>> DAT_THROWN_TRIDENT =
-            OVERRIDE_ENTITY_TYPE.register("dat_thrown_trident", () -> DATThrownTrident.DAT_THROWN_TRIDENT);
-
 
     public static void register(IEventBus eventBus){
         CUSTOM_ENTITY_TYPE.register(eventBus);

@@ -1,6 +1,5 @@
 package com.rzero.drownedandtrident.infrastructure.enchantmentTriggerType;
 
-import com.rzero.drownedandtrident.entity.override.DATThrownTrident.DATThrownTrident;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
@@ -25,25 +24,6 @@ public class  ModEnchantmentHelper {
                     }
                 }
         );
-    }
-
-    /**
-     * 为三叉戟实体加速
-     * @param serverLevel
-     * @param entity 这必须是一个Projectile
-     */
-    public static void doOnEntityInit(ServerLevel serverLevel, Entity entity, ItemStack creatorStack, Vec3 shootPos, LivingEntity entityCreator){
-        if (entity instanceof DATThrownTrident) {
-            runIterationOnItem(
-                    creatorStack,
-                    new EnchantmentVisitor() {
-                        @Override
-                        public void accept(Holder<Enchantment> enchantment, int level) {
-                            ModDefinedEnchantmentTriggerFunction.doOnEntityInit(serverLevel, level, entity, enchantment.value(), shootPos, creatorStack, entityCreator) ;
-                        }
-                    }
-            );
-        }
     }
 
 

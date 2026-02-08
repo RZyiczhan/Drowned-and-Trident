@@ -2,7 +2,6 @@ package com.rzero.drownedandtrident.entity;
 
 import com.rzero.drownedandtrident.entity.base.BaseEntityRender;
 import com.rzero.drownedandtrident.entity.override.AttackerProtectLightning.AttackerProtectLigntningRender;
-import com.rzero.drownedandtrident.entity.override.DATThrownTrident.DATThrownTridentRender;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 
@@ -19,7 +18,6 @@ public class TridentEntityRenderRegister {
 
     static {
         renderList.add(new AttackerProtectLigntningRender());
-        renderList.add(new DATThrownTridentRender());
     }
 
     @SubscribeEvent
