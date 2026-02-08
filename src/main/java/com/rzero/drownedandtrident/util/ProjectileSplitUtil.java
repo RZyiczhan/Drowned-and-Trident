@@ -1,7 +1,6 @@
 package com.rzero.drownedandtrident.util;
 
 import com.rzero.drownedandtrident.dataComponent.TridentDataComponentRegister;
-import com.rzero.drownedandtrident.entity.override.DATThrownTrident.DATThrownTrident;
 import com.rzero.drownedandtrident.infrastructure.enchantmentTriggerType.ModEnchantmentHelper;
 import com.rzero.drownedandtrident.programmingConstant.DefaultTridentSplitParamConstant;
 import net.minecraft.server.level.ServerLevel;
@@ -66,11 +65,25 @@ public class ProjectileSplitUtil {
         int originalScatterSplitTick = stackWithoutNonMigratingEnchantment.getOrDefault(TridentDataComponentRegister.SCATTER_SPLIT_TICK, DefaultTridentSplitParamConstant.DEFAULT_SCATTER_SPLIT_TICK);
         originalScatterSplitTick -= delayedTick;
 
-        stackWithoutNonMigratingEnchantment.set(TridentDataComponentRegister.FAN_SPLIT_TICK, originalFanSplitTick);
-        stackWithoutNonMigratingEnchantment.set(TridentDataComponentRegister.SCATTER_SPLIT_TICK, originalScatterSplitTick);
+        // 虽然理论上克隆出来的三叉戟已经不再具有已执行的分裂附魔了
+        // 但出于以防万一的考虑，将延后游戏刻数归0的附魔延后Tick额外-1，以避免走入Tick Scheduler中：“延后Tick为0 = 立刻触发”的逻辑
+        if (originalFanSplitTick == 0) originalFanSplitTick--;
+        if (originalScatterSplitTick == 0) originalScatterSplitTick--;
+
+        // 注意这里不能把dataComponent设置回stackWithoutNonMigratingEnchantment
+        // 这个itemStack还要被其他复制出来的三叉戟复用呢，
+        // set回去只会导致同批出来还在等待执行分裂出来的三叉戟们拿到初始分裂Tick是错误的（是已经被上一个分裂出来的三叉戟修改过的版本）
+        // 错误警示：
+        // stackWithoutNonMigratingEnchantment.set(TridentDataComponentRegister.FAN_SPLIT_TICK, originalFanSplitTick);
+        // stackWithoutNonMigratingEnchantment.set(TridentDataComponentRegister.SCATTER_SPLIT_TICK, originalScatterSplitTick);
+        // 这里应该copy一个新的itemStack给生成出来的新三叉戟
+
+        ItemStack stackForCloneTrident = stackWithoutNonMigratingEnchantment.copy();
+        stackForCloneTrident.set(TridentDataComponentRegister.FAN_SPLIT_TICK, originalFanSplitTick);
+        stackForCloneTrident.set(TridentDataComponentRegister.SCATTER_SPLIT_TICK, originalScatterSplitTick);
 
         // 设置克隆出来的三叉戟的初始速度和位置
-        DATThrownTrident cloneThrownTrident = new DATThrownTrident(level, tridentOwner, stackWithoutNonMigratingEnchantment);
+        ThrownTrident cloneThrownTrident = new ThrownTrident(level, tridentOwner, stackForCloneTrident);
         cloneThrownTrident.setDeltaMovement(copiedTridentVelocity);
 
         cloneThrownTrident.setPos(splitPos);

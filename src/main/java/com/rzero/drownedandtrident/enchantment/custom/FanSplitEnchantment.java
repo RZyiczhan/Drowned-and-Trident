@@ -8,7 +8,6 @@ import com.rzero.drownedandtrident.enchantment.base.BaseEnchantmentDefinition;
 import com.rzero.drownedandtrident.event.tickSchedular.TickScheduler;
 import com.rzero.drownedandtrident.infrastructure.enchantmentTriggerType.TridentEnchantmentTriggerTypeRegister;
 import com.rzero.drownedandtrident.mixin.mixinInterface.IThrownTridentExt;
-import com.rzero.drownedandtrident.programmingConstant.DefaultEnchantmentUpgradeStatus;
 import com.rzero.drownedandtrident.programmingConstant.DefaultTridentSplitParamConstant;
 import com.rzero.drownedandtrident.util.ItemStackUtil;
 import com.rzero.drownedandtrident.util.ProjectileSplitUtil;
@@ -88,22 +87,16 @@ public class FanSplitEnchantment extends BaseCustomEnchantment implements Enchan
             int fanSplitAngleTemp = tridentItem.getOrDefault(TridentDataComponentRegister.FAN_SPLIT_ANGLE, DefaultTridentSplitParamConstant.DEFAULT_FAN_SPLIT_ANGLE);
             int scatterSplitTick = tridentItem.getOrDefault(TridentDataComponentRegister.SCATTER_SPLIT_TICK, DefaultTridentSplitParamConstant.DEFAULT_SCATTER_SPLIT_TICK);
 
-            byte fanSplitUpgradeStatus = tridentItem.getOrDefault(TridentDataComponentRegister.FAN_SPLIT_UPGRADE_STATUS, DefaultEnchantmentUpgradeStatus.DEFAULT_FAN_SPLIT_UPGRADE_STATUS);
-            byte scatterSplitUpgradeStatus = tridentItem.getOrDefault(TridentDataComponentRegister.SCATTER_SPLIT_UPGRADE_STATUS, DefaultEnchantmentUpgradeStatus.DEFAULT_SCATTER_SPLIT_UPGRADE_STATUS);
-
-            // 根据强化状态修正真实Tick，这两个附魔未强化的三叉戟，玩家就算通过任何手段获得到了参数被修改的三叉戟也不能应用相关参数
-            if (fanSplitUpgradeStatus == 0){
-                fanSplitTickTemp = DefaultTridentSplitParamConstant.DEFAULT_FAN_SPLIT_TICK;
-                fanSplitAngleTemp = DefaultTridentSplitParamConstant.DEFAULT_FAN_SPLIT_ANGLE;
-            }
-            if (scatterSplitUpgradeStatus == 0){
-                scatterSplitTick = DefaultTridentSplitParamConstant.DEFAULT_SCATTER_SPLIT_TICK;
-            }
-
             final int fanSplitAngle = fanSplitAngleTemp;
             final int fanSplitTick = fanSplitTickTemp;
 
-            if (scatterSplitTick == fanSplitTick) {
+            /**
+             * 1）由于制造复制体时，无法得知其他分裂行为是否已经执行
+             *      所以判断其他分裂行为是否已执行的方式为：该分裂的执行延后tick是否在此分裂之前
+             *      以避免出现此分裂产生的克隆三叉戟身上存在着本体已执行但克隆上待执行的分裂附魔
+             * 2）游戏逻辑：如果多个分裂在同一Tick执行，则分裂产生的克隆三叉戟上这些同时执行的分裂一个都不带
+             */
+            if (fanSplitTick >= scatterSplitTick) {
                 undesiredEnchantment.add(ScatterSplitEnchantment.SCATTER_SPLIT);
             }
 

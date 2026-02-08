@@ -2,6 +2,7 @@ package com.rzero.drownedandtrident.mixin.mixinImpl.entity;
 
 import com.rzero.drownedandtrident.infrastructure.enchantmentTriggerType.ModEnchantmentHelper;
 import com.rzero.drownedandtrident.mixin.mixinInterface.IThrownTridentExt;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrownTrident;
@@ -70,6 +71,26 @@ public class ThrownTridentMixin implements IThrownTridentExt {
             );
         }
 
+    }
+
+
+    @Inject(method = "addAdditionalSaveData", at = @At("TAIL"))
+    private void injectSave(CompoundTag compound, CallbackInfo ci) {
+        // 使用带有 Mod ID 前缀的 Key，防止冲突
+        compound.putBoolean("drownedandtrident:hadBeenHit", this.drownedandtrident$hadBeenHit);
+        compound.putShort("drownedandtrident:thunderTrajectoryTriggerCountTick", this.drownedandtrident$thunderTrajectoryTriggerCountTick);
+    }
+
+    @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
+    private void injectLoad(CompoundTag compound, CallbackInfo ci) {
+
+        // 这里不一定要检查一次的原因是，compound.getXXX的方法内，在找不到key的情况会赋予零值
+        // 当玩家初次进server（注意：单机也是有个server的）的时候，这个的执行时机在属性的自赋值之后
+        // 如果属性的自赋值并非零值，则compound.getXXX方法在找不到key的情况给出的零值会覆盖掉自定义的默认值
+        if (compound.contains("drownedandtrident:hadBeenHit"))
+            this.drownedandtrident$hadBeenHit = compound.getBoolean("drownedandtrident:hadBeenHit");
+        if (compound.contains("drownedandtrident:thunderTrajectoryTriggerCountTick"))
+            this.drownedandtrident$thunderTrajectoryTriggerCountTick = compound.getShort("drownedandtrident:thunderTrajectoryTriggerCountTick");
 
     }
 
