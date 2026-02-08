@@ -1,13 +1,13 @@
 package com.rzero.drownedandtrident.entity.addition;
 
 import com.rzero.drownedandtrident.enchantment.custom.*;
-import com.rzero.drownedandtrident.entity.override.DATThrownTrident.DATThrownTrident;
 import com.rzero.drownedandtrident.infrastructure.enchantmentTriggerType.ModEnchantmentHelper;
 import com.rzero.drownedandtrident.programmingModel.DrownedTridentEnchantmentModel;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Drowned;
+import net.minecraft.world.entity.projectile.ThrownTrident;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 
@@ -44,7 +44,7 @@ public class DrownedAddition {
      * 覆盖溺尸进行远程攻击的手段，这样来让溺尸可以抛射自定义的三叉戟
      */
     public static void performRangedAttack(Drowned drowned, LivingEntity target, ItemStack drownedHoldItemStack) {
-        DATThrownTrident datThrownTrident = new DATThrownTrident(drowned.level(), drowned, drownedHoldItemStack);
+        ThrownTrident datThrownTrident = new ThrownTrident(drowned.level(), drowned, drownedHoldItemStack);
         double d0 = target.getX() - drowned.getX();
         double d1 = target.getY(0.3333333333333333) - datThrownTrident.getY();
         double d2 = target.getZ() - drowned.getZ();

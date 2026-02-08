@@ -35,7 +35,7 @@ public class DrownedMixin {
      * */
     @Inject(method = "populateDefaultEquipmentSlots", at = @At("TAIL"))
     private void onPopulateDefaultEquipmentSlotsEnd(CallbackInfo ci){
-        
+
         Drowned drowned = (Drowned)(Object)this;
 
         // 检查是不是客户端，通常逻辑只在服务端跑
