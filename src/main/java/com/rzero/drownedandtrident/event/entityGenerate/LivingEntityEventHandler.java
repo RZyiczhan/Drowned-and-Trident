@@ -5,10 +5,12 @@ import com.rzero.drownedandtrident.enchantment.custom.*;
 import com.rzero.drownedandtrident.entity.goal.DATBabyDrownedMeleeAttackGoal;
 import com.rzero.drownedandtrident.entity.goal.DrownedDATTridentAttackGoal;
 import com.rzero.drownedandtrident.programmingModel.DrownedTridentEnchantmentModel;
+import com.rzero.drownedandtrident.worldGlobal.WorldPhase;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.RangedAttackGoal;
@@ -35,15 +37,24 @@ import java.util.function.Predicate;
 @EventBusSubscriber(modid = DrownedandTrident.MODID)
 public class LivingEntityEventHandler {
 
-    private static List<DrownedTridentEnchantmentModel> customEnchantments = new ArrayList<>();
+    private static List<DrownedTridentEnchantmentModel> customEnchantmentsForLevelOne = new ArrayList<>();
+    private static List<DrownedTridentEnchantmentModel> customEnchantmentsForLevelTwo = new ArrayList<>();
     private static Random randomInstance = new Random();
 
     static {
-        customEnchantments.add(new DrownedTridentEnchantmentModel(FanSplitEnchantment.FAN_SPLIT, 2, 1));
-        customEnchantments.add(new DrownedTridentEnchantmentModel(ScatterSplitEnchantment.SCATTER_SPLIT, 2, 1));
-        customEnchantments.add(new DrownedTridentEnchantmentModel(ThunderStormEnchantment.THUNDER_STORM, 3, 1));
-        customEnchantments.add(new DrownedTridentEnchantmentModel(ThunderTrajectoryEnchantment.THUNDER_TRAJECTORY, 1, 1));
-        customEnchantments.add(new DrownedTridentEnchantmentModel(ErosionEnchantment.EROSION, 3, 1));
+        customEnchantmentsForLevelOne.add(new DrownedTridentEnchantmentModel(FanSplitEnchantment.FAN_SPLIT, 2, 1, false));
+        customEnchantmentsForLevelOne.add(new DrownedTridentEnchantmentModel(ScatterSplitEnchantment.SCATTER_SPLIT, 2, 1, false));
+        customEnchantmentsForLevelOne.add(new DrownedTridentEnchantmentModel(ThunderStormEnchantment.THUNDER_STORM, 3, 1, false));
+        customEnchantmentsForLevelOne.add(new DrownedTridentEnchantmentModel(ThunderTrajectoryEnchantment.THUNDER_TRAJECTORY, 1, 1, false));
+        customEnchantmentsForLevelOne.add(new DrownedTridentEnchantmentModel(ErosionEnchantment.EROSION, 3, 1, false));
+    }
+
+    static {
+        customEnchantmentsForLevelTwo.add(new DrownedTridentEnchantmentModel(FanSplitEnchantment.FAN_SPLIT, 2, 1, true));
+        customEnchantmentsForLevelTwo.add(new DrownedTridentEnchantmentModel(ScatterSplitEnchantment.SCATTER_SPLIT, 2, 1, true));
+        customEnchantmentsForLevelTwo.add(new DrownedTridentEnchantmentModel(ThunderStormEnchantment.THUNDER_STORM, 3, 1, true));
+        customEnchantmentsForLevelTwo.add(new DrownedTridentEnchantmentModel(ThunderTrajectoryEnchantment.THUNDER_TRAJECTORY, 1, 1, true));
+        customEnchantmentsForLevelTwo.add(new DrownedTridentEnchantmentModel(ErosionEnchantment.EROSION, 3, 1, true));
     }
 
     @SubscribeEvent
@@ -52,15 +63,15 @@ public class LivingEntityEventHandler {
         if (event.getEntity() instanceof Drowned drowned) {
 
             // 2. 只有在服务端才操作
-            if (drowned.level().isClientSide) return;
+            if (!(drowned.level() instanceof ServerLevel level)) return;
 
-            // 3. 创建三叉戟并附加附魔
-            ItemStack datTrident = createDrownedUseTrident(drowned);
+            WorldPhase worldPhaseData = WorldPhase.getWorldPhase(level);
+            int worldPhase = worldPhaseData.getCurrentPhase();
 
-            // 4. 装备给溺尸
-            drowned.setItemSlot(EquipmentSlot.MAINHAND, datTrident);
+            // 3. 增强溺尸装备
+            fullyEquipDrowned(drowned, worldPhase);
 
-            // 5. 提高该掉落概率
+            // 4. 提高该掉落概率
             // todo : 这个概率应跟随附魔稀有度等级的变化而变化
             drowned.setDropChance(EquipmentSlot.MAINHAND,0.45F);
 
@@ -120,7 +131,7 @@ public class LivingEntityEventHandler {
      * @param drowned
      * @return
      */
-    private static ItemStack createDrownedUseTrident(Drowned drowned){
+    private static void fullyEquipDrowned(Drowned drowned, int worldPhase){
 
         ItemStack tridentItemStack = new ItemStack(Items.TRIDENT); // 或者 Items.TRIDENT
 
@@ -130,19 +141,78 @@ public class LivingEntityEventHandler {
         Holder<Enchantment> enchantment;
         int level;
         if (drowned.isBaby()){
-            // 小溺尸一律用侵蚀II三叉戟
-            enchantment = enchantRegistry.getOrThrow(ErosionEnchantment.EROSION);
-            level = 2;
+            equipBabyDrowned(drowned, tridentItemStack, enchantRegistry, worldPhase);
+
         } else {
-            DrownedTridentEnchantmentModel drownedTridentEnchantmentModel = customEnchantments.get(randomInstance.nextInt(customEnchantments.size()));
+            DrownedTridentEnchantmentModel drownedTridentEnchantmentModel = customEnchantmentsForLevelOne.get(randomInstance.nextInt(customEnchantmentsForLevelOne.size()));
             enchantment =  enchantRegistry.getOrThrow(drownedTridentEnchantmentModel.getEnchantment());
             // +1 是为了取随机数，java的random的随机最高max-1
             level = randomInstance.nextInt(drownedTridentEnchantmentModel.getMinLevel(), drownedTridentEnchantmentModel.getMaxLevel() + 1);
+
+            tridentItemStack.enchant(enchantment, level);
         }
 
-        tridentItemStack.enchant(enchantment, level);
+        drowned.setItemSlot(EquipmentSlot.MAINHAND, tridentItemStack);
 
-        return tridentItemStack;
+        // todo : 这个概率应跟随附魔稀有度等级的变化而变化
+        drowned.setDropChance(EquipmentSlot.MAINHAND,0.45F);
+
+
+    }
+
+    private static void equipBabyDrowned(Drowned drowned, ItemStack tridentItemStack, HolderLookup.RegistryLookup<Enchantment> enchantRegistry, int worldPhase){
+
+        Holder<Enchantment> enchantment = enchantRegistry.getOrThrow(ErosionEnchantment.EROSION);
+        int level;
+
+        switch (worldPhase){
+            case 1:
+                level = 2;
+                tridentItemStack.enchant(enchantment, level);
+                break;
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+                level = 3;
+                tridentItemStack.enchant(enchantment, level);
+                equipBabyDrownedWithArmor(drowned);
+            case 6:
+            default:
+                break;
+        }
+    }
+
+    private static void equipBabyDrownedWithArmor(Drowned drowned){
+        Random random = new Random();
+        float chance = random.nextFloat();
+
+        if (chance < 0.2){
+            drowned.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.CHAINMAIL_HELMET));
+            drowned.setItemSlot(EquipmentSlot.BODY, new ItemStack(Items.CHAINMAIL_CHESTPLATE));
+            drowned.setItemSlot(EquipmentSlot.LEGS, new ItemStack(Items.CHAINMAIL_LEGGINGS));
+            drowned.setItemSlot(EquipmentSlot.FEET, new ItemStack(Items.CHAINMAIL_BOOTS));
+        } else if (chance < 0.4) {
+            drowned.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.DIAMOND_HELMET));
+            drowned.setItemSlot(EquipmentSlot.BODY, new ItemStack(Items.DIAMOND_CHESTPLATE));
+            drowned.setItemSlot(EquipmentSlot.LEGS, new ItemStack(Items.DIAMOND_LEGGINGS));
+            drowned.setItemSlot(EquipmentSlot.FEET, new ItemStack(Items.DIAMOND_BOOTS));
+        } else if (chance < 0.95) {
+            drowned.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.IRON_HELMET));
+            drowned.setItemSlot(EquipmentSlot.BODY, new ItemStack(Items.IRON_CHESTPLATE));
+            drowned.setItemSlot(EquipmentSlot.LEGS, new ItemStack(Items.IRON_LEGGINGS));
+            drowned.setItemSlot(EquipmentSlot.FEET, new ItemStack(Items.IRON_BOOTS));
+        } else {
+            drowned.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.GOLDEN_HELMET));
+            drowned.setItemSlot(EquipmentSlot.BODY, new ItemStack(Items.GOLDEN_CHESTPLATE));
+            drowned.setItemSlot(EquipmentSlot.LEGS, new ItemStack(Items.GOLDEN_LEGGINGS));
+            drowned.setItemSlot(EquipmentSlot.FEET, new ItemStack(Items.GOLDEN_BOOTS));
+        }
+
+        drowned.setDropChance(EquipmentSlot.HEAD, 0);
+        drowned.setDropChance(EquipmentSlot.BODY, 0);
+        drowned.setDropChance(EquipmentSlot.LEGS, 0);
+        drowned.setDropChance(EquipmentSlot.FEET, 0);
     }
 
 }

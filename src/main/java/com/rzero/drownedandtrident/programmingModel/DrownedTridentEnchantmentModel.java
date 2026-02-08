@@ -11,6 +11,7 @@ public class DrownedTridentEnchantmentModel {
     private ResourceKey<Enchantment> enchantment;
     private int maxLevel;
     private int minLevel;
+    private boolean hadUpgrade;
 
     public ResourceKey<Enchantment> getEnchantment() {
         return enchantment;
@@ -24,21 +25,16 @@ public class DrownedTridentEnchantmentModel {
         return minLevel;
     }
 
-    public void setMinLevel(int minLevel) {
-        this.minLevel = minLevel;
-    }
-
     public int getMaxLevel() {
         return maxLevel;
     }
 
-    public void setMaxLevel(int maxLevel) {
-        this.maxLevel = maxLevel;
-    }
+    public boolean isHadUpgrade(){ return hadUpgrade;}
 
-    public DrownedTridentEnchantmentModel(ResourceKey<Enchantment> enchantment, int maxLevel, int minLevel) {
+    public DrownedTridentEnchantmentModel(ResourceKey<Enchantment> enchantment, int maxLevel, int minLevel, boolean hadUpgrade) {
         this.enchantment = enchantment;
         this.maxLevel = maxLevel;
         this.minLevel = minLevel;
+        this.hadUpgrade = hadUpgrade;
     }
 }
