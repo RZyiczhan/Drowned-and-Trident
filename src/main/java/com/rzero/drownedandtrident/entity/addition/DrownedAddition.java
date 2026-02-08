@@ -1,7 +1,9 @@
 package com.rzero.drownedandtrident.entity.addition;
 
+import com.rzero.drownedandtrident.enchantment.custom.*;
 import com.rzero.drownedandtrident.entity.override.DATThrownTrident.DATThrownTrident;
 import com.rzero.drownedandtrident.infrastructure.enchantmentTriggerType.ModEnchantmentHelper;
+import com.rzero.drownedandtrident.programmingModel.DrownedTridentEnchantmentModel;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.LivingEntity;
@@ -9,10 +11,34 @@ import net.minecraft.world.entity.monster.Drowned;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 /**
  * 一些覆盖原有溺尸自带方法的实现，用于提供给模组来外部调用
  */
 public class DrownedAddition {
+
+    public static List<DrownedTridentEnchantmentModel> customEnchantmentsForLevelOne = new ArrayList<>();
+    public static List<DrownedTridentEnchantmentModel> customEnchantmentsForLevelTwo = new ArrayList<>();
+    public static Random randomInstance = new Random();
+
+    static {
+        customEnchantmentsForLevelOne.add(new DrownedTridentEnchantmentModel(FanSplitEnchantment.FAN_SPLIT, 2, 1, false));
+        customEnchantmentsForLevelOne.add(new DrownedTridentEnchantmentModel(ScatterSplitEnchantment.SCATTER_SPLIT, 2, 1, false));
+        customEnchantmentsForLevelOne.add(new DrownedTridentEnchantmentModel(ThunderStormEnchantment.THUNDER_STORM, 3, 1, false));
+        customEnchantmentsForLevelOne.add(new DrownedTridentEnchantmentModel(ThunderTrajectoryEnchantment.THUNDER_TRAJECTORY, 1, 1, false));
+        customEnchantmentsForLevelOne.add(new DrownedTridentEnchantmentModel(ErosionEnchantment.EROSION, 3, 1, false));
+    }
+
+    static {
+        customEnchantmentsForLevelTwo.add(new DrownedTridentEnchantmentModel(FanSplitEnchantment.FAN_SPLIT, 2, 1, true));
+        customEnchantmentsForLevelTwo.add(new DrownedTridentEnchantmentModel(ScatterSplitEnchantment.SCATTER_SPLIT, 2, 1, true));
+        customEnchantmentsForLevelTwo.add(new DrownedTridentEnchantmentModel(ThunderStormEnchantment.THUNDER_STORM, 3, 1, true));
+        customEnchantmentsForLevelTwo.add(new DrownedTridentEnchantmentModel(ThunderTrajectoryEnchantment.THUNDER_TRAJECTORY, 1, 1, true));
+        customEnchantmentsForLevelTwo.add(new DrownedTridentEnchantmentModel(ErosionEnchantment.EROSION, 3, 1, true));
+    }
 
     /**
      * 覆盖溺尸进行远程攻击的手段，这样来让溺尸可以抛射自定义的三叉戟

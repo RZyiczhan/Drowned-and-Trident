@@ -1,4 +1,4 @@
-package com.rzero.drownedandtrident.mixin.mixinImpl.entity;
+package com.rzero.drownedandtrident.mixin.mixinImpl;
 
 import com.rzero.drownedandtrident.infrastructure.enchantmentTriggerType.ModEnchantmentHelper;
 import com.rzero.drownedandtrident.mixin.mixinInterface.IThrownTridentExt;

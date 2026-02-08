@@ -5,7 +5,6 @@ import com.rzero.drownedandtrident.enchantment.custom.*;
 import com.rzero.drownedandtrident.entity.goal.DATBabyDrownedMeleeAttackGoal;
 import com.rzero.drownedandtrident.entity.goal.DrownedDATTridentAttackGoal;
 import com.rzero.drownedandtrident.programmingModel.DrownedTridentEnchantmentModel;
-import com.rzero.drownedandtrident.worldGlobal.WorldPhase;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistryAccess;
@@ -65,15 +64,15 @@ public class LivingEntityEventHandler {
             // 2. 只有在服务端才操作
             if (!(drowned.level() instanceof ServerLevel level)) return;
 
-            WorldPhase worldPhaseData = WorldPhase.getWorldPhase(level);
-            int worldPhase = worldPhaseData.getCurrentPhase();
-
-            // 3. 增强溺尸装备
-            fullyEquipDrowned(drowned, worldPhase);
-
-            // 4. 提高该掉落概率
-            // todo : 这个概率应跟随附魔稀有度等级的变化而变化
-            drowned.setDropChance(EquipmentSlot.MAINHAND,0.45F);
+//            WorldPhase worldPhaseData = WorldPhase.getWorldPhase(level);
+//            int worldPhase = worldPhaseData.getCurrentPhase();
+//
+//            // 3. 增强溺尸装备
+//            fullyEquipDrowned(drowned, worldPhase);
+//
+//            // 4. 提高该掉落概率
+//            // todo : 这个概率应跟随附魔稀有度等级的变化而变化
+//            drowned.setDropChance(EquipmentSlot.MAINHAND,0.45F);
 
             // 6. 移除溺尸现有的投掷选择Goal
             drowned.goalSelector.getAvailableGoals().removeIf(new Predicate<WrappedGoal>() {

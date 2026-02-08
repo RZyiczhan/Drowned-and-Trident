@@ -3,8 +3,9 @@
   "package": "com.rzero.drownedandtrident.mixin.mixinImpl",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "entity.ThrownTridentMixin",
-    "entity.ProjectileMixin"
+    "DrownedMixin",
+    "ThrownTridentMixin",
+    "ProjectileMixin"
   ],
   "injectors": {
     "defaultRequire": 1
