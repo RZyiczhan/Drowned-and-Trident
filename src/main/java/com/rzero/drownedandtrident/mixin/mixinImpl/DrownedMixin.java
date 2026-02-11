@@ -141,11 +141,16 @@ public class DrownedMixin {
     private void equipBabyDrownedWithArmor(Drowned drowned){
         float chance = DrownedAddition.randomInstance.nextFloat();
 
-        if (chance < 0.2){
+        if (chance < 0.1){
             drowned.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.CHAINMAIL_HELMET));
             drowned.setItemSlot(EquipmentSlot.BODY, new ItemStack(Items.CHAINMAIL_CHESTPLATE));
             drowned.setItemSlot(EquipmentSlot.LEGS, new ItemStack(Items.CHAINMAIL_LEGGINGS));
             drowned.setItemSlot(EquipmentSlot.FEET, new ItemStack(Items.CHAINMAIL_BOOTS));
+        } else if (chance < 0.2) {
+            drowned.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.LEATHER_HELMET));
+            drowned.setItemSlot(EquipmentSlot.BODY, new ItemStack(Items.LEATHER_CHESTPLATE));
+            drowned.setItemSlot(EquipmentSlot.LEGS, new ItemStack(Items.LEATHER_LEGGINGS));
+            drowned.setItemSlot(EquipmentSlot.FEET, new ItemStack(Items.LEATHER_BOOTS));
         } else if (chance < 0.4) {
             drowned.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.DIAMOND_HELMET));
             drowned.setItemSlot(EquipmentSlot.BODY, new ItemStack(Items.DIAMOND_CHESTPLATE));
