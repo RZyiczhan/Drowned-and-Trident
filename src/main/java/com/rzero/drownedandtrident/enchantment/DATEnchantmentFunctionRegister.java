@@ -15,8 +15,8 @@ public class DATEnchantmentFunctionRegister {
     public static final DeferredRegister<MapCodec<? extends EnchantmentEntityEffect>> TRIDENT_ENCHANTMENT_EFFECT =
             DeferredRegister.create(Registries.ENCHANTMENT_ENTITY_EFFECT_TYPE, DrownedandTrident.MODID);
 
-    public static void register(IEventBus eventBus){
-        new DATEnchantment();
+    public static void register(IEventBus eventBus) throws ClassNotFoundException {
+        Class.forName(DATEnchantment.class.getName());
         TRIDENT_ENCHANTMENT_EFFECT.register(eventBus);
      }
 

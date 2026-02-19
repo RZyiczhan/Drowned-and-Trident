@@ -36,14 +36,20 @@ public class DrownedandTrident {
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
 
-        DATEnchantmentFunctionRegister.register(modEventBus);
-        TridentEnchantmentTriggerTypeRegister.register(modEventBus);
-        TridentEntityFunctionRegister.register(modEventBus);
-        TridentDataComponentRegister.register(modEventBus);
-        DATItemFunctionRegister.register(modEventBus);
-        DATBlockFunctionRegister.register(modEventBus);
-        DATBlockEntityFunctionRegister.register(modEventBus);
-        modEventBus.addListener(TridentEntityRenderRegister::onRegisterRenderers);
+
+        try {
+            DATEnchantmentFunctionRegister.register(modEventBus);
+            TridentEnchantmentTriggerTypeRegister.register(modEventBus);
+            TridentEntityFunctionRegister.register(modEventBus);
+            TridentDataComponentRegister.register(modEventBus);
+            DATItemFunctionRegister.register(modEventBus);
+            DATBlockFunctionRegister.register(modEventBus);
+            DATBlockEntityFunctionRegister.register(modEventBus);
+            modEventBus.addListener(TridentEntityRenderRegister::onRegisterRenderers);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
 
 
         // Register ourselves for server and other game events we are interested in.
