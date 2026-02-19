@@ -1,6 +1,6 @@
 package com.rzero.drownedandtrident.playerBlock.tridentEnchantingTable;
 
-import com.rzero.drownedandtrident.block.DATBlock;
+import com.rzero.drownedandtrident.modRegistry.block.DATBlock;
 import com.rzero.drownedandtrident.playerBlock.dataGen.BaseBlockStateAppearance;
 import com.rzero.drownedandtrident.playerBlock.dataGen.BaseItemModelAppearance;
 import net.minecraft.world.level.block.Block;

@@ -2,13 +2,13 @@ package com.rzero.drownedandtrident.enchantment.custom;
 
 import com.mojang.serialization.MapCodec;
 import com.rzero.drownedandtrident.DrownedandTrident;
-import com.rzero.drownedandtrident.dataComponent.TridentDataComponentRegister;
+import com.rzero.drownedandtrident.modRegistry.dataComponent.TridentDataComponentRegister;
 import com.rzero.drownedandtrident.enchantment.base.BaseCustomEnchantment;
 import com.rzero.drownedandtrident.enchantment.base.BaseEnchantmentDefinition;
 import com.rzero.drownedandtrident.event.tickSchedular.TickScheduler;
 import com.rzero.drownedandtrident.infrastructure.enchantmentTriggerType.TridentEnchantmentTriggerTypeRegister;
 import com.rzero.drownedandtrident.mixin.mixinInterface.IThrownTridentExt;
-import com.rzero.drownedandtrident.programmingConstant.DefaultTridentSplitParamConstant;
+import com.rzero.drownedandtrident.enchantment.programmingConstant.DefaultTridentSplitParamConstant;
 import com.rzero.drownedandtrident.util.ItemStackUtil;
 import com.rzero.drownedandtrident.util.ProjectileSplitUtil;
 import net.minecraft.core.registries.Registries;

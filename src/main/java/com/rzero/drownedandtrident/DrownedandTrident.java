@@ -1,14 +1,14 @@
 package com.rzero.drownedandtrident;
 
 import com.mojang.logging.LogUtils;
-import com.rzero.drownedandtrident.block.DATBlockFunctionRegister;
-import com.rzero.drownedandtrident.blockEntity.DATBlockEntityFunctionRegister;
-import com.rzero.drownedandtrident.dataComponent.TridentDataComponentRegister;
+import com.rzero.drownedandtrident.modRegistry.block.DATBlockFunctionRegister;
+import com.rzero.drownedandtrident.modRegistry.blockEntity.DATBlockEntityFunctionRegister;
+import com.rzero.drownedandtrident.modRegistry.dataComponent.TridentDataComponentRegister;
 import com.rzero.drownedandtrident.enchantment.DATEnchantmentFunctionRegister;
 import com.rzero.drownedandtrident.entity.TridentEntityFunctionRegister;
 import com.rzero.drownedandtrident.entity.TridentEntityRenderRegister;
 import com.rzero.drownedandtrident.infrastructure.enchantmentTriggerType.TridentEnchantmentTriggerTypeRegister;
-import com.rzero.drownedandtrident.item.DATItemFunctionRegister;
+import com.rzero.drownedandtrident.modRegistry.item.DATItemFunctionRegister;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.bus.api.IEventBus;

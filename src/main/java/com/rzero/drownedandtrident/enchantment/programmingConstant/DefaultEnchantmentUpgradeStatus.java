@@ -1,4 +1,4 @@
-package com.rzero.drownedandtrident.programmingConstant;
+package com.rzero.drownedandtrident.enchantment.programmingConstant;
 
 public class DefaultEnchantmentUpgradeStatus {
 

@@ -2,12 +2,12 @@ package com.rzero.drownedandtrident.enchantment.custom;
 
 import com.mojang.serialization.MapCodec;
 import com.rzero.drownedandtrident.DrownedandTrident;
-import com.rzero.drownedandtrident.dataComponent.TridentDataComponentRegister;
+import com.rzero.drownedandtrident.modRegistry.dataComponent.TridentDataComponentRegister;
 import com.rzero.drownedandtrident.enchantment.base.BaseCustomEnchantment;
 import com.rzero.drownedandtrident.enchantment.base.BaseEnchantmentDefinition;
 import com.rzero.drownedandtrident.entity.override.AttackerProtectLightning.AttackerProtectLightning;
 import com.rzero.drownedandtrident.event.tickSchedular.TickScheduler;
-import com.rzero.drownedandtrident.programmingConstant.DefaultEnchantmentUpgradeStatus;
+import com.rzero.drownedandtrident.enchantment.programmingConstant.DefaultEnchantmentUpgradeStatus;
 import com.rzero.drownedandtrident.util.PositionUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;

@@ -2,7 +2,7 @@ package com.rzero.drownedandtrident.mixin.mixinImpl;
 
 import com.rzero.drownedandtrident.enchantment.custom.ErosionEnchantment;
 import com.rzero.drownedandtrident.entity.addition.DrownedAddition;
-import com.rzero.drownedandtrident.programmingModel.DrownedTridentEnchantmentModel;
+import com.rzero.drownedandtrident.enchantment.programmingModel.DrownedTridentEnchantmentModel;
 import com.rzero.drownedandtrident.worldGlobal.WorldPhase;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;

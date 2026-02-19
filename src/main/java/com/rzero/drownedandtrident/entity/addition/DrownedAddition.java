@@ -2,7 +2,7 @@ package com.rzero.drownedandtrident.entity.addition;
 
 import com.rzero.drownedandtrident.enchantment.custom.*;
 import com.rzero.drownedandtrident.infrastructure.enchantmentTriggerType.ModEnchantmentHelper;
-import com.rzero.drownedandtrident.programmingModel.DrownedTridentEnchantmentModel;
+import com.rzero.drownedandtrident.enchantment.programmingModel.DrownedTridentEnchantmentModel;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.LivingEntity;

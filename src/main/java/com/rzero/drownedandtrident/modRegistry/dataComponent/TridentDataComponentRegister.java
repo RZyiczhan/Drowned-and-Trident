@@ -1,4 +1,4 @@
-package com.rzero.drownedandtrident.dataComponent;
+package com.rzero.drownedandtrident.modRegistry.dataComponent;
 
 import com.mojang.serialization.Codec;
 import com.rzero.drownedandtrident.DrownedandTrident;

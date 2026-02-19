@@ -1,4 +1,4 @@
-package com.rzero.drownedandtrident.block;
+package com.rzero.drownedandtrident.modRegistry.block;
 
 import com.rzero.drownedandtrident.playerBlock.tridentEnchantingTable.TridentEnchantingTableBlock;
 import net.minecraft.world.level.block.Block;

@@ -4,7 +4,7 @@ import com.rzero.drownedandtrident.DrownedandTrident;
 import com.rzero.drownedandtrident.enchantment.custom.*;
 import com.rzero.drownedandtrident.entity.goal.DATBabyDrownedMeleeAttackGoal;
 import com.rzero.drownedandtrident.entity.goal.DrownedDATTridentAttackGoal;
-import com.rzero.drownedandtrident.programmingModel.DrownedTridentEnchantmentModel;
+import com.rzero.drownedandtrident.enchantment.programmingModel.DrownedTridentEnchantmentModel;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistryAccess;

@@ -1,8 +1,8 @@
 package com.rzero.drownedandtrident.util;
 
-import com.rzero.drownedandtrident.dataComponent.TridentDataComponentRegister;
+import com.rzero.drownedandtrident.modRegistry.dataComponent.TridentDataComponentRegister;
 import com.rzero.drownedandtrident.infrastructure.enchantmentTriggerType.ModEnchantmentHelper;
-import com.rzero.drownedandtrident.programmingConstant.DefaultTridentSplitParamConstant;
+import com.rzero.drownedandtrident.enchantment.programmingConstant.DefaultTridentSplitParamConstant;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.AbstractArrow;

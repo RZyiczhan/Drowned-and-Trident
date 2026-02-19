@@ -2,10 +2,10 @@ package com.rzero.drownedandtrident.enchantment.custom;
 
 import com.mojang.serialization.MapCodec;
 import com.rzero.drownedandtrident.DrownedandTrident;
-import com.rzero.drownedandtrident.dataComponent.TridentDataComponentRegister;
+import com.rzero.drownedandtrident.modRegistry.dataComponent.TridentDataComponentRegister;
 import com.rzero.drownedandtrident.enchantment.base.BaseCustomEnchantment;
 import com.rzero.drownedandtrident.enchantment.base.BaseEnchantmentDefinition;
-import com.rzero.drownedandtrident.programmingConstant.DefaultEnchantmentUpgradeStatus;
+import com.rzero.drownedandtrident.enchantment.programmingConstant.DefaultEnchantmentUpgradeStatus;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;

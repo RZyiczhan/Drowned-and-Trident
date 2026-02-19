@@ -1,6 +1,6 @@
-package com.rzero.drownedandtrident.item;
+package com.rzero.drownedandtrident.modRegistry.item;
 
-import com.rzero.drownedandtrident.block.DATBlock;
+import com.rzero.drownedandtrident.modRegistry.block.DATBlock;
 import net.minecraft.world.item.BlockItem;
 import net.neoforged.neoforge.registries.DeferredItem;
 

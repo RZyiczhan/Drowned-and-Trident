@@ -1,4 +1,4 @@
-package com.rzero.drownedandtrident.blockEntity;
+package com.rzero.drownedandtrident.modRegistry.blockEntity;
 
 import com.rzero.drownedandtrident.DrownedandTrident;
 import net.minecraft.core.registries.Registries;

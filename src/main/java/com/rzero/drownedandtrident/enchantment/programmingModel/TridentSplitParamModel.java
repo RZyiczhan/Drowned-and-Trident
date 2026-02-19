@@ -1,4 +1,4 @@
-package com.rzero.drownedandtrident.programmingModel;
+package com.rzero.drownedandtrident.enchantment.programmingModel;
 
 public class TridentSplitParamModel {
 

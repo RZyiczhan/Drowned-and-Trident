@@ -1,4 +1,4 @@
-package com.rzero.drownedandtrident.item;
+package com.rzero.drownedandtrident.modRegistry.item;
 
 import com.rzero.drownedandtrident.DrownedandTrident;
 import net.neoforged.bus.api.IEventBus;
