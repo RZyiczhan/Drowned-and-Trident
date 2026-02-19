@@ -1,7 +1,6 @@
-package com.rzero.drownedandtrident.block;
+package com.rzero.drownedandtrident.playerBlock.tridentEnchantingTable;
 
 import com.mojang.serialization.MapCodec;
-import com.rzero.drownedandtrident.blockEntity.TridentEnchantingTableBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
