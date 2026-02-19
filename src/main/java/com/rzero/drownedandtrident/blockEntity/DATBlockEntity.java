@@ -1,6 +1,7 @@
 package com.rzero.drownedandtrident.blockEntity;
 
 import com.rzero.drownedandtrident.block.DATBlock;
+import com.rzero.drownedandtrident.playerBlock.tridentEnchantingTable.TridentEnchantingTableBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.neoforge.registries.DeferredHolder;
 

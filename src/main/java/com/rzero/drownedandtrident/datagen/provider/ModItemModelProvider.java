@@ -1,6 +1,6 @@
 package com.rzero.drownedandtrident.datagen.provider;
 
-import com.rzero.drownedandtrident.block.DATBlock;
+import com.rzero.drownedandtrident.playerBlock.dataGen.ModBlockDataGenRegister;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
@@ -13,9 +13,6 @@ public class ModItemModelProvider extends ItemModelProvider {
 
     @Override
     protected void registerModels() {
-        withExistingParent(
-                DATBlock.TRIDENT_ENCHANTING_TABLE.getId().getPath(),
-                modLoc("block/trident_enchanting_table")
-        );
+        ModBlockDataGenRegister.registerModels(this);
     }
 }

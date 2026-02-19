@@ -1,5 +1,6 @@
 package com.rzero.drownedandtrident.block;
 
+import com.rzero.drownedandtrident.playerBlock.tridentEnchantingTable.TridentEnchantingTableBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
