@@ -1,7 +1,9 @@
 package com.rzero.drownedandtrident.datagen;
 
 import com.rzero.drownedandtrident.DrownedandTrident;
+import com.rzero.drownedandtrident.datagen.provider.ModBlockStateProvider;
 import com.rzero.drownedandtrident.datagen.provider.ModEnchantmentProvider;
+import com.rzero.drownedandtrident.datagen.provider.ModItemModelProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
@@ -36,6 +38,15 @@ public class DataGeneratorEventHandler {
                 new ModEnchantmentProvider(output, lookupProvider, DrownedandTrident.MODID)
         );
         // Other data providers here.
+
+        // 注册 BlockState 生成器 (负责方块模型和状态)
+        generator.addProvider
+                (event.includeClient(), new ModBlockStateProvider(output, DrownedandTrident.MODID, existingFileHelper));
+
+        // 注册 ItemModel 生成器 (负责物品模型)
+        generator.addProvider(
+                event.includeClient(), new ModItemModelProvider(output, DrownedandTrident.MODID, existingFileHelper)
+        );
 
     }
 

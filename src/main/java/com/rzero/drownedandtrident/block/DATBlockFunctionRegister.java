@@ -10,6 +10,8 @@ public class DATBlockFunctionRegister {
             DeferredRegister.createBlocks(DrownedandTrident.MODID);
 
     public static void register(IEventBus eventBus){
+        // 初始化Block定义类，保证定义类被使用，来确保其static变量被正常初始化以达成注册
+        new DATBlock();
         CUSTOM_BLOCK.register(eventBus);
     }
 

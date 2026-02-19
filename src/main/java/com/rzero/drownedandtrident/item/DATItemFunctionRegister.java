@@ -6,11 +6,12 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class DATItemFunctionRegister {
 
-    public static final DeferredRegister.Items OVERRIDE_ITEM =
+    public static final DeferredRegister.Items CUSTOM_BLOCK_ITEM =
             DeferredRegister.createItems(DrownedandTrident.MODID);
 
     public static void register(IEventBus eventBus){
-        OVERRIDE_ITEM.register(eventBus);
+        new DATItem();
+        CUSTOM_BLOCK_ITEM.register(eventBus);
     }
 
 }
