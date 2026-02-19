@@ -2,6 +2,7 @@ package com.rzero.drownedandtrident;
 
 import com.mojang.logging.LogUtils;
 import com.rzero.drownedandtrident.block.DATBlockFunctionRegister;
+import com.rzero.drownedandtrident.blockEntity.DATBlockEntityFunctionRegister;
 import com.rzero.drownedandtrident.dataComponent.TridentDataComponentRegister;
 import com.rzero.drownedandtrident.enchantment.DATEnchantmentFunctionRegister;
 import com.rzero.drownedandtrident.entity.TridentEntityFunctionRegister;
@@ -41,6 +42,7 @@ public class DrownedandTrident {
         TridentDataComponentRegister.register(modEventBus);
         DATItemFunctionRegister.register(modEventBus);
         DATBlockFunctionRegister.register(modEventBus);
+        DATBlockEntityFunctionRegister.register(modEventBus);
         modEventBus.addListener(TridentEntityRenderRegister::onRegisterRenderers);
 
 

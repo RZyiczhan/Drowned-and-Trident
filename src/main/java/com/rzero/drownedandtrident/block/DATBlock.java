@@ -2,9 +2,12 @@ package com.rzero.drownedandtrident.block;
 
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import net.neoforged.neoforge.registries.DeferredBlock;
+
+import java.util.function.ToIntFunction;
 
 /**
  * 模组Block定义注册类
@@ -20,7 +23,12 @@ public class DATBlock {
                             .mapColor(MapColor.COLOR_RED)
                             .instrument(NoteBlockInstrument.BASEDRUM)
                             .requiresCorrectToolForDrops()
-                            .lightLevel(p_152692_ -> 7)
+                            .lightLevel(new ToIntFunction<BlockState>() {
+                                @Override
+                                public int applyAsInt(BlockState value) {
+                                    return 7;
+                                }
+                            })
                             .strength(5.0F, 1200.0F)));
 
 }

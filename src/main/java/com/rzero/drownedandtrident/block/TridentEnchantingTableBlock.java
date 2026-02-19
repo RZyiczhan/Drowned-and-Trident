@@ -1,6 +1,7 @@
 package com.rzero.drownedandtrident.block;
 
 import com.mojang.serialization.MapCodec;
+import com.rzero.drownedandtrident.blockEntity.TridentEnchantingTableBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
@@ -21,7 +22,6 @@ import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.entity.EnchantingTableBlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.PathComputationType;
@@ -94,14 +94,14 @@ public class TridentEnchantingTableBlock extends BaseEntityBlock {
 
     @Override
     public BlockEntity newBlockEntity(BlockPos p_341190_, BlockState p_340989_) {
-        return new EnchantingTableBlockEntity(p_341190_, p_340989_);
+        return new TridentEnchantingTableBlockEntity(p_341190_, p_340989_);
     }
 
 
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level p_340880_, BlockState p_341416_, BlockEntityType<T> p_341078_) {
-        return p_340880_.isClientSide ? createTickerHelper(p_341078_, BlockEntityType.ENCHANTING_TABLE, EnchantingTableBlockEntity::bookAnimationTick) : null;
+        return p_340880_.isClientSide ? createTickerHelper(p_341078_, BlockEntityType.ENCHANTING_TABLE, TridentEnchantingTableBlockEntity::bookAnimationTick) : null;
     }
 
     @Override
@@ -118,7 +118,7 @@ public class TridentEnchantingTableBlock extends BaseEntityBlock {
     @Override
     protected MenuProvider getMenuProvider(BlockState p_341244_, Level p_340950_, BlockPos p_340923_) {
         BlockEntity blockentity = p_340950_.getBlockEntity(p_340923_);
-        if (blockentity instanceof EnchantingTableBlockEntity) {
+        if (blockentity instanceof TridentEnchantingTableBlockEntity) {
             Component component = ((Nameable)blockentity).getDisplayName();
             return new SimpleMenuProvider(
                     (p_341299_, p_341308_, p_341334_) -> new EnchantmentMenu(p_341299_, p_341308_, ContainerLevelAccess.create(p_340950_, p_340923_)), component
