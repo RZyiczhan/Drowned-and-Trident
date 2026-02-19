@@ -48,6 +48,7 @@ public class DataGeneratorEventHandler {
                 event.includeClient(), new ModItemModelProvider(output, DrownedandTrident.MODID, existingFileHelper)
         );
 
+
     }
 
 }

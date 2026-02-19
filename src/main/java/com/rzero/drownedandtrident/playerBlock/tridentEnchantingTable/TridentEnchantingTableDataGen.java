@@ -20,7 +20,7 @@ public class TridentEnchantingTableDataGen implements BaseBlockStateAppearance, 
                 "trident_enchanting_table", // 生成的模型文件名
                 "minecraft:block/enchanting_table" // 父模型
         )
-//                .texture("top", mcLoc("block/enchanting_table_top"))      // 你的贴图路径
+                .texture("top", provider.modLoc("block/trident_enchanting_table/trident_enchanting_table_top"))      // 你的贴图路径
 //                .texture("bottom", mcLoc("block/enchanting_table_bottom"))
 //                .texture("side", mcLoc("block/enchanting_table_side"))
 //                // 原版附魔台还需要一个粒子材质

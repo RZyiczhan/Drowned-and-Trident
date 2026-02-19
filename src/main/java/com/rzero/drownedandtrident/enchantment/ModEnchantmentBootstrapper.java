@@ -29,12 +29,3 @@ public class ModEnchantmentBootstrapper implements RegistrySetBuilder.RegistryBo
         }
     }
 }
-//
-//Caused by:
-//java.util.concurrent.CompletionException: java.lang.IllegalStateException:
-//Couldn't generate file '/Users/zhanyichen/Desktop/个人兴趣/MC/MC mod & 整合包/MC mod开发/DrownedAndTrident（溺尸与三叉戟）/Drowned-and-Trident/src/generated/resources/data/drownedandtrident/enchantment/thunder_storm.json':
-//Unregistered holder in ResourceKey[minecraft:root / minecraft:enchantment_entity_effect_type]:
-//Direct{MapCodec[EmptyEncoder UnitDecoder[com.rzero.drownedandtrident.enchantment.custom.ThunderStormEnchantment@746fb276]]};
-//Unregistered holder in ResourceKey[minecraft:root / minecraft:enchantment_entity_effect_type]:
-//Direct{MapCodec[EmptyEncoder UnitDecoder[com.rzero.drownedandtrident.enchantment.custom.ThunderStormEnchantment@470163a4]]}
-
