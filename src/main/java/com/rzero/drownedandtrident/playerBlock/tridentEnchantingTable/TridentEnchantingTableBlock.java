@@ -12,7 +12,6 @@ import net.minecraft.world.Nameable;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
-import net.minecraft.world.inventory.EnchantmentMenu;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
@@ -120,7 +119,7 @@ public class TridentEnchantingTableBlock extends BaseEntityBlock {
         if (blockentity instanceof TridentEnchantingTableBlockEntity) {
             Component component = ((Nameable)blockentity).getDisplayName();
             return new SimpleMenuProvider(
-                    (p_341299_, p_341308_, p_341334_) -> new EnchantmentMenu(p_341299_, p_341308_, ContainerLevelAccess.create(p_340950_, p_340923_)), component
+                    (p_341299_, p_341308_, p_341334_) -> new TridentEnchantmentMenu(p_341299_, p_341308_, ContainerLevelAccess.create(p_340950_, p_340923_)), component
             );
         } else {
             return null;

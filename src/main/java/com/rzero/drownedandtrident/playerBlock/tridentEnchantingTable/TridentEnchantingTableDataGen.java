@@ -37,4 +37,6 @@ public class TridentEnchantingTableDataGen implements BaseBlockStateAppearance, 
                 provider.modLoc("block/trident_enchanting_table")
         );
     }
+
+
 }
