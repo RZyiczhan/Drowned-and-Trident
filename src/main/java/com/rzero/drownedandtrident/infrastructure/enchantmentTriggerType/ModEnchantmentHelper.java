@@ -132,10 +132,11 @@ public class  ModEnchantmentHelper {
 
                 // 能被列入附魔台该级附魔的选项需满足三个条件：（前两个的条件是mc原逻辑）
                 // 1）基于书架数随机出的level >= 附魔的该附魔等级的minCost
-                // 2）基于书架数随机出的level <= 附魔的该附魔等级的maxCost (再思考一下这条需要的必要性)
+                // 2）基于书架数随机出的level <= 附魔的该附魔等级的maxCost (再思考一下这条需要的必要性) [这条删掉]
                 // 3）最大不大于玩家三叉戟上附魔等级+1, 如果玩家当前没有该附魔，则该附魔最高为1级
 
-                if (level >= enchantment.getMinCost(enchantmentLevel) && level <= enchantment.getMaxCost(enchantmentLevel)) {
+//                if (level >= enchantment.getMinCost(enchantmentLevel) && level <= enchantment.getMaxCost(enchantmentLevel)) {
+                if (level >= enchantment.getMinCost(enchantmentLevel)) {
                     boolean alreadyContainThisEnchantment = currentExistingEnchantments.keySet().contains(enchantmentHolder);
                     if (alreadyContainThisEnchantment && currentExistingEnchantments.getLevel(enchantmentHolder) + 1 == enchantmentLevel
                             || !alreadyContainThisEnchantment && enchantmentLevel == 1){

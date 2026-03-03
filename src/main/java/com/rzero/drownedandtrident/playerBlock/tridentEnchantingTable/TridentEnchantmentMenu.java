@@ -5,6 +5,7 @@ import com.rzero.drownedandtrident.DrownedandTrident;
 import com.rzero.drownedandtrident.enchantment.custom.*;
 import com.rzero.drownedandtrident.infrastructure.enchantmentTriggerType.ModEnchantmentHelper;
 import com.rzero.drownedandtrident.modRegistry.block.DATBlock;
+import com.rzero.drownedandtrident.modRegistry.menu.ModMenu;
 import net.minecraft.Util;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.*;
@@ -53,7 +54,7 @@ public class TridentEnchantmentMenu extends AbstractContainerMenu {
 
 
     public TridentEnchantmentMenu(int containerId, Inventory playerInventory, ContainerLevelAccess access) {
-        super(MenuType.ENCHANTMENT, containerId);
+        super(ModMenu.TRIDENT_ENCHANTMENT_MENU.get(), containerId);
         this.access = access;
         this.addSlot(new Slot(this.enchantSlots, 0, 15, 47) {
             @Override

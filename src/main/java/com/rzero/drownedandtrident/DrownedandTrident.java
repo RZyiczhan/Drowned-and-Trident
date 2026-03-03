@@ -9,6 +9,7 @@ import com.rzero.drownedandtrident.entity.TridentEntityFunctionRegister;
 import com.rzero.drownedandtrident.entity.TridentEntityRenderRegister;
 import com.rzero.drownedandtrident.infrastructure.enchantmentTriggerType.TridentEnchantmentTriggerTypeRegister;
 import com.rzero.drownedandtrident.modRegistry.item.DATItemFunctionRegister;
+import com.rzero.drownedandtrident.modRegistry.menu.ModMenuFunctionRegister;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.bus.api.IEventBus;
@@ -45,6 +46,7 @@ public class DrownedandTrident {
             DATItemFunctionRegister.register(modEventBus);
             DATBlockFunctionRegister.register(modEventBus);
             DATBlockEntityFunctionRegister.register(modEventBus);
+            ModMenuFunctionRegister.register(modEventBus);
             modEventBus.addListener(TridentEntityRenderRegister::onRegisterRenderers);
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
