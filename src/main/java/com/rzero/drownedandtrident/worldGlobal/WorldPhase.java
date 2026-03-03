@@ -42,7 +42,7 @@ public class WorldPhase extends SavedData {
         ServerLevel overworld = level.getServer().overworld();
         DimensionDataStorage storage = overworld.getDataStorage();
 
-        SavedData.Factory<WorldPhase> factory = new SavedData.Factory<>(
+        Factory<WorldPhase> factory = new Factory<>(
                 WorldPhase::new,
                 WorldPhase::load,
                 DataFixTypes.LEVEL // 或者 null，如果你不需要版本迁移
@@ -53,7 +53,7 @@ public class WorldPhase extends SavedData {
     }
 
     // 必须：从 NBT 读取数据的工厂方法
-    public static WorldPhase load(CompoundTag tag, net.minecraft.core.HolderLookup.Provider provider) {
+    public static WorldPhase load(CompoundTag tag, HolderLookup.Provider provider) {
         WorldPhase data = new WorldPhase();
         // 这里不需要 if，因为默认值是 0/false，如果是旧存档没 key 也没关系
         if (tag.contains("drownedAndTrident:worldPhase"))

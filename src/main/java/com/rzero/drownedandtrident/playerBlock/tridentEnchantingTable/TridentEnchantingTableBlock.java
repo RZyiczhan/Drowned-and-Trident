@@ -46,7 +46,7 @@ public class TridentEnchantingTableBlock extends BaseEntityBlock {
         return CODEC;
     }
 
-    public TridentEnchantingTableBlock(BlockBehaviour.Properties p_341305_) {
+    public TridentEnchantingTableBlock(Properties p_341305_) {
         super(p_341305_);
     }
 

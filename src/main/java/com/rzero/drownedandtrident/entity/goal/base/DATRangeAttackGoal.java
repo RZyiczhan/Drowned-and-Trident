@@ -41,7 +41,7 @@ public class DATRangeAttackGoal extends Goal {
             this.attackIntervalMax = attackIntervalMax;
             this.attackRadius = attackRadius;
             this.attackRadiusSqr = attackRadius * attackRadius;
-            this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
+            this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
         }
     }
 

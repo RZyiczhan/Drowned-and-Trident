@@ -56,7 +56,7 @@ public class  ModEnchantmentHelper {
      * @param stack
      * @param visitor
      */
-    public static void runIterationOnItem(ItemStack stack, ModEnchantmentHelper.EnchantmentVisitor visitor) {
+    public static void runIterationOnItem(ItemStack stack, EnchantmentVisitor visitor) {
         // 从itemStack上获取到了item上绑定的所有附魔
         ItemEnchantments itemenchantments = stack.getOrDefault(DataComponents.ENCHANTMENTS, ItemEnchantments.EMPTY);
 
